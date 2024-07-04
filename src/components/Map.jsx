@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
 import PlacesAutocomplete from "./PlacesAutocomplete";
 // import ComboBox from "./TestCombo";
-import BasicButtons from "./TestButtons";
 import PlacesAutocomplete3 from "./Places3";
 
 const containerStyle = {
