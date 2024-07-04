@@ -34,7 +34,7 @@ export default function Map3() {
       if (newValue) {
         // Fetch POI data based on selected location
         try {
-          const response = await fetch(`http://127.0.0.1:3000/pois/distance/${newValue.lat}/${newValue.lng}`); // Include lat/lng in query
+          const response = await fetch(`${import.meta.env.VITE_API_URL}/pois/distance/${newValue.lat}/${newValue.lng}`); // Include lat/lng in query
           if (!response.ok) {
             setPoi([]);
             throw new Error("Network response was not ok.");
