@@ -25,4 +25,4 @@ dist-ssr
 *.sw?
 
 # Others
-src/components/MapFiddle.jsx
+#src/components/MapFiddle.jsx
