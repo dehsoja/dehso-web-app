@@ -56,7 +56,7 @@ function AboutUs() {
                       <Grid item xs={12}>
                           <Typography variant="h6" align="left" mb={2}>This is Our Proof of Concept:</Typography>
                           <Typography variant="body1" align="left" paragraph>
-                            At Dehso, we envision a future where finding your dream home in Jamaica is effortless, transparent, and empowering. 
+                            At Dehso, we envision a future where finding your dream location to build, buy, or rent your home in Jamaica is effortless, transparent, and empowering. 
                             We're building more than a platform—we aim to foster a movement that revolutionizes the way Jamaicans search for property. 
                             By harnessing the collective knowledge and passion of our vibrant tech community, we're creating a property search solution that's truly by and for the people of Jamaica.
                           </Typography>
@@ -80,14 +80,14 @@ function AboutUs() {
                             <ListItem>
                               <ListItemText >
                               <Typography variant="body1" align="left">
-                                <span style={{ fontWeight: 'bold' }}>Radical Transparency & Accessibility:</span> Radical Transparency & Accessibility: We're committed to open-source principles, making our code, data, and algorithms accessible to all. We believe in empowering our community with knowledge and ensuring everyone has a voice in this transformative project.
+                                <span style={{ fontWeight: 'bold' }}>Radical Transparency & Accessibility:</span> We're committed to open-source principles, making our code, data, and algorithms accessible to all. We believe in empowering our community with knowledge and ensuring everyone has a voice in this transformative project.
                               </Typography>
                               </ListItemText>
                             </ListItem>
                             <ListItem>
                               <ListItemText >
                               <Typography variant="body1" align="left">
-                                <span style={{ fontWeight: 'bold' }}>Diversity-Fueled Innovation:</span> By embracing the diverse perspectives and expertise of our community, we will drive innovation and create a platform that caters to the unique needs and aspirations of Jamaica's vibrant population.
+                                <span style={{ fontWeight: 'bold' }}>Diversity-Fuelled Innovation:</span> By embracing the diverse perspectives and expertise of our community, we will drive innovation and create a platform that caters to the unique needs and aspirations of Jamaicans.
                               </Typography>
                               </ListItemText>
                             </ListItem>
@@ -104,14 +104,14 @@ function AboutUs() {
                             <ListItem>
                               <ListItemText >
                               <Typography variant="body1" align="left">
-                                <span style={{ fontWeight: 'bold' }}>Holistic Livability Insights:</span> We envision a platform that goes beyond the basics, providing comprehensive livability scores that consider not just amenities and location, but also safety, environmental impact, future growth potential, and community vibrancy. We aim to empower you with the knowledge to choose a home and neighborhood that truly aligns with your lifestyle and values.
+                                <span style={{ fontWeight: 'bold' }}>Holistic Livability Scores:</span> We envision a platform that goes beyond the basics, providing comprehensive livability scores for locations across Jamaica that consider not just amenities and location, but also safety, environmental impact, future growth potential, and community vibrancy. We aim to empower you with the knowledge to choose a home and neighbourhood that truly aligns with your lifestyle and values.
                               </Typography>
                               </ListItemText>
                             </ListItem>
                             <ListItem>
                               <ListItemText >
                               <Typography variant="body1" align="left">
-                                <span style={{ fontWeight: 'bold' }}>Industry Transformation:</span> We're not just building a platform for individuals—we're aiming to transform the entire real estate landscape. By partnering with agents, brokers, developers, and stakeholders, we strive to create a more transparent, equitable, and efficient market that benefits everyone.
+                                <span style={{ fontWeight: 'bold' }}>Industry Transformation:</span> We're not just building a platform for individuals—we're aiming to transform the entire real estate landscape. By partnering with agents, brokers, developers, and stakeholders, we will strive to create a more transparent, equitable, and efficient market that benefits everyone.
                               </Typography>
                               </ListItemText>
                             </ListItem>
@@ -139,7 +139,7 @@ function AboutUs() {
                       <Grid item xs={12}>
                           <Typography variant="h6" align="left" mb={2}>Join the Movement:</Typography>
                           <Typography variant="body1" align="left" paragraph>
-                            Our journey has just begun. Whether you're a seasoned developer, a data enthusiast, or simply passionate about improving the property search experience in Jamaica, we invite you to be part of the change. Contribute your skills, share your ideas, and let's build a brighter future for property search in Jamaica, together.
+                            Our journey has just begun. Whether you're a seasoned developer, a data enthusiast, or simply passionate about improving the property search experience in Jamaica, we invite you to be part of the change. Contribute your skills, share your ideas, and let's shape the future of finding your home in Jamaica, together.
                           </Typography>
                           <Typography variant="body1" align="left">
                             Email: dehsoja@gmail.com
