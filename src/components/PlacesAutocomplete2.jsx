@@ -5,7 +5,7 @@ import TextField from '@mui/material/TextField';
 
 
 // Component for places autocomplete
-export default function PlacesAutocomplete2({ setSelected }) {
+export default function PlacesAutocomplete2({ setSelected, coverageWarn }) {
     const {
       ready,
       value,
@@ -35,7 +35,8 @@ export default function PlacesAutocomplete2({ setSelected }) {
           setSelected({ lat, lng },newValue);
         } else {
           // Handle the case where the selected location is not in Jamaica
-          alert("Please select a location within Spanish Town, Jamaica.");
+          coverageWarn();
+          // alert("Please select a location within Spanish Town, Jamaica.");
           setValue(""); // Clear the input field
           setSelected(null,null); // Clear the selected location
         }
