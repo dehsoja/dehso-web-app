@@ -7,6 +7,12 @@ import { red, yellow, green } from '@mui/material/colors';
 import Box from '@mui/material/Box';
 import Header from "./header";
 import PlacesAutocompleteSmall from "./PlacesAutocompleteSmall";
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
 export default function Map3() {
     const center = useMemo(() => ({ lat: 18.1096, lng: -77.2975 }), []);
@@ -16,6 +22,7 @@ export default function Map3() {
     const [poi, setPoi] = useState([]);
     const [safety, setSafety] = useState(null);
     const [scores, setScores] = useState(null);
+    const [open, setOpen] = useState(false);
     const mapRef = useRef();
     const circlesRef = useRef([]); // Ref to store circle instances
     const theme = useTheme();
@@ -23,6 +30,14 @@ export default function Map3() {
 
   
     const onLoad = useCallback((map) => (mapRef.current = map), []);
+
+    const handleClickOpen = () => {
+      setOpen(true);
+    };
+  
+    const handleClose = () => {
+      setOpen(false);
+    };
   
     const handleSelect = async (newValue,newValueString) => {
       // Remove previous circles
@@ -52,7 +67,7 @@ export default function Map3() {
           const map = mapRef.current;
           if (map) {
               map.panTo(newValue);
-              map.setZoom(14); // Adjust zoom level as needed
+              map.setZoom(12); // Adjust zoom level as needed
 
               //Add circle
               myCircles.forEach((circle)=>{
@@ -79,7 +94,12 @@ export default function Map3() {
       <div style={{ position: "relative", flexDirection: "column", height: "100vh", width: "100vw", margin: 0, padding: 0, backgroundColor: "white" }}>
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: "white" }}>
           {/* <PlacesAutocomplete2 setSelected={handleSelect} /> */}
-          <Header places={<PlacesAutocomplete2 setSelected={handleSelect} />} placesSmall={<PlacesAutocompleteSmall setSelected={handleSelect} />}></Header>
+          <Header 
+            places={<PlacesAutocomplete2 setSelected={handleSelect} coverageWarn={handleClickOpen}/>} 
+            placesSmall={<PlacesAutocompleteSmall setSelected={handleSelect} coverageWarn={handleClickOpen} />}
+          >
+
+          </Header>
         </Box>
 
         {selected && poi.length > 0 && (
@@ -143,6 +163,28 @@ export default function Map3() {
               )}
             </GoogleMap>
         </Box>
+        
+          <Dialog
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title">
+              {"Warning"}
+            </DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+                Please select a location within Spanish Town, Jamaica.
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose} autoFocus>
+                OK
+              </Button>
+            </DialogActions>
+          </Dialog>
+        
       </div>
 
     );
