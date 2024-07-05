@@ -13,6 +13,8 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import Alert from '@mui/material/Alert';
+import {Link} from 'react-router-dom';
 
 export default function Map3() {
     const center = useMemo(() => ({ lat: 18.1096, lng: -77.2975 }), []);
@@ -101,12 +103,21 @@ export default function Map3() {
 
           </Header>
         </Box>
+        
+        <Link to="/about">
+          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                  
+            <Alert severity="warning" sx={{ width: '100%'}}>
+              This is a proof of concept. Click to learn more
+            </Alert>
+          </Box>
+        </Link>
 
         {selected && poi.length > 0 && (
           <Box
             sx={{
               position: isSmallScreen ? 'static' : 'absolute',
-              top: isSmallScreen ? 0 : "10%",
+              top: isSmallScreen ? 0 : "15%",
               left: isSmallScreen ? 0 : "10%",
               zIndex: 10,
               width: isSmallScreen ? '95%' : "20%",
