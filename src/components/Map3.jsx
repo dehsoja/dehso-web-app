@@ -186,7 +186,7 @@ export default function Map3() {
             </DialogTitle>
             <DialogContent>
               <DialogContentText id="alert-dialog-description">
-                Please select a location within Spanish Town, Jamaica.
+                Please search for a location within Spanish Town, Jamaica.
               </DialogContentText>
             </DialogContent>
             <DialogActions>
