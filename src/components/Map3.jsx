@@ -108,16 +108,23 @@ export default function Map3() {
           <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                   
             <Alert severity="warning" sx={{ width: '100%'}}>
-              This is a proof of concept. Click to learn more
+              This is a proof of concept. Click to learn more.
             </Alert>
           </Box>
         </Link>
+
+          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                  
+            <Alert severity="info" sx={{ width: '100%'}}>
+              Your first search may take a moment to load.
+            </Alert>
+          </Box>
 
         {selected && poi.length > 0 && (
           <Box
             sx={{
               position: isSmallScreen ? 'static' : 'absolute',
-              top: isSmallScreen ? 0 : "15%",
+              top: isSmallScreen ? 0 : "17%",
               left: isSmallScreen ? 0 : "10%",
               zIndex: 10,
               width: isSmallScreen ? '95%' : "20%",
