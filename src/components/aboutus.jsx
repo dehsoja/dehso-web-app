@@ -146,7 +146,7 @@ function AboutUs() {
                           </Typography>
                           <Typography variant="body1" align="left">
                             {"Product Roadmap: "} 
-                            <Link to="https://github.com/users/dehsoja/projects/4/views/3?sliceBy%5Bvalue%5D=Proof+of+Concept" target="_blank" rel="noopener noreferrer">
+                            <Link to="https://github.com/users/dehsoja/projects/4/views/3" target="_blank" rel="noopener noreferrer">
                               Visit Roadmap
                             </Link>
                           </Typography>
