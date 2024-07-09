@@ -145,7 +145,10 @@ function AboutUs() {
                             Email: dehsoja@gmail.com
                           </Typography>
                           <Typography variant="body1" align="left">
-                            {"Product Roadmap: [Coming Soon]"}
+                            {"Product Roadmap: "} 
+                            <Link to="https://github.com/users/dehsoja/projects/4/views/3?sliceBy%5Bvalue%5D=Proof+of+Concept" target="_blank" rel="noopener noreferrer">
+                              Visit Roadmap
+                            </Link>
                           </Typography>
                           <Typography variant="body1" align="left">
                             {"Code Repositories: [Coming Soon]"} 
