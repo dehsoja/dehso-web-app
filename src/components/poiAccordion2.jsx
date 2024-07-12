@@ -66,7 +66,7 @@ export default function POIAccordion2({ selected, poi, safety, scores, locationS
                         <AccordionSummary expandIcon={<ExpandMoreIcon />} >
                             <Grid container justifyContent="space-between" alignItems="center" wrap="nowrap">
                                 <Grid item>
-                                    <Typography  sx={{ fontSize: 14, fontWeight: 'bold' }}variant="subtitle1" align="left" >Nearby Health Care</Typography>
+                                    <Typography  sx={{ fontSize: 14, fontWeight: 'bold' }}variant="subtitle1" align="left" >Health Care</Typography>
                                 </Grid>
                                 <Grid item>
                                     <Avatar sx={{ 
@@ -120,7 +120,7 @@ export default function POIAccordion2({ selected, poi, safety, scores, locationS
                         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                             <Grid container justifyContent="space-between" alignItems="center" wrap="nowrap">
                                 <Grid item>
-                                    <Typography sx={{ fontSize: 14, fontWeight: 'bold' }} variant="subtitle1" align="left">Nearby Grocery Stores</Typography>
+                                    <Typography sx={{ fontSize: 14, fontWeight: 'bold' }} variant="subtitle1" align="left">Grocery Stores</Typography>
                                 </Grid>
                                 <Grid item>
                                     <Avatar sx={{ 
@@ -161,6 +161,59 @@ export default function POIAccordion2({ selected, poi, safety, scores, locationS
                                     </TableBody>
                                 </Table>
                             </TableContainer>
+                        </AccordionDetails>
+                    </Accordion>
+                    <Accordion 
+                        // sx={{ border: '1px solid #ccc'  }}
+                        disableGutters
+                        disabled={!groupedPOIs["education"]} 
+                        expanded={expanded === 'panel8'} 
+                        onChange={handleChange('panel8')}
+                        sx={{ boxShadow: 'none' }}
+                    > 
+                        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                            <Grid container justifyContent="space-between" alignItems="center" wrap="nowrap">
+                                <Grid item>
+                                    <Typography  sx={{ fontSize: 14, fontWeight: 'bold' }} variant="subtitle1" align="left">Schools</Typography>
+                                </Grid>
+                                <Grid item>
+                                    <Avatar sx={{ 
+                                    bgcolor:scores.education ? scoreColourKey[scores.education.charAt(0)] : grey[400], 
+                                    width: 24, 
+                                    height: 24 }} 
+                                    variant="rounded">
+                                        <Typography >{scores.education || "-"}</Typography>
+                                    </Avatar>
+                                </Grid>
+                            </Grid>
+                            
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            <TableContainer component={Paper} sx={{ boxShadow: 'none' }}> {/* Optional: Wrap table in Paper */}
+                                <Table>
+                                    <TableHead>
+                                        <TableRow>
+                                            <TableCell>Name</TableCell>
+                                            <TableCell>Distance</TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {groupedPOIs["education"] && groupedPOIs["education"].map((facility) => (
+                                            <TableRow key={facility.name}>
+                                                <TableCell>
+                                                    <Typography variant="body2" >
+                                                        {facility.name}
+                                                    </Typography>
+                                                    <Typography sx={{ fontSize: 12 }} color="text.secondary">
+                                                        {facility.type} 
+                                                    </Typography>
+                                                </TableCell>
+                                                <TableCell>{facility.distanceInKm} km</TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </TableContainer> 
                         </AccordionDetails>
                     </Accordion>
                     <Accordion 
@@ -252,59 +305,6 @@ export default function POIAccordion2({ selected, poi, safety, scores, locationS
                                     </TableHead>
                                     <TableBody>
                                         {groupedPOIs["financialservices"] && groupedPOIs["financialservices"].map((facility) => (
-                                            <TableRow key={facility.name}>
-                                                <TableCell>
-                                                    <Typography variant="body2" >
-                                                        {facility.name}
-                                                    </Typography>
-                                                    <Typography sx={{ fontSize: 12 }} color="text.secondary">
-                                                        {facility.type} 
-                                                    </Typography>
-                                                </TableCell>
-                                                <TableCell>{facility.distanceInKm} km</TableCell>
-                                            </TableRow>
-                                        ))}
-                                    </TableBody>
-                                </Table>
-                            </TableContainer> 
-                        </AccordionDetails>
-                    </Accordion>
-                    <Accordion 
-                        // sx={{ border: '1px solid #ccc'  }}
-                        disableGutters
-                        disabled={!groupedPOIs["governmentservices"]} 
-                        expanded={expanded === 'panel6'} 
-                        onChange={handleChange('panel6')}
-                        sx={{ boxShadow: 'none' }}
-                    > 
-                        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                            <Grid container justifyContent="space-between" alignItems="center" wrap="nowrap">
-                                <Grid item>
-                                    <Typography  sx={{ fontSize: 14, fontWeight: 'bold' }} variant="subtitle1" align="left">Nearby Government Services</Typography>
-                                </Grid>
-                                <Grid item>
-                                    <Avatar sx={{ 
-                                    bgcolor:scores.government ? scoreColourKey[scores.government.charAt(0)] : grey[400], 
-                                    width: 24, 
-                                    height: 24 }} 
-                                    variant="rounded">
-                                        <Typography >{scores.government || "-"}</Typography>
-                                    </Avatar>
-                                </Grid>
-                            </Grid>
-                            
-                        </AccordionSummary>
-                        <AccordionDetails>
-                            <TableContainer component={Paper} sx={{ boxShadow: 'none' }}> {/* Optional: Wrap table in Paper */}
-                                <Table>
-                                    <TableHead>
-                                        <TableRow>
-                                            <TableCell>Name</TableCell>
-                                            <TableCell>Distance</TableCell>
-                                        </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        {groupedPOIs["governmentservices"] && groupedPOIs["governmentservices"].map((facility) => (
                                             <TableRow key={facility.name}>
                                                 <TableCell>
                                                     <Typography variant="body2" >

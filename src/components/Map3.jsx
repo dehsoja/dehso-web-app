@@ -215,6 +215,7 @@ const markerIcons = {
     PoliceStation:"localPolice",
     FireStation:"fireTruck",
     AmbulanceService: "ambulance",
+    HighSchool:"school",
 }
 
 const containerStyle = {
