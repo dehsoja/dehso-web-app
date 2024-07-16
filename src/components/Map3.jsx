@@ -113,12 +113,6 @@ export default function Map3() {
           </Box>
         </Link>
 
-          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                  
-            <Alert severity="info" sx={{ width: '100%'}}>
-              Your first search may take a moment to load.
-            </Alert>
-          </Box>
 
         {selected && poi.length > 0 && (
           <Box
