@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useRef, useCallback } from "react";
-import { GoogleMap, Marker, Circle, InfoWindowF } from "@react-google-maps/api";
+import { GoogleMap, Marker, Circle, InfoWindowF, MarkerClusterer } from "@react-google-maps/api";
 import PlacesAutocomplete2 from "./PlacesAutocomplete2";
 import POIAccordion2 from "./poiAccordion2";
 import { useMediaQuery, useTheme } from '@mui/material';
@@ -22,6 +22,7 @@ export default function Map3() {
     const [selectedString, setSelectedString] = useState(null); // Use null initially
     const [selectedFacility, setSelectedFacility] = useState(null);
     const [poi, setPoi] = useState([]);
+    const [groupedPOIs, setGroupedPOIs] = useState([]);
     const [safety, setSafety] = useState(null);
     const [scores, setScores] = useState(null);
     const [open, setOpen] = useState(false);
@@ -54,10 +55,16 @@ export default function Map3() {
           const response = await fetch(`${import.meta.env.VITE_API_URL}/pois/distance/${newValue.lat}/${newValue.lng}`); // Include lat/lng in query
           if (!response.ok) {
             setPoi([]);
+            setGroupedPOIs([]);
             throw new Error("Network response was not ok.");
           }
           const data = await response.json();
           setPoi(data.pois);
+          const grouping = data.pois.reduce((groups, facility) => {
+              (groups[facility.category] = groups[facility.category] || []).push(facility);
+              return groups;
+          }, {});
+          setGroupedPOIs(grouping)
           
           setSafety(null)
           if (data.safety) setSafety(data.safety);
@@ -85,6 +92,7 @@ export default function Map3() {
 
         } catch (error) {
           setPoi([]);
+          setGroupedPOIs([]);
           console.error("Error fetching POI data:", error);
         }
         
@@ -126,7 +134,7 @@ export default function Map3() {
               margin: isSmallScreen ? theme.spacing(1) : theme.spacing(5), // Add margin for small screens
             }}
           >
-            <POIAccordion2 selected={selected} poi={poi} safety={safety} scores={scores} locationString={selectedString}/>
+            <POIAccordion2 selected={selected} groupedPOIs= {groupedPOIs} safety={safety} scores={scores} locationString={selectedString}/>
           </Box>
         )}
 
@@ -149,28 +157,235 @@ export default function Map3() {
               {selected && poi.length > 0 && (
                 <>
                     <Marker position={selected} />
-                    {poi.map((facility, index) => (
-                        <Marker
-                            key={facility.name}
-                            position={{ lat: facility.location.coordinates[1], lng: facility.location.coordinates[0] }}
-                            icon={`/${markerIcons[facility.type.replace(/\s/g, '')]}.svg`}
-                            onClick={() => setSelectedFacility(index)} // Set selected facility on click
-                        >
-                            {selectedFacility === index && ( // Conditionally show InfoWindow
-                                <InfoWindowF
-                                    position={{ lat: facility.lat, lng: facility.lng }}
-                                    onCloseClick={() => setSelectedFacility(null)} // Close on click outside
-                                >
-                                        <div>
-                                            <h3 style={{ color: "black" }}>{facility.name}</h3>
-    
-                                            <p style={{ color: "black" }}>{facility.type}</p> 
-                                        </div>
-                        
-                                </InfoWindowF>
-                            )}
-                        </Marker>
-                    ))}
+
+                    
+                    {/* Health Cluster */}
+                    {groupedPOIs["healthFacility"] && (
+                      <MarkerClusterer
+                        options={{
+                          styles: [
+                            {
+                              url: "./healthCluster.svg", 
+                              width: 30,
+                              height: 30,
+                              textColor: 'white', // Adjust text color if needed
+                              textSize: 12 
+                            },
+                          ],
+                        }}
+                      >
+                      
+                        {(clusterer) =>
+                          groupedPOIs["healthFacility"].map((facility, index) => (
+                              
+                              <Marker
+                                  key={facility.name}
+                                  position={{ lat: facility.location.coordinates[1], lng: facility.location.coordinates[0] }}
+                                  clusterer={clusterer} 
+                                  icon={`/${markerIcons[facility.type.replace(/\s/g, '')]}.svg`}
+                                  onClick={() => setSelectedFacility((index + "healthFacility"))} // Set selected facility on click
+                              >
+                                  {selectedFacility === (index + "healthFacility") && ( // Conditionally show InfoWindow
+                                      <InfoWindowF
+                                          position={{ lat: facility.lat, lng: facility.lng }}
+                                          onCloseClick={() => setSelectedFacility(null)} // Close on click outside
+                                      >
+                                              <div>
+                                                  <h3 style={{ color: "black" }}>{facility.name}</h3>
+          
+                                                  <p style={{ color: "black" }}>{facility.type}</p> 
+                                              </div>
+                              
+                                      </InfoWindowF>
+                                  )}
+                              </Marker>
+                          ))
+                        }
+                      </MarkerClusterer>
+                    )}
+                    
+                    {/* Grocery Cluster */}
+                    {groupedPOIs["supermarket"] && (
+                      <MarkerClusterer
+                        options={{
+                          styles: [
+                            {
+                              url: "./groceryCluster.svg", 
+                              width: 30,
+                              height: 30,
+                              textColor: 'white', // Adjust text color if needed
+                              textSize: 12 
+                            },
+                          ],
+                        }}
+                      >
+                      
+                        {(clusterer) =>
+                          groupedPOIs["supermarket"].map((facility, index) => (
+                              
+                              <Marker
+                                  key={facility.name}
+                                  position={{ lat: facility.location.coordinates[1], lng: facility.location.coordinates[0] }}
+                                  clusterer={clusterer} 
+                                  icon={`/${markerIcons[facility.type.replace(/\s/g, '')]}.svg`}
+                                  onClick={() => setSelectedFacility((index + "supermarket"))} // Set selected facility on click
+                              >
+                                  {selectedFacility === (index + "supermarket") && ( // Conditionally show InfoWindow
+                                      <InfoWindowF
+                                          position={{ lat: facility.lat, lng: facility.lng }}
+                                          onCloseClick={() => setSelectedFacility(null)} // Close on click outside
+                                      >
+                                              <div>
+                                                  <h3 style={{ color: "black" }}>{facility.name}</h3>
+          
+                                                  <p style={{ color: "black" }}>{facility.type}</p> 
+                                              </div>
+                              
+                                      </InfoWindowF>
+                                  )}
+                              </Marker>
+                          ))
+                        }
+                      </MarkerClusterer>
+                    )}
+
+                    {/* Education Cluster */}
+                    {groupedPOIs["education"] && (
+                      <MarkerClusterer
+                        options={{
+                          styles: [
+                            {
+                              url: "./educationCluster.svg", 
+                              width: 30,
+                              height: 30,
+                              textColor: 'white', // Adjust text color if needed
+                              textSize: 12 
+                            },
+                          ],
+                        }}
+                      >
+                      
+                        {(clusterer) =>
+                          groupedPOIs["education"].map((facility, index) => (
+                              
+                              <Marker
+                                  key={facility.name}
+                                  position={{ lat: facility.location.coordinates[1], lng: facility.location.coordinates[0] }}
+                                  clusterer={clusterer} 
+                                  icon={`/${markerIcons[facility.type.replace(/\s/g, '')]}.svg`}
+                                  onClick={() => setSelectedFacility((index + "education"))} // Set selected facility on click
+                              >
+                                  {selectedFacility === (index + "education") && ( // Conditionally show InfoWindow
+                                      <InfoWindowF
+                                          position={{ lat: facility.lat, lng: facility.lng }}
+                                          onCloseClick={() => setSelectedFacility(null)} // Close on click outside
+                                      >
+                                              <div>
+                                                  <h3 style={{ color: "black" }}>{facility.name}</h3>
+          
+                                                  <p style={{ color: "black" }}>{facility.type}</p> 
+                                              </div>
+                              
+                                      </InfoWindowF>
+                                  )}
+                              </Marker>
+                          ))
+                        }
+                      </MarkerClusterer>
+                    )}
+
+                    {/* Financial Services Cluster */}
+                    {groupedPOIs["financialServices"] && (
+                      <MarkerClusterer
+                        options={{
+                          styles: [
+                            {
+                              url: "./financeCluster.svg", 
+                              width: 30,
+                              height: 30,
+                              textColor: 'white', // Adjust text color if needed
+                              textSize: 12 
+                            },
+                          ],
+                        }}
+                      >
+                      
+                        {(clusterer) =>
+                          groupedPOIs["financialServices"].map((facility, index) => (
+                              
+                              <Marker
+                                  key={facility.name}
+                                  position={{ lat: facility.location.coordinates[1], lng: facility.location.coordinates[0] }}
+                                  clusterer={clusterer} 
+                                  icon={`/${markerIcons[facility.type.replace(/\s/g, '')]}.svg`}
+                                  onClick={() => setSelectedFacility((index + "financialServices"))} // Set selected facility on click
+                              >
+                                  {selectedFacility === (index + "financialServices") && ( // Conditionally show InfoWindow
+                                      <InfoWindowF
+                                          position={{ lat: facility.lat, lng: facility.lng }}
+                                          onCloseClick={() => setSelectedFacility(null)} // Close on click outside
+                                      >
+                                              <div>
+                                                  <h3 style={{ color: "black" }}>{facility.name}</h3>
+          
+                                                  <p style={{ color: "black" }}>{facility.type}</p> 
+                                              </div>
+                              
+                                      </InfoWindowF>
+                                  )}
+                              </Marker>
+                          ))
+                        }
+                      </MarkerClusterer>
+                    )}
+
+                    {/* Emergency Services Cluster */}
+                    {groupedPOIs["emergencyservices"] && (
+                      <MarkerClusterer
+                        options={{
+                          styles: [
+                            {
+                              url: "./emergencyCluster.svg", 
+                              width: 30,
+                              height: 30,
+                              textColor: 'white', // Adjust text color if needed
+                              textSize: 12 
+                            },
+                          ],
+                        }}
+                      >
+                      
+                        {(clusterer) =>
+                          groupedPOIs["emergencyservices"].map((facility, index) => (
+                              
+                              <Marker
+                                  key={facility.name}
+                                  position={{ lat: facility.location.coordinates[1], lng: facility.location.coordinates[0] }}
+                                  clusterer={clusterer} 
+                                  icon={`/${markerIcons[facility.type.replace(/\s/g, '')]}.svg`}
+                                  onClick={() => setSelectedFacility((index + "emergencyservices"))} // Set selected facility on click
+                              >
+                                  {selectedFacility === (index + "emergencyservices") && ( // Conditionally show InfoWindow
+                                      <InfoWindowF
+                                          position={{ lat: facility.lat, lng: facility.lng }}
+                                          onCloseClick={() => setSelectedFacility(null)} // Close on click outside
+                                      >
+                                              <div>
+                                                  <h3 style={{ color: "black" }}>{facility.name}</h3>
+          
+                                                  <p style={{ color: "black" }}>{facility.type}</p> 
+                                              </div>
+                              
+                                      </InfoWindowF>
+                                  )}
+                              </Marker>
+                          ))
+                        }
+                      </MarkerClusterer>
+                    )}
+
+
+                    
                 </>
               )}
             </GoogleMap>
@@ -203,13 +418,15 @@ export default function Map3() {
 }
   
 const markerIcons = {
-    Hospital: "homeHealth",
-    HealthCentre: "homeHealth",
-    Supermarket: "shoppingCart",
-    PoliceStation:"localPolice",
-    FireStation:"fireTruck",
-    AmbulanceService: "ambulance",
-    HighSchool:"school",
+    Hospital: "homeHealth3",
+    HealthCentre: "homeHealth3",
+    Supermarket: "shoppingCart4",
+    PoliceStation:"localPolice2",
+    FireStation:"fireTruck2",
+    AmbulanceService: "ambulance2",
+    HighSchool:"school4",
+    ATM:"atm2",
+    CommercialBank: "bank3"
 }
 
 const containerStyle = {

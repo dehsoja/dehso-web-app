@@ -4,13 +4,7 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper'; // Optional: Add paper background for the table
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
@@ -20,19 +14,26 @@ import { blue, red, yellow, green, lightGreen, grey, orange } from '@mui/materia
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
+import { DataGrid } from '@mui/x-data-grid';
 
-export default function POIAccordion2({ selected, poi, safety, scores, locationString }) {
+export default function POIAccordion2({ selected, groupedPOIs, safety, scores, locationString }) {
     
     const [expanded, setExpanded] = useState(false);
 
     const handleChange = (panel) => (event, isExpanded) => {
         setExpanded(isExpanded ? panel : false); // Update state on click
-      };
+    };
 
-    const groupedPOIs = poi.reduce((groups, facility) => {
-        (groups[facility.category] = groups[facility.category] || []).push(facility);
-        return groups;
-    }, {});
+
+    const columns = [
+        { field: 'id', headerName: 'ID', width: 70 },
+        { field: 'firstName', headerName: 'First name', width: 130 },
+    ];
+
+    // const groupedPOIs = poi.reduce((groups, facility) => {
+    //     (groups[facility.category] = groups[facility.category] || []).push(facility);
+    //     return groups;
+    // }, {});
 
     // Sorting all facility categories by distance
     for (const category in groupedPOIs) {
@@ -272,7 +273,7 @@ export default function POIAccordion2({ selected, poi, safety, scores, locationS
                     <Accordion 
                         // sx={{ border: '1px solid #ccc'  }}
                         disableGutters
-                        disabled={!groupedPOIs["financialservices"]} 
+                        disabled={!groupedPOIs["financialServices"]} 
                         expanded={expanded === 'panel5'} 
                         onChange={handleChange('panel5')}
                         sx={{ boxShadow: 'none' }}
@@ -280,7 +281,7 @@ export default function POIAccordion2({ selected, poi, safety, scores, locationS
                         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                             <Grid container justifyContent="space-between" alignItems="center" wrap="nowrap">
                                 <Grid item>
-                                    <Typography  sx={{ fontSize: 14, fontWeight: 'bold' }} variant="subtitle1" align="left">Nearby financial Services</Typography>
+                                    <Typography  sx={{ fontSize: 14, fontWeight: 'bold' }} variant="subtitle1" align="left">Financial Services</Typography>
                                 </Grid>
                                 <Grid item>
                                     <Avatar sx={{ 
@@ -295,31 +296,75 @@ export default function POIAccordion2({ selected, poi, safety, scores, locationS
                             
                         </AccordionSummary>
                         <AccordionDetails>
-                            <TableContainer component={Paper} sx={{ boxShadow: 'none' }}> {/* Optional: Wrap table in Paper */}
-                                <Table>
-                                    <TableHead>
-                                        <TableRow>
-                                            <TableCell>Name</TableCell>
-                                            <TableCell>Distance</TableCell>
-                                        </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        {groupedPOIs["financialservices"] && groupedPOIs["financialservices"].map((facility) => (
-                                            <TableRow key={facility.name}>
-                                                <TableCell>
-                                                    <Typography variant="body2" >
-                                                        {facility.name}
-                                                    </Typography>
-                                                    <Typography sx={{ fontSize: 12 }} color="text.secondary">
-                                                        {facility.type} 
-                                                    </Typography>
-                                                </TableCell>
-                                                <TableCell>{facility.distanceInKm} km</TableCell>
+
+                            {groupedPOIs["financialServices"] && groupedPOIs["financialServices"].filter(facility => facility.type === "Commercial Bank").length > 0 && (
+                                <>
+                                <Box mt={1}>
+                                    <Typography variant="body2" sx={{ fontWeight: 'bold' }} >
+                                   Commercial Banks
+                                </Typography>
+                                </Box>
+                                <TableContainer component={Paper} sx={{ boxShadow: 'none' }}> {/* Optional: Wrap table in Paper */}
+                                    <Table>
+                                        <TableHead>
+                                            <TableRow>
+                                                <TableCell>Name</TableCell>
+                                                <TableCell>Distance</TableCell>
                                             </TableRow>
-                                        ))}
-                                    </TableBody>
-                                </Table>
-                            </TableContainer> 
+                                        </TableHead>
+                                        <TableBody>
+                                            {groupedPOIs["financialServices"].filter(facility => facility.type === "Commercial Bank").map((facility) => (
+                                                <TableRow key={facility.name}>
+                                                    <TableCell>
+                                                        <Typography variant="body2" >
+                                                            {facility.name}
+                                                        </Typography>
+                                                        <Typography sx={{ fontSize: 12 }} color="text.secondary">
+                                                            {facility.type} 
+                                                        </Typography>
+                                                    </TableCell>
+                                                    <TableCell>{facility.distanceInKm} km</TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
+                                </>
+                            )}
+                            {groupedPOIs["financialServices"] && groupedPOIs["financialServices"].filter(facility => facility.type === "ATM").length > 0 && (
+                                <>
+                                <Box mt={3}>
+                                    <Typography variant="body2" sx={{ fontWeight: 'bold' }} >
+                                      ATMS
+                                   </Typography>
+                                </Box>
+                                <TableContainer component={Paper} sx={{ boxShadow: 'none' }}> {/* Optional: Wrap table in Paper */}
+                                    <Table>
+                                        <TableHead>
+                                            <TableRow>
+                                                <TableCell>Name</TableCell>
+                                                <TableCell>Distance</TableCell>
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            {groupedPOIs["financialServices"].filter(facility => facility.type === "ATM").map((facility) => (
+                                                <TableRow key={facility.name}>
+                                                    <TableCell>
+                                                        <Typography variant="body2" >
+                                                            {facility.name}
+                                                        </Typography>
+                                                        <Typography sx={{ fontSize: 12 }} color="text.secondary">
+                                                            {facility.type} 
+                                                        </Typography>
+                                                    </TableCell>
+                                                    <TableCell>{facility.distanceInKm} km</TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
+                                </>
+                            )}
                         </AccordionDetails>
                     </Accordion>
                     <Accordion 
