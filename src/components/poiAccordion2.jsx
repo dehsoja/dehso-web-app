@@ -4,7 +4,7 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, ButtonBase } from '@mui/material';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
@@ -16,7 +16,7 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import { DataGrid } from '@mui/x-data-grid';
 
-export default function POIAccordion2({ selected, groupedPOIs, safety, scores, locationString }) {
+export default function POIAccordion2({ selected, groupedPOIs, safety, scores, locationString, moveTOInfoWindow }) {
     
     const [expanded, setExpanded] = useState(false);
 
@@ -92,12 +92,14 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {groupedPOIs["healthFacility"] && groupedPOIs["healthFacility"].map((facility) => (
+                                        {groupedPOIs["healthFacility"] && groupedPOIs["healthFacility"].map((facility, index) => (
                                             <TableRow key={facility.name}>
                                                 <TableCell>
-                                                    <Typography variant="body2" >
-                                                        {facility.name}
-                                                    </Typography>
+                                                    <ButtonBase onClick={() => moveTOInfoWindow((index + "healthFacility"), facility.location.coordinates[1],facility.location.coordinates[0])} style={{ display: 'block', outline: 'none' }}>
+                                                        <Typography variant="body2" align="left" >
+                                                            {facility.name}
+                                                        </Typography>
+                                                    </ButtonBase>
                                                     <Typography sx={{ fontSize: 12 }} color="text.secondary">
                                                         {facility.type} 
                                                     </Typography>
@@ -146,12 +148,14 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {groupedPOIs["supermarket"] && groupedPOIs["supermarket"].map((facility) => (
+                                        {groupedPOIs["supermarket"] && groupedPOIs["supermarket"].map((facility,index) => (
                                             <TableRow key={facility.name}>
                                                 <TableCell>
-                                                    <Typography variant="body2" >
-                                                        {facility.name}
-                                                    </Typography>
+                                                    <ButtonBase onClick={() => moveTOInfoWindow((index + "supermarket"), facility.location.coordinates[1],facility.location.coordinates[0])} style={{ display: 'block', outline: 'none' }}>
+                                                        <Typography variant="body2" align="left" >
+                                                            {facility.name}
+                                                        </Typography>
+                                                    </ButtonBase>
                                                     <Typography sx={{ fontSize: 12 }} color="text.secondary">
                                                         {facility.type} 
                                                     </Typography>
@@ -199,12 +203,14 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {groupedPOIs["education"] && groupedPOIs["education"].map((facility) => (
+                                        {groupedPOIs["education"] && groupedPOIs["education"].map((facility,index) => (
                                             <TableRow key={facility.name}>
                                                 <TableCell>
-                                                    <Typography variant="body2" >
-                                                        {facility.name}
-                                                    </Typography>
+                                                    <ButtonBase onClick={() => moveTOInfoWindow((index + "education"), facility.location.coordinates[1],facility.location.coordinates[0])} style={{ display: 'block', outline: 'none' }}>
+                                                        <Typography variant="body2" align="left" >
+                                                            {facility.name}
+                                                        </Typography>
+                                                    </ButtonBase>
                                                     <Typography sx={{ fontSize: 12 }} color="text.secondary">
                                                         {facility.type} 
                                                     </Typography>
@@ -252,12 +258,14 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {groupedPOIs["leisure"] && groupedPOIs["leisure"].map((facility) => (
+                                        {groupedPOIs["leisure"] && groupedPOIs["leisure"].map((facility,index) => (
                                             <TableRow key={facility.name}>
                                                 <TableCell>
-                                                    <Typography variant="body2" >
-                                                        {facility.name}
-                                                    </Typography>
+                                                    <ButtonBase onClick={() => moveTOInfoWindow((index + "leisure"), facility.location.coordinates[1],facility.location.coordinates[0])} style={{ display: 'block', outline: 'none' }}>
+                                                        <Typography variant="body2" align="left" >
+                                                            {facility.name}
+                                                        </Typography>
+                                                    </ButtonBase>
                                                     <Typography sx={{ fontSize: 12 }} color="text.secondary">
                                                         {facility.type} 
                                                     </Typography>
@@ -313,12 +321,14 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
-                                            {groupedPOIs["financialServices"].filter(facility => facility.type === "Commercial Bank").map((facility) => (
+                                            {groupedPOIs["financialServices"].filter(facility => facility.type === "Commercial Bank").map((facility,index) => (
                                                 <TableRow key={facility.name}>
                                                     <TableCell>
-                                                        <Typography variant="body2" >
-                                                            {facility.name}
-                                                        </Typography>
+                                                        <ButtonBase onClick={() => moveTOInfoWindow((index + "Commercial Bank"), facility.location.coordinates[1],facility.location.coordinates[0])} style={{ display: 'block', outline: 'none' }}>
+                                                            <Typography variant="body2" align="left" >
+                                                                {facility.name}
+                                                            </Typography>
+                                                        </ButtonBase>
                                                         <Typography sx={{ fontSize: 12 }} color="text.secondary">
                                                             {facility.type} 
                                                         </Typography>
@@ -347,12 +357,14 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
-                                            {groupedPOIs["financialServices"].filter(facility => facility.type === "ATM").map((facility) => (
+                                            {groupedPOIs["financialServices"].filter(facility => facility.type === "ATM").map((facility,index) => (
                                                 <TableRow key={facility.name}>
                                                     <TableCell>
-                                                        <Typography variant="body2" >
-                                                            {facility.name}
-                                                        </Typography>
+                                                        <ButtonBase onClick={() => moveTOInfoWindow((index + "ATM"), facility.location.coordinates[1],facility.location.coordinates[0])} style={{ display: 'block', outline: 'none' }}>
+                                                            <Typography variant="body2" align="left" >
+                                                                {facility.name}
+                                                            </Typography>
+                                                        </ButtonBase>
                                                         <Typography sx={{ fontSize: 12 }} color="text.secondary">
                                                             {facility.type} 
                                                         </Typography>
@@ -402,12 +414,14 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {groupedPOIs["emergencyservices"] && groupedPOIs["emergencyservices"].map((facility) => (
+                                        {groupedPOIs["emergencyservices"] && groupedPOIs["emergencyservices"].map((facility,index) => (
                                             <TableRow key={facility.name}>
                                                 <TableCell>
-                                                    <Typography variant="body2" >
-                                                        {facility.name}
-                                                    </Typography>
+                                                    <ButtonBase onClick={() => moveTOInfoWindow((index + "emergencyservices"), facility.location.coordinates[1],facility.location.coordinates[0])} style={{ display: 'block', outline: 'none' }}>
+                                                        <Typography variant="body2" align="left" >
+                                                            {facility.name}
+                                                        </Typography>
+                                                    </ButtonBase>
                                                     <Typography sx={{ fontSize: 12 }} color="text.secondary">
                                                         {facility.type} 
                                                     </Typography>
