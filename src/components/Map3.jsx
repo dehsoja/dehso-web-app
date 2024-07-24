@@ -41,6 +41,17 @@ export default function Map3() {
     const handleClose = () => {
       setOpen(false);
     };
+
+    const moveTOInfoWindow = (windowName, lat, lng) => {
+      
+      setSelectedFacility(windowName)
+      // setSelectedFacility(null)
+      const map = mapRef.current;
+      if (map) {
+          map.panTo({lat: lat, lng: lng});
+          map.setZoom(25); // Adjust zoom level as needed
+      }
+    }
   
     const handleSelect = async (newValue,newValueString) => {
       // Remove previous circles
@@ -134,7 +145,14 @@ export default function Map3() {
               margin: isSmallScreen ? theme.spacing(1) : theme.spacing(5), // Add margin for small screens
             }}
           >
-            <POIAccordion2 selected={selected} groupedPOIs= {groupedPOIs} safety={safety} scores={scores} locationString={selectedString}/>
+            <POIAccordion2 
+              selected={selected} 
+              groupedPOIs= {groupedPOIs} 
+              safety={safety} 
+              scores={scores} 
+              locationString={selectedString}
+              moveTOInfoWindow={moveTOInfoWindow}
+            />
           </Box>
         )}
 
@@ -190,10 +208,11 @@ export default function Map3() {
                                           position={{ lat: facility.lat, lng: facility.lng }}
                                           onCloseClick={() => setSelectedFacility(null)} // Close on click outside
                                       >
-                                              <div>
-                                                  <h3 style={{ color: "black" }}>{facility.name}</h3>
+                                              <div style={{ color: "black", padding: '10px' }}>
+                                                  <h3>{facility.name}</h3>
           
-                                                  <p style={{ color: "black" }}>{facility.type}</p> 
+                                                  <p>({facility.type})</p> 
+                                                  {/* <p>{facility.address}</p>  */}
                                               </div>
                               
                                       </InfoWindowF>
@@ -235,10 +254,10 @@ export default function Map3() {
                                           position={{ lat: facility.lat, lng: facility.lng }}
                                           onCloseClick={() => setSelectedFacility(null)} // Close on click outside
                                       >
-                                              <div>
-                                                  <h3 style={{ color: "black" }}>{facility.name}</h3>
+                                              <div style={{ color: "black", padding: '10px' }}>
+                                                  <h3>{facility.name}</h3>
           
-                                                  <p style={{ color: "black" }}>{facility.type}</p> 
+                                                  <p>({facility.type})</p> 
                                               </div>
                               
                                       </InfoWindowF>
@@ -280,10 +299,10 @@ export default function Map3() {
                                           position={{ lat: facility.lat, lng: facility.lng }}
                                           onCloseClick={() => setSelectedFacility(null)} // Close on click outside
                                       >
-                                              <div>
-                                                  <h3 style={{ color: "black" }}>{facility.name}</h3>
+                                              <div style={{ color: "black", padding: '10px' }}>
+                                                  <h3>{facility.name}</h3>
           
-                                                  <p style={{ color: "black" }}>{facility.type}</p> 
+                                                  <p>({facility.type})</p> 
                                               </div>
                               
                                       </InfoWindowF>
@@ -294,8 +313,8 @@ export default function Map3() {
                       </MarkerClusterer>
                     )}
 
-                    {/* Financial Services Cluster */}
-                    {groupedPOIs["financialServices"] && (
+                    {/* ATM Financial Services Cluster */}
+                    {groupedPOIs["financialServices"].filter(facility => facility.type === "ATM").length > 0 && (
                       <MarkerClusterer
                         options={{
                           styles: [
@@ -311,24 +330,69 @@ export default function Map3() {
                       >
                       
                         {(clusterer) =>
-                          groupedPOIs["financialServices"].map((facility, index) => (
+                          groupedPOIs["financialServices"].filter(facility => facility.type === "ATM").map((facility, index) => (
                               
                               <Marker
                                   key={facility.name}
                                   position={{ lat: facility.location.coordinates[1], lng: facility.location.coordinates[0] }}
                                   clusterer={clusterer} 
                                   icon={`/${markerIcons[facility.type.replace(/\s/g, '')]}.svg`}
-                                  onClick={() => setSelectedFacility((index + "financialServices"))} // Set selected facility on click
+                                  onClick={() => setSelectedFacility((index + "ATM"))} // Set selected facility on click
                               >
-                                  {selectedFacility === (index + "financialServices") && ( // Conditionally show InfoWindow
+                                  {selectedFacility === (index + "ATM") && ( // Conditionally show InfoWindow
                                       <InfoWindowF
                                           position={{ lat: facility.lat, lng: facility.lng }}
                                           onCloseClick={() => setSelectedFacility(null)} // Close on click outside
                                       >
-                                              <div>
-                                                  <h3 style={{ color: "black" }}>{facility.name}</h3>
+                                              <div style={{ color: "black", padding: '10px' }}>
+                                                  <h3>{facility.name}</h3>
           
-                                                  <p style={{ color: "black" }}>{facility.type}</p> 
+                                                  <p>({facility.type})</p> 
+                                              </div>
+                              
+                                      </InfoWindowF>
+                                  )}
+                              </Marker>
+                          ))
+                        }
+                      </MarkerClusterer>
+                    )}
+
+                    {/* Commercial Bank Financial Services Cluster */}
+                    {groupedPOIs["financialServices"].filter(facility => facility.type === "Commercial Bank").length > 0 && (
+                      <MarkerClusterer
+                        options={{
+                          styles: [
+                            {
+                              url: "./financeCluster.svg", 
+                              width: 30,
+                              height: 30,
+                              textColor: 'white', // Adjust text color if needed
+                              textSize: 12 
+                            },
+                          ],
+                        }}
+                      >
+                      
+                        {(clusterer) =>
+                          groupedPOIs["financialServices"].filter(facility => facility.type === "Commercial Bank").map((facility, index) => (
+                              
+                              <Marker
+                                  key={facility.name}
+                                  position={{ lat: facility.location.coordinates[1], lng: facility.location.coordinates[0] }}
+                                  clusterer={clusterer} 
+                                  icon={`/${markerIcons[facility.type.replace(/\s/g, '')]}.svg`}
+                                  onClick={() => setSelectedFacility((index + "Commercial Bank"))} // Set selected facility on click
+                              >
+                                  {selectedFacility === (index + "Commercial Bank") && ( // Conditionally show InfoWindow
+                                      <InfoWindowF
+                                          position={{ lat: facility.lat, lng: facility.lng }}
+                                          onCloseClick={() => setSelectedFacility(null)} // Close on click outside
+                                      >
+                                              <div style={{ color: "black", padding: '10px' }}>
+                                                  <h3>{facility.name}</h3>
+          
+                                                  <p>({facility.type})</p> 
                                               </div>
                               
                                       </InfoWindowF>
@@ -370,10 +434,10 @@ export default function Map3() {
                                           position={{ lat: facility.lat, lng: facility.lng }}
                                           onCloseClick={() => setSelectedFacility(null)} // Close on click outside
                                       >
-                                              <div>
-                                                  <h3 style={{ color: "black" }}>{facility.name}</h3>
+                                              <div style={{ color: "black", padding: '10px' }}>
+                                                  <h3>{facility.name}</h3>
           
-                                                  <p style={{ color: "black" }}>{facility.type}</p> 
+                                                  <p>({facility.type})</p> 
                                               </div>
                               
                                       </InfoWindowF>
