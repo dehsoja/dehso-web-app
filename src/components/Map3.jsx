@@ -45,12 +45,21 @@ export default function Map3() {
     const moveTOInfoWindow = (windowName, lat, lng) => {
       
       setSelectedFacility(windowName)
-      // setSelectedFacility(null)
       const map = mapRef.current;
       if (map) {
           map.panTo({lat: lat, lng: lng});
           map.setZoom(25); // Adjust zoom level as needed
       }
+
+      setTimeout(() => {
+        const element = document.getElementById(windowName);
+        
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" });
+        }
+
+      }, 500); // Delay of 500 milliseconds
+      
     }
   
     const handleSelect = async (newValue,newValueString) => {
@@ -209,7 +218,7 @@ export default function Map3() {
                                           onCloseClick={() => setSelectedFacility(null)} // Close on click outside
                                       >
                                               <div style={{ color: "black", padding: '10px' }}>
-                                                  <h3>{facility.name}</h3>
+                                                  <h3 id={index + "healthFacility"}>{facility.name}</h3>
           
                                                   <p>({facility.type})</p> 
                                                   {/* <p>{facility.address}</p>  */}
@@ -255,7 +264,7 @@ export default function Map3() {
                                           onCloseClick={() => setSelectedFacility(null)} // Close on click outside
                                       >
                                               <div style={{ color: "black", padding: '10px' }}>
-                                                  <h3>{facility.name}</h3>
+                                                  <h3 id={index + "supermarket"}>{facility.name}</h3>
           
                                                   <p>({facility.type})</p> 
                                               </div>
@@ -300,7 +309,7 @@ export default function Map3() {
                                           onCloseClick={() => setSelectedFacility(null)} // Close on click outside
                                       >
                                               <div style={{ color: "black", padding: '10px' }}>
-                                                  <h3>{facility.name}</h3>
+                                                  <h3 id={index + "education"}>{facility.name}</h3>
           
                                                   <p>({facility.type})</p> 
                                               </div>
@@ -345,7 +354,7 @@ export default function Map3() {
                                           onCloseClick={() => setSelectedFacility(null)} // Close on click outside
                                       >
                                               <div style={{ color: "black", padding: '10px' }}>
-                                                  <h3>{facility.name}</h3>
+                                                  <h3 id={index + "ATM"}>{facility.name}</h3>
           
                                                   <p>({facility.type})</p> 
                                               </div>
@@ -390,7 +399,7 @@ export default function Map3() {
                                           onCloseClick={() => setSelectedFacility(null)} // Close on click outside
                                       >
                                               <div style={{ color: "black", padding: '10px' }}>
-                                                  <h3>{facility.name}</h3>
+                                                  <h3 id={index + "Commercial Bank"}>{facility.name}</h3>
           
                                                   <p>({facility.type})</p> 
                                               </div>
@@ -435,7 +444,7 @@ export default function Map3() {
                                           onCloseClick={() => setSelectedFacility(null)} // Close on click outside
                                       >
                                               <div style={{ color: "black", padding: '10px' }}>
-                                                  <h3>{facility.name}</h3>
+                                                  <h3 id={index + "emergencyservices"}>{facility.name}</h3>
           
                                                   <p>({facility.type})</p> 
                                               </div>
