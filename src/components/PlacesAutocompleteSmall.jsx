@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useRef } from "react";
 import usePlacesAutocomplete, { getGeocode, getLatLng } from "use-places-autocomplete";
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
@@ -15,6 +15,8 @@ export default function PlacesAutocompleteSmall({ setSelected, coverageWarn }) {
     } = usePlacesAutocomplete({
       componentRestrictions: { country: "jm" }, // Restrict to Jamaica
     });
+
+    const inputRef = useRef(null);
   
     const handleSelect = async (event, newValue) => {
       // Ensure newValue is not null before proceeding
@@ -33,6 +35,9 @@ export default function PlacesAutocompleteSmall({ setSelected, coverageWarn }) {
           )
         ) {
           setSelected({ lat, lng },newValue);
+          // Blur the input to hide the keyboard
+          inputRef.current.blur(); 
+          
         } else {
           // Handle the case where the selected location is not in Jamaica
           coverageWarn();
@@ -60,7 +65,7 @@ export default function PlacesAutocompleteSmall({ setSelected, coverageWarn }) {
           setValue(newInputValue);
         }}
         renderInput={(params) => (
-          <TextField {...params} label="Search an address" variant="outlined" />
+          <TextField {...params} inputRef={inputRef} label="Search an address" variant="outlined" />
         )}
       />
     );
