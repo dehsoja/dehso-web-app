@@ -499,7 +499,8 @@ const markerIcons = {
     AmbulanceService: "ambulance2",
     HighSchool:"school4",
     ATM:"atm2",
-    CommercialBank: "bank3"
+    CommercialBank: "bank3",
+    MedicalServices: "homeHealth3"
 }
 
 const containerStyle = {
