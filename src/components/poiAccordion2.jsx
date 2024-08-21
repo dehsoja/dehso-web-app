@@ -52,8 +52,13 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                             <Typography >{scores.overall || "-"}</Typography>
                         </Avatar>
                     }
-                    title={<Typography variant="body2" style={{ fontWeight: 'bold' }} >{locationString}</Typography>}
+                    title={<Typography variant="body2" style={{ fontWeight: 'bold' }} align="left" >{locationString}</Typography>}
                     // subheader="-"
+                />
+                <CardHeader
+                    style={{ padding: "5px"}}
+                   
+                    title={<Typography variant="caption" style={{ fontWeight: 'bold' }}>Livability Score Card</Typography>}
                 />
                 <CardContent sx={{ maxHeight: 500, overflowY: 'auto' }}>
                     <Accordion 
