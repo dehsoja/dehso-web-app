@@ -27,10 +27,10 @@ export default function PlacesAutocomplete2({ setSelected, coverageWarn }) {
         // Check if the selected location is within Jamaica
         if (
           results[0].address_components.some(component => component.short_name === "JM" ) 
-          && (
-            results[0].address_components.some(component => component.short_name === "Spanish Town" )
-            || results[0].address_components.some(component => component.short_name === "Green Acres" )
-          )
+          // && (
+          //   results[0].address_components.some(component => component.short_name === "Spanish Town" )
+          //   || results[0].address_components.some(component => component.short_name === "Green Acres" )
+          // )
         ) {
           setSelected({ lat, lng },newValue);
         } else {
