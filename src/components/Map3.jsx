@@ -3,7 +3,7 @@ import { GoogleMap, Marker, Circle, InfoWindowF, MarkerClusterer } from "@react-
 import PlacesAutocomplete2 from "./PlacesAutocomplete2";
 import POIAccordion2 from "./poiAccordion2";
 import { useMediaQuery, useTheme } from '@mui/material';
-import { red, yellow, green } from '@mui/material/colors';
+import { red, yellow, green, purple } from '@mui/material/colors';
 import Box from '@mui/material/Box';
 import Header from "./header";
 import PlacesAutocompleteSmall from "./PlacesAutocompleteSmall";
@@ -136,10 +136,17 @@ export default function Map3() {
           <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                   
             <Alert severity="warning" sx={{ width: '100%'}}>
-              This is a proof of concept. Click to learn more.
+              This is a proof of concept. <span style={{ color: purple[500] }}>Click to learn more. </span>
             </Alert>
           </Box>
         </Link>
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                  
+          <Alert severity="warning" sx={{ width: '100%'}}>
+            Coverage: Spanish Town and Portmore, Jamaica.
+          </Alert>
+        </Box>
+        
 
 
         {selected && poi.length > 0 && (
@@ -475,7 +482,7 @@ export default function Map3() {
             </DialogTitle>
             <DialogContent>
               <DialogContentText id="alert-dialog-description">
-                Please search for a location within Spanish Town, Jamaica.
+                Please search for a location within Spanish Town or Portmore, Jamaica.
               </DialogContentText>
             </DialogContent>
             <DialogActions>
