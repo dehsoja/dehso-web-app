@@ -34,7 +34,7 @@ To set up and run this project locally, you will need:
 1. **Clone the Repository**
 
    ```bash
-   git clone https://github.com/yourusername/dehso-web-app.git
+   git clone https://github.com/dehsoja/dehso-web-app.git
    ```
 
 2. **Navigate to the Project Directory**
@@ -92,13 +92,13 @@ We encourage collaboration and contributions from the community to improve and e
 
 ## Issues
 
-If you encounter any issues or have feature requests, feel free to [open an issue](https://github.com/yourusername/dehso-web-app/issues).
+If you encounter any issues or have feature requests, feel free to [open an issue](https://github.com/dehsoja/dehso-web-app.git/issues).
 
 ---
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License.
 
 ---
 
@@ -109,6 +109,7 @@ Join the conversation and help shape the future of real estate in Jamaica by con
 - **Website**: [dehsoja.com](https://dehsoja.com)
 - **Twitter**: [@dehsoja](https://twitter.com/dehsoja)
 - **Email**: dehsoja@gmail.com
+- **Product Roadmap**: [Visit Roadmap](https://github.com/users/dehsoja/projects/4/views/3)
 
 ---
 
