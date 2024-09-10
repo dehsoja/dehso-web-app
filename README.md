@@ -92,7 +92,7 @@ We encourage collaboration and contributions from the community to improve and e
 
 ## Issues
 
-If you encounter any issues or have feature requests, feel free to [open an issue](https://github.com/dehsoja/dehso-web-app.git/issues).
+If you encounter any issues or have feature requests, feel free to [open an issue](https://github.com/dehsoja/dehso-web-app/issues).
 
 ---
 
