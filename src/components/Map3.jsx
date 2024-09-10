@@ -74,10 +74,10 @@ export default function Map3() {
         try {
           const response = await fetch(`${import.meta.env.VITE_API_URL}/pois/distance/${newValue.lat}/${newValue.lng}`); // Include lat/lng in query
           if (!response.ok) {
-            setPoi([]);
-            setGroupedPOIs([]);
             throw new Error("Network response was not ok.");
           }
+          setPoi([]);
+          setGroupedPOIs([]);
           const data = await response.json();
           setPoi(data.pois);
           const grouping = data.pois.reduce((groups, facility) => {

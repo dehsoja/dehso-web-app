@@ -1,5 +1,4 @@
 import './App.css'
-import Map from "./components/Map";
 // import MapFiddle from './components/MapFiddle';
 import Places11 from './components/Places11';
 import AboutUs from './components/aboutus';
