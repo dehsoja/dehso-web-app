@@ -151,7 +151,16 @@ function AboutUs() {
                             </Link>
                           </Typography>
                           <Typography variant="body1" align="left">
-                            {"Code Repositories: [Coming Soon]"} 
+                            {"Web App Code Repositories: "}
+                            <Link to="https://github.com/dehsoja/dehso-web-app" target="_blank" rel="noopener noreferrer">
+                              Visit Public Repo
+                            </Link> 
+                          </Typography>
+                          <Typography variant="body1" align="left">
+                            {"API Code Repositories: "}
+                            <Link to="https://github.com/dehsoja/dehso-api" target="_blank" rel="noopener noreferrer">
+                              Visit Public Repo
+                            </Link> 
                           </Typography>
                       </Grid>
                     </Grid>
