@@ -142,9 +142,6 @@ function AboutUs() {
                             Our journey has just begun. Whether you're a seasoned developer, a data enthusiast, or simply passionate about improving the property search experience in Jamaica, we invite you to be part of the change. Contribute your skills, share your ideas, and let's shape the future of finding your home in Jamaica, together.
                           </Typography>
                           <Typography variant="body1" align="left">
-                            Email: dehsoja@gmail.com
-                          </Typography>
-                          <Typography variant="body1" align="left">
                             {"Product Roadmap: "} 
                             <Link to="https://github.com/users/dehsoja/projects/4/views/3" target="_blank" rel="noopener noreferrer">
                               Visit Roadmap
