@@ -132,17 +132,17 @@ export default function Map3() {
           </Header>
         </Box>
         
-        <Link to="/about">
+        {/* <Link to="/about">
           <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                   
             <Alert severity="warning" sx={{ width: '100%'}}>
               This is a proof of concept. <span style={{ color: purple[500] }}>Click to learn more. </span>
             </Alert>
           </Box>
-        </Link>
+        </Link> */}
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                   
-          <Alert severity="warning" sx={{ width: '100%'}}>
+          <Alert severity="info" sx={{ width: '100%'}}>
             Coverage: Spanish Town and Portmore, Jamaica.
           </Alert>
         </Box>
