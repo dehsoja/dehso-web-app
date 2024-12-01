@@ -73,6 +73,13 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                             <Grid container justifyContent="space-between" alignItems="center" wrap="nowrap">
                                 <Grid item>
                                     <Typography  sx={{ fontSize: 14, fontWeight: 'bold' }}variant="subtitle1" align="left" >Health Care</Typography>
+                                    <Stack direction="row" spacing={.5} alignItems="center">
+                                        <Avatar 
+                                            src="https://res.cloudinary.com/dubn0hzzi/image/upload/v1733082411/homeHealth3Key_ecjrmv.svg"
+                                            sx={{ width: 22, height: 22 }}
+                                        />
+                                    
+                                    </Stack>
                                 </Grid>
                                 <Grid item>
                                     <Avatar sx={{ 
@@ -129,6 +136,13 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                             <Grid container justifyContent="space-between" alignItems="center" wrap="nowrap">
                                 <Grid item>
                                     <Typography sx={{ fontSize: 14, fontWeight: 'bold' }} variant="subtitle1" align="left">Grocery Stores</Typography>
+                                    <Stack direction="row" spacing={.5} alignItems="center">
+                                        <Avatar 
+                                            src="https://res.cloudinary.com/dubn0hzzi/image/upload/v1732760837/shoppingCartKey_irnuvj.svg"
+                                            sx={{ width: 22, height: 22 }}
+                                        />
+                                    
+                                    </Stack>
                                 </Grid>
                                 <Grid item>
                                     <Avatar sx={{ 
@@ -185,6 +199,13 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                             <Grid container justifyContent="space-between" alignItems="center" wrap="nowrap">
                                 <Grid item>
                                     <Typography  sx={{ fontSize: 14, fontWeight: 'bold' }} variant="subtitle1" align="left">Schools</Typography>
+                                    <Stack direction="row" spacing={.5} alignItems="center">
+                                        <Avatar 
+                                            src="https://res.cloudinary.com/dubn0hzzi/image/upload/v1732760836/schoolKey_nzzjyc.svg"
+                                            sx={{ width: 22, height: 22 }}
+                                        />
+                                    
+                                    </Stack>
                                 </Grid>
                                 <Grid item>
                                     <Avatar sx={{ 
@@ -295,6 +316,17 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                             <Grid container justifyContent="space-between" alignItems="center" wrap="nowrap">
                                 <Grid item>
                                     <Typography  sx={{ fontSize: 14, fontWeight: 'bold' }} variant="subtitle1" align="left">Financial Services</Typography>
+                                    <Stack direction="row" spacing={.5} alignItems="center">
+                                        <Avatar 
+                                            src="https://res.cloudinary.com/dubn0hzzi/image/upload/v1732760835/bankKey_uomtun.svg"
+                                            sx={{ width: 22, height: 22 }}
+                                        />
+                                        <Avatar 
+                                            src="https://res.cloudinary.com/dubn0hzzi/image/upload/v1732760835/atmKey_gzvv44.svg"
+                                            sx={{ width: 22, height: 22 }}
+                                        />
+                                    
+                                    </Stack>
                                 </Grid>
                                 <Grid item>
                                     <Avatar sx={{ 
@@ -396,6 +428,21 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                             <Grid container justifyContent="space-between" alignItems="center" wrap="nowrap">
                                 <Grid item>
                                     <Typography  sx={{ fontSize: 14, fontWeight: 'bold' }} variant="subtitle1" align="left">Emergency Services</Typography>
+                                    <Stack direction="row" spacing={.5} alignItems="center">
+                                        <Avatar 
+                                            src="https://res.cloudinary.com/dubn0hzzi/image/upload/v1732760836/localPoliceKey_ntwrkm.svg"
+                                            sx={{ width: 22, height: 22 }}
+                                        />
+                                        <Avatar 
+                                            src="https://res.cloudinary.com/dubn0hzzi/image/upload/v1732760835/ambulanceKey_s6c4cg.svg"
+                                            sx={{ width: 22, height: 22 }}
+                                        />
+                                        <Avatar 
+                                            src="https://res.cloudinary.com/dubn0hzzi/image/upload/v1732760835/fireTruckKey_jeqdlh.svg"
+                                            sx={{ width: 22, height: 22 }}
+                                        />
+                                    
+                                    </Stack>
                                 </Grid>
                                 <Grid item>
                                     <Avatar sx={{ 
