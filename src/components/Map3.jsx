@@ -153,10 +153,10 @@ export default function Map3() {
           <Box
             sx={{
               position: isSmallScreen ? 'static' : 'absolute',
-              top: isSmallScreen ? 0 : "13%",
-              left: isSmallScreen ? 0 : "5%",
+              top: isSmallScreen ? 0 : "17%",
+              left: isSmallScreen ? 0 : "10%",
               zIndex: 10,
-              width: isSmallScreen ? '95%' : "25%",
+              width: isSmallScreen ? '95%' : "20%",
               backgroundColor: "white",
               margin: isSmallScreen ? theme.spacing(1) : theme.spacing(5), // Add margin for small screens
             }}
@@ -216,7 +216,7 @@ export default function Map3() {
                                   key={facility.name}
                                   position={{ lat: facility.location.coordinates[1], lng: facility.location.coordinates[0] }}
                                   clusterer={clusterer} 
-                                  icon={markerIconsLinks[facility.type.replace(/\s/g, '')]}
+                                  icon={`/${markerIcons[facility.type.replace(/\s/g, '')]}.svg`}
                                   onClick={() => setSelectedFacility((index + "healthFacility"))} // Set selected facility on click
                               >
                                   {selectedFacility === (index + "healthFacility") && ( // Conditionally show InfoWindow
@@ -262,7 +262,7 @@ export default function Map3() {
                                   key={facility.name}
                                   position={{ lat: facility.location.coordinates[1], lng: facility.location.coordinates[0] }}
                                   clusterer={clusterer} 
-                                  icon={markerIconsLinks[facility.type.replace(/\s/g, '')]}
+                                  icon={`/${markerIcons[facility.type.replace(/\s/g, '')]}.svg`}
                                   onClick={() => setSelectedFacility((index + "supermarket"))} // Set selected facility on click
                               >
                                   {selectedFacility === (index + "supermarket") && ( // Conditionally show InfoWindow
@@ -307,7 +307,7 @@ export default function Map3() {
                                   key={facility.name}
                                   position={{ lat: facility.location.coordinates[1], lng: facility.location.coordinates[0] }}
                                   clusterer={clusterer} 
-                                  icon={markerIconsLinks[facility.type.replace(/\s/g, '')]}
+                                  icon={`/${markerIcons[facility.type.replace(/\s/g, '')]}.svg`}
                                   onClick={() => setSelectedFacility((index + "education"))} // Set selected facility on click
                               >
                                   {selectedFacility === (index + "education") && ( // Conditionally show InfoWindow
@@ -352,7 +352,7 @@ export default function Map3() {
                                   key={facility.name}
                                   position={{ lat: facility.location.coordinates[1], lng: facility.location.coordinates[0] }}
                                   clusterer={clusterer} 
-                                  icon={markerIconsLinks[facility.type.replace(/\s/g, '')]}
+                                  icon={`/${markerIcons[facility.type.replace(/\s/g, '')]}.svg`}
                                   onClick={() => setSelectedFacility((index + "ATM"))} // Set selected facility on click
                               >
                                   {selectedFacility === (index + "ATM") && ( // Conditionally show InfoWindow
@@ -397,7 +397,7 @@ export default function Map3() {
                                   key={facility.name}
                                   position={{ lat: facility.location.coordinates[1], lng: facility.location.coordinates[0] }}
                                   clusterer={clusterer} 
-                                  icon={markerIconsLinks[facility.type.replace(/\s/g, '')]}
+                                  icon={`/${markerIcons[facility.type.replace(/\s/g, '')]}.svg`}
                                   onClick={() => setSelectedFacility((index + "Commercial Bank"))} // Set selected facility on click
                               >
                                   {selectedFacility === (index + "Commercial Bank") && ( // Conditionally show InfoWindow
@@ -442,7 +442,7 @@ export default function Map3() {
                                   key={facility.name}
                                   position={{ lat: facility.location.coordinates[1], lng: facility.location.coordinates[0] }}
                                   clusterer={clusterer} 
-                                  icon={markerIconsLinks[facility.type.replace(/\s/g, '')]}
+                                  icon={`/${markerIcons[facility.type.replace(/\s/g, '')]}.svg`}
                                   onClick={() => setSelectedFacility((index + "emergencyservices"))} // Set selected facility on click
                               >
                                   {selectedFacility === (index + "emergencyservices") && ( // Conditionally show InfoWindow
@@ -497,30 +497,17 @@ export default function Map3() {
     );
 }
   
-// const markerIcons = {
-//     Hospital: "homeHealth3",
-//     HealthCentre: "homeHealth3",
-//     Supermarket: "shoppingCart4",
-//     PoliceStation:"localPolice2",
-//     FireStation:"fireTruck2",
-//     AmbulanceService: "ambulance2",
-//     HighSchool:"school4",
-//     ATM:"atm2",
-//     CommercialBank: "bank3",
-//     MedicalServices: "homeHealth3"
-// }
-
-const markerIconsLinks = {
-  Hospital: "https://res.cloudinary.com/dubn0hzzi/image/upload/v1733082642/homeHealth3Marker_tku5dn.svg",
-  HealthCentre: "https://res.cloudinary.com/dubn0hzzi/image/upload/v1733082642/homeHealth3Marker_tku5dn.svg",
-  Supermarket: "https://res.cloudinary.com/dubn0hzzi/image/upload/v1732999713/shoppingCartMarker_hutvj4.svg",
-  PoliceStation:"https://res.cloudinary.com/dubn0hzzi/image/upload/v1732999139/localPoliceMarker_kf5opd.svg",
-  FireStation:"https://res.cloudinary.com/dubn0hzzi/image/upload/v1732999714/fireTruckMarker_m6zlwi.svg",
-  AmbulanceService: "https://res.cloudinary.com/dubn0hzzi/image/upload/v1732999715/ambulanceMarker_sbtt34.svg",
-  HighSchool:"https://res.cloudinary.com/dubn0hzzi/image/upload/v1732999713/schoolMarker_bmdtbk.svg",
-  ATM:"https://res.cloudinary.com/dubn0hzzi/image/upload/v1732999715/atmMarker_iobt3q.svg",
-  CommercialBank: "https://res.cloudinary.com/dubn0hzzi/image/upload/v1732999715/bankMarker_plcgdc.svg",
-  MedicalServices: "https://res.cloudinary.com/dubn0hzzi/image/upload/v1733082642/homeHealth3Marker_tku5dn.svg"
+const markerIcons = {
+    Hospital: "homeHealth3",
+    HealthCentre: "homeHealth3",
+    Supermarket: "shoppingCart4",
+    PoliceStation:"localPolice2",
+    FireStation:"fireTruck2",
+    AmbulanceService: "ambulance2",
+    HighSchool:"school4",
+    ATM:"atm2",
+    CommercialBank: "bank3",
+    MedicalServices: "homeHealth3"
 }
 
 const containerStyle = {
