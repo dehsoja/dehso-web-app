@@ -63,6 +63,8 @@ export default function Map3() {
     }
   
     const handleSelect = async (newValue,newValueString) => {
+       //Close any open info windows
+       setSelectedFacility(null);
       // Remove previous circles
       circlesRef.current.forEach((circle) => circle.setMap(null));
       setSelected(newValue);
