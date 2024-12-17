@@ -1,19 +1,19 @@
 import React, {useState} from "react";
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import Typography from '@mui/material/Typography';
+import { Accordion } from "@mui/material";
+import { AccordionSummary } from "@mui/material";
+import { AccordionDetails } from "@mui/material";
+import { Typography } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, ButtonBase } from '@mui/material';
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import CardContent from '@mui/material/CardContent';
-import Divider from '@mui/material/Divider';
-import Avatar from '@mui/material/Avatar';
+import { Card } from "@mui/material";
+import { CardHeader } from "@mui/material";
+import { CardContent } from "@mui/material";
+import { Divider } from "@mui/material";
+import { Avatar } from "@mui/material";
 import { blue, red, yellow, green, lightGreen, grey, orange } from '@mui/material/colors';
-import Stack from '@mui/material/Stack';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
+import { Stack } from "@mui/material";
+import { Box } from "@mui/material";
+import { Grid } from "@mui/material";
 import { DataGrid } from '@mui/x-data-grid';
 
 export default function POIAccordion2({ selected, groupedPOIs, safety, scores, locationString, moveTOInfoWindow }) {

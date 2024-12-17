@@ -1,7 +1,7 @@
 import React, {useRef } from "react";
 import usePlacesAutocomplete, { getGeocode, getLatLng } from "use-places-autocomplete";
-import Autocomplete from '@mui/material/Autocomplete';
-import TextField from '@mui/material/TextField';
+import { Autocomplete } from "@mui/material";
+import { TextField } from "@mui/material";
 
 
 // Component for places autocomplete

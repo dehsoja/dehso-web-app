@@ -4,16 +4,16 @@ import PlacesAutocomplete2 from "./PlacesAutocomplete2";
 import POIAccordion2 from "./poiAccordion2";
 import { useMediaQuery, useTheme } from '@mui/material';
 import { red, yellow, green, purple } from '@mui/material/colors';
-import Box from '@mui/material/Box';
+import { Box } from "@mui/material";
 import Header from "./header";
 import PlacesAutocompleteSmall from "./PlacesAutocompleteSmall";
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import Alert from '@mui/material/Alert';
+import { Button } from "@mui/material";
+import { Dialog } from "@mui/material";
+import { DialogActions } from "@mui/material";
+import { DialogContent } from "@mui/material";
+import { DialogContentText } from "@mui/material";
+import { DialogTitle } from "@mui/material";
+import { Alert } from "@mui/material";
 import {Link} from 'react-router-dom';
 
 export default function Map3() {
