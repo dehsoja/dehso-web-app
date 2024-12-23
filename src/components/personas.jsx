@@ -164,7 +164,7 @@ const personasCol = [
       "Studio apartments, shared housing, or temporary rentals.",
       "Proximity to schools, jobs, or urban amenities."
     ],
-    image: "https://res.cloudinary.com/dubn0hzzi/image/upload/v1734351195/Transient_Seekers_350_x_200_v2_o1qxmz.png",
+    image: "https://res.cloudinary.com/dubn0hzzi/image/upload/v1734541768/Transient_Seekers_350_x_200_v3_ni44ys.png",
     color: red[300]
   },
   {
@@ -175,7 +175,7 @@ const personasCol = [
       "Small, modern apartments or condos in city centres.",
       "Amenities like gyms, and shared social areas."
     ],
-    image: "https://res.cloudinary.com/dubn0hzzi/image/upload/v1734366277/Ambitious_Urbanites_350_x_200_v2_bzigqp.png",
+    image: "https://res.cloudinary.com/dubn0hzzi/image/upload/v1734541899/Ambitious_Urbanites_350_x_200_v3_gfhyr8.png",
     color: purple[300]
   },
   {
@@ -186,7 +186,7 @@ const personasCol = [
       "Modest homes, townhouses, or affordable rentals.",
       "Willing to compromise on location for cost savings."
     ],
-    image: "https://res.cloudinary.com/dubn0hzzi/image/upload/v1734367256/Budget-Conscious_Nesters_350_x_200_cedvxt.png",
+    image: "https://res.cloudinary.com/dubn0hzzi/image/upload/v1734542010/Budget-Conscious_Nesters_350_x_200_v2_azxxzp.png",
     color: pink[300]
   },
   {
@@ -197,7 +197,7 @@ const personasCol = [
       "Larger townhouses or smaller detached homes with growth potential.",
       "Favor neighbourhoods with a good balance of affordability and quality of life."
     ],
-    image: "https://res.cloudinary.com/dubn0hzzi/image/upload/v1734352723/Aspiring_Upgraders_350_x_200_v4_m8dbkh.png",
+    image: "https://res.cloudinary.com/dubn0hzzi/image/upload/v1734543292/Aspiring_Upgraders_350_x_200_v5_nuwe6w.png",
     color: cyan[300]
   },
   {
@@ -208,7 +208,7 @@ const personasCol = [
       "Standalone houses with large plots of land.",
       "Privacy, space, and affordability over proximity to urban centres."
     ],
-    image: "https://res.cloudinary.com/dubn0hzzi/image/upload/v1734391596/Rural_Independents_350_x_200_v7mxu1.png",
+    image: "https://res.cloudinary.com/dubn0hzzi/image/upload/v1734543417/Rural_Independents_350_x_200_v2_oflrdv.png",
     color: teal[300]
   },
   {
@@ -219,7 +219,7 @@ const personasCol = [
       "High-end homes, estates, or penthouses in prestigious locations.",
       "Custom features and luxury amenities."
     ],
-    image: "https://res.cloudinary.com/dubn0hzzi/image/upload/v1734392325/Established_Elite_350_x_200_swhdos.png",
+    image: "https://res.cloudinary.com/dubn0hzzi/image/upload/v1734550318/Established_Elite_350_x_200_v2_zvynxk.png",
     color: blue[300]
   }
 ]
