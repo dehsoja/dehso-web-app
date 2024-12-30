@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useRef, useCallback } from "react";
+import React, { useState, useMemo, useRef, useCallback, useEffect } from "react";
 import { GoogleMap, Marker, Circle, InfoWindowF, MarkerClusterer } from "@react-google-maps/api";
 import PlacesAutocomplete2 from "./PlacesAutocomplete2";
 import POIAccordion2 from "./poiAccordion2";
@@ -16,7 +16,7 @@ import { DialogTitle } from "@mui/material";
 import { Alert } from "@mui/material";
 import {Link} from 'react-router-dom';
 
-export default function Map3() {
+export default function Map3({nameParam}) {
     const center = useMemo(() => ({ lat: 18.1096, lng: -77.2975 }), []);
     const [selected, setSelected] = useState(null); // Use null initially
     const [selectedString, setSelectedString] = useState(null); // Use null initially
@@ -26,20 +26,38 @@ export default function Map3() {
     const [safety, setSafety] = useState(null);
     const [scores, setScores] = useState(null);
     const [open, setOpen] = useState(false);
+    const [dialogMsg, setDialogMsg] = useState("");
     const mapRef = useRef();
     const circlesRef = useRef([]); // Ref to store circle instances
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   
+    useEffect(() => {
+      if (nameParam != "") handleLink(nameParam)
+      // handleSelect({lat: 18.00514131060984, lng: -77.01124198060027}, "Green Acres")
+    }, []);
+
     const onLoad = useCallback((map) => (mapRef.current = map), []);
 
-    const handleClickOpen = () => {
+
+    const handleWarning = (msg) => {
+      setDialogMsg(msg)
+      setOpen(true);
+    };
+
+    const handleResponseStatusWarning = (status) => {
+      if (status === "404"){
+        setDialogMsg("No records found for selected location.")
+      }else{
+        setDialogMsg("There was an error please try again later.")
+      }
       setOpen(true);
     };
   
     const handleClose = () => {
       setOpen(false);
+      setDialogMsg("")
     };
 
     const moveTOInfoWindow = (windowName, lat, lng) => {
@@ -61,64 +79,120 @@ export default function Map3() {
       }, 500); // Delay of 500 milliseconds
       
     }
-  
-    const handleSelect = async (newValue,newValueString) => {
-       //Close any open info windows
-       setSelectedFacility(null);
+
+    const selectHelper = async (newValue,newValueString,data) => {
+        
+      try {
+
+        //Close any open info windows
+        setSelectedFacility(null);
+        // Remove previous circles
+        circlesRef.current.forEach((circle) => circle.setMap(null));
+        setSelected(newValue);
+        setSelectedString(newValueString)
+        
+        setPoi([]);
+        setGroupedPOIs([]);
+        setPoi(data.pois);
+        const grouping = data.pois.reduce((groups, facility) => {
+            (groups[facility.category] = groups[facility.category] || []).push(facility);
+            return groups;
+        }, {});
+        setGroupedPOIs(grouping)
+        
+        setSafety(null)
+        if (data.safety) setSafety(data.safety);
+        
+        setScores(null)
+        if (data.scores) setScores(data.scores) 
+
+        // Pan and zoom to the selected location
+        const map = mapRef.current;
+        if (map) {
+            map.panTo(newValue);
+            map.setZoom(12); // Adjust zoom level as needed
+
+            //Add circle
+            myCircles.forEach((circle)=>{
+                  const newCircle = new google.maps.Circle({
+                      center: newValue,
+                      radius: circle.radius,
+                      options: circle.options,
+                      map,
+                  });
+                  circlesRef.current.push(newCircle);
+              })
+        }
+
+      } catch (error) {
+        throw error;
+      }
+        
+
+    }
+
+    const faildRequestHelper = (msg) =>{
+      setPoi([]);
+      setGroupedPOIs([]);
       // Remove previous circles
       circlesRef.current.forEach((circle) => circle.setMap(null));
-      setSelected(newValue);
-      setSelectedString(newValueString)
-
+      handleResponseStatusWarning(msg)
+    }
+  
+    const handleSelect = async (newValue,newValueString) => {
+       
+      setSelected(null)
       
       if (newValue) {
         // Fetch POI data based on selected location
         try {
           const response = await fetch(`${import.meta.env.VITE_API_URL}/pois/distance/${newValue.lat}/${newValue.lng}`); // Include lat/lng in query
           if (!response.ok) {
-            throw new Error("Network response was not ok.");
+            throw new Error(response.status);
           }
-          setPoi([]);
-          setGroupedPOIs([]);
+
           const data = await response.json();
-          setPoi(data.pois);
-          const grouping = data.pois.reduce((groups, facility) => {
-              (groups[facility.category] = groups[facility.category] || []).push(facility);
-              return groups;
-          }, {});
-          setGroupedPOIs(grouping)
-          
-          setSafety(null)
-          if (data.safety) setSafety(data.safety);
-          
-          setScores(null)
-          if (data.scores) setScores(data.scores) 
 
-          // Pan and zoom to the selected location
-          const map = mapRef.current;
-          if (map) {
-              map.panTo(newValue);
-              map.setZoom(12); // Adjust zoom level as needed
 
-              //Add circle
-              myCircles.forEach((circle)=>{
-                    const newCircle = new google.maps.Circle({
-                        center: newValue,
-                        radius: circle.radius,
-                        options: circle.options,
-                        map,
-                    });
-                    circlesRef.current.push(newCircle);
-                })
-          }
+          if(data.pois.length < 1 || data["scores"] === undefined) throw new Error("404");
+          
+          await selectHelper(newValue, newValueString, data)
+          
 
         } catch (error) {
-          setPoi([]);
-          setGroupedPOIs([]);
-          console.error("Error fetching POI data:", error);
+          faildRequestHelper(error.message)
+          // console.log("Error fetching POI data:", error);
         }
         
       }
+      
+    };
+
+    const handleLink = async (name) => {
+         
+      
+        // Fetch POI data based on specified location
+        try {
+          const response = await fetch(`${import.meta.env.VITE_API_URL}/location/${name}`); // Include location in query
+          if (!response.ok) {
+            throw new Error(response.status);
+          }
+
+          const data = await response.json();
+
+
+          const location = data.location.location;
+          const storedName= data.location.name;
+
+          await selectHelper({lat: location.coordinates[1], lng: location.coordinates[0]}, storedName, data)
+          
+
+        } catch (error) {
+          faildRequestHelper(error.message)
+          // console.log("Error fetching POI data:", error);
+        }
+        
+    
       
     };
   
@@ -127,8 +201,8 @@ export default function Map3() {
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: "white" }}>
           {/* <PlacesAutocomplete2 setSelected={handleSelect} /> */}
           <Header 
-            places={<PlacesAutocomplete2 setSelected={handleSelect} coverageWarn={handleClickOpen}/>} 
-            placesSmall={<PlacesAutocompleteSmall setSelected={handleSelect} coverageWarn={handleClickOpen} />}
+            places={<PlacesAutocomplete2 setSelected={handleSelect} coverageWarn={handleWarning}/>} 
+            placesSmall={<PlacesAutocompleteSmall setSelected={handleSelect} coverageWarn={handleWarning} />}
           >
 
           </Header>
@@ -484,7 +558,7 @@ export default function Map3() {
             </DialogTitle>
             <DialogContent>
               <DialogContentText id="alert-dialog-description">
-                Please search for a location within Spanish Town or Portmore, Jamaica.
+                {dialogMsg}
               </DialogContentText>
             </DialogContent>
             <DialogActions>
