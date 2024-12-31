@@ -141,7 +141,6 @@ export default function Map3({nameParam}) {
   
     const handleSelect = async (newValue,newValueString) => {
        
-      setSelected(null)
       
       if (newValue) {
         // Fetch POI data based on selected location
