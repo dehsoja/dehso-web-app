@@ -40,7 +40,7 @@ export default function PlacesAutocompleteSmall({ setSelected, coverageWarn }) {
           
         } else {
           // Handle the case where the selected location is not in Jamaica
-          coverageWarn();
+          coverageWarn("Please search for a location within Spanish Town or Portmore, Jamaica.");
           // alert("Please select a location within Spanish Town, Jamaica.");
           setValue(""); // Clear the input field
           setSelected(null,null); // Clear the selected location
