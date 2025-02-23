@@ -17,7 +17,7 @@ import { TextField } from "@mui/material";
 import {Link, useNavigate } from 'react-router-dom';
 
 const pages = [
-  {lable: 'Map', link: "/"}, 
+  {lable: 'Home', link: "/"}, 
   {lable: 'About us', link: "/about"}, 
 ];
 const searchOptions = ['Option 1', 'Option 2', 'Option 3'];
@@ -45,6 +45,13 @@ function HeaderB({places, placesSmall}) {
     <AppBar position="static" elevation={0} sx={{backgroundColor:"white", padding: 1}}> 
       <Container maxWidth="xl">
         <Toolbar disableGutters>
+
+          <Box sx={{ display: { xs: 'none', md: 'flex' }, mr: 2}}>
+          
+            <Link to="/">
+              <img src="/dehso.svg" alt="Your Logo" style={{height: 30}}  />
+            </Link>
+          </Box>
 
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>

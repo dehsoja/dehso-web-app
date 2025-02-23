@@ -17,7 +17,7 @@ import { TextField } from "@mui/material";
 import {Link, useNavigate } from 'react-router-dom';
 
 const pages = [
-    {lable: 'Map', link: "/"}, 
+    {lable: 'Home', link: "/"}, 
     {lable: 'About us', link: "/about"}, 
 ];
 const searchOptions = ['Option 1', 'Option 2', 'Option 3'];
