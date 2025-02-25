@@ -17,7 +17,7 @@ import { TextField } from "@mui/material";
 import {Link, useNavigate } from 'react-router-dom';
 
 const pages = [
-    {lable: 'Map', link: "/"}, 
+    {lable: 'Home', link: "/"}, 
     {lable: 'About us', link: "/about"}, 
 ];
 const searchOptions = ['Option 1', 'Option 2', 'Option 3'];
@@ -42,7 +42,7 @@ function Header({places, placesSmall}) {
   
 
   return (
-    <AppBar position="static" elevation={0} sx={{backgroundColor:"white", padding: 1}}> 
+    <AppBar position="static" elevation={0} sx={{backgroundColor:"white", paddingY: 1}}> 
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           {/* <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1, color:"black" }} /> */}
@@ -76,7 +76,7 @@ function Header({places, placesSmall}) {
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
-              size="large"
+              size="small"
               aria-label="account of current user"
               aria-controls="menu-appbar"
               aria-haspopup="true"
@@ -114,7 +114,7 @@ function Header({places, placesSmall}) {
             
                 {placesSmall}
           </Box>
-          <Box sx={{ display: { xs: 'flex', md: 'none' }, mx: 2}}>
+          <Box sx={{ display: { xs: 'flex', md: 'none' }, mr: .5, ml:1}}>
             <Link to="/">
                 <img src="/dehso.svg" alt="Your Logo" style={{height: 30}}  />
             </Link>  

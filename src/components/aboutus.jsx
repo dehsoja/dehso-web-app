@@ -35,9 +35,9 @@ function AboutUs() {
         {/* Team Section (Optional) */}
         <Grid container spacing={3}>
            
-            <Grid item xs={12} sm={12} md={3} >
+            <Grid item xs={12} sm={12} md={3} mt={2}>
                 <Link to="/">
-                    <img src="/dehsoFullLogo.svg" alt="Your Logo" style={{height: 120}}  />
+                    <img src="/dehsoNameNoLogo2.svg" alt="Your Logo" style={{height: 40}}  />
                 </Link>
             </Grid>
             
