@@ -39,18 +39,14 @@ export default function Map3({nameParam}) {
       
       const newStr = nameParam.replaceAll("+"," ");
       const newStr2 = newStr.replaceAll("-",",");
-      console.log(newStr2)
     
       const fetchData = async () => {
 
         try {
 
-          console.log(1);
           const results = await getGeocode({ address: newStr2 });
           const { lat, lng } = await getLatLng(results[0]);
           const formatedAd = results[0].formatted_address; 
-          console.log(2);
-          console.log(results);
 
           // Check if the selected location is within Jamaica
           
@@ -213,8 +209,8 @@ export default function Map3({nameParam}) {
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: "white" }}>
           {/* <PlacesAutocomplete2 setSelected={handleSelect} /> */}
           <Header 
-            places={<PlacesAutocomplete3 coverageWarn={handleWarning} cusWidth={300} />} 
-            placesSmall={<PlacesAutocomplete3 coverageWarn={handleWarning} cusWidth={200} />}
+            places={<PlacesAutocomplete3 coverageWarn={handleWarning} />} 
+            placesSmall={<PlacesAutocomplete3 coverageWarn={handleWarning} cusWidth={260} />}
           >
 
           </Header>

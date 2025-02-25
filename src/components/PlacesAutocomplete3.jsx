@@ -8,7 +8,7 @@ import { TextField } from "@mui/material";
 
 
 // Component for places autocomplete
-export default function PlacesAutocomplete3({coverageWarn}) {
+export default function PlacesAutocomplete3({coverageWarn, cusWidth = false}) {
     
     const navigate = useNavigate();
 
@@ -28,26 +28,39 @@ export default function PlacesAutocomplete3({coverageWarn}) {
         setValue(newValue, false);
         clearSuggestions();
         const results = await getGeocode({ address: newValue });
-        const formatedAd = results[0].formatted_address; 
+        const { lat, lng } = await getLatLng(results[0]);
   
-        // Check if the selected location is within Jamaica
-        if (
-          results[0].address_components.some(component => component.short_name === "JM" ) 
-          
-        ) {
-
-          console.log(newValue);
-          const newStr = newValue.replaceAll(" ", "+");
-          const newStr2 = newStr.replaceAll(",", "-");
-          console.log(newStr2)
-          navigate(`/${newStr2}`);
         
-        } else {
-          // Handle the case where the selected location is not in Jamaica
-          coverageWarn("Please search for a location within Spanish Town or Portmore, Jamaica.");
-          setValue(""); // Clear the input field
-          // setSelected(null); // Clear the selected location
-        }
+          try {
+          
+            // Check if the selected location is within Jamaica
+            if (!(results[0].address_components.some(component => component.short_name === "JM" )) ) throw new Error("404");
+
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/pois/scoreable/${lat}/${lng}`); // Include lat/lng in query
+            
+            if (!response.ok) throw new Error(response.status);
+
+            
+            const newStr = newValue.replaceAll(" ", "+");
+            const newStr2 = newStr.replaceAll(",", "-");
+    
+            
+            navigate(`/${newStr2}`);
+            
+          } catch (error) {
+
+            // Handle the case where the selected location is not in Jamaica
+            if (error.message == "404"){
+              coverageWarn("Please search for a location within Spanish Town or Portmore, Jamaica.");
+            }else{
+              coverageWarn("There was an error please try again later.");
+            }
+            
+            setValue(""); // Clear the input field
+            
+          }
+
+        
       }
     };
   
@@ -55,7 +68,7 @@ export default function PlacesAutocomplete3({coverageWarn}) {
       <Autocomplete
         id="places-autocomplete"
         freeSolo
-        sx={{ width: { xs: "90vw", sm: "90vw", md: "40vw", lg: "40vw", xl: "40vw" } }}
+        sx={{ width: cusWidth ? cusWidth : { xs: "90vw", sm: "90vw", md: "40vw", lg: "40vw", xl: "40vw" } }}
         getOptionLabel={(option) => (typeof option === 'string' ? option : option.description)}
         filterOptions={(x) => x}
         options={status === "OK" ? data.map(item => item.description) : []}
