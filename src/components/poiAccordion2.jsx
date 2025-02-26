@@ -71,7 +71,7 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                 <CardHeader
                     style={{ padding: "5px"}}
                    
-                    title={<Typography variant="caption" style={{ fontWeight: 'bold' }}>Livability Score Card</Typography>}
+                    title={<Typography variant="caption" style={{ fontWeight: 'bold' }}>Neighbourhood Scorecard</Typography>}
                 />
                 <CardContent sx={{ maxHeight: 500, overflowY: 'auto' }}>
                     <Accordion 
