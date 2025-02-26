@@ -216,12 +216,12 @@ export default function Map3({nameParam}) {
           </Header>
         </Box>
         
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+        {/* <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                   
           <Alert severity="info" sx={{ width: '100%'}}>
             Coverage: Spanish Town and Portmore, Jamaica.
           </Alert>
-        </Box>
+        </Box> */}
         
 
 
@@ -229,7 +229,7 @@ export default function Map3({nameParam}) {
           <Box
             sx={{
               position: isSmallScreen ? 'static' : 'absolute',
-              top: isSmallScreen ? 0 : "13%",
+              top: isSmallScreen ? 0 : "8%",
               left: isSmallScreen ? 0 : "5%",
               zIndex: 10,
               width: isSmallScreen ? '95%' : "25%",
@@ -406,7 +406,7 @@ export default function Map3({nameParam}) {
                     )}
 
                     {/* ATM Financial Services Cluster */}
-                    {groupedPOIs["financialServices"].filter(facility => facility.type === "ATM").length > 0 && (
+                    {(groupedPOIs["financialServices"] && groupedPOIs["financialServices"].filter(facility => facility.type === "ATM").length > 0) && (
                       <MarkerClusterer
                         options={{
                           styles: [
@@ -451,7 +451,7 @@ export default function Map3({nameParam}) {
                     )}
 
                     {/* Commercial Bank Financial Services Cluster */}
-                    {groupedPOIs["financialServices"].filter(facility => facility.type === "Commercial Bank").length > 0 && (
+                    {(groupedPOIs["financialServices"] && groupedPOIs["financialServices"].filter(facility => facility.type === "Commercial Bank").length > 0) && (
                       <MarkerClusterer
                         options={{
                           styles: [

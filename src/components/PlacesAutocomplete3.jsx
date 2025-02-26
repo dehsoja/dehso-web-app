@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import usePlacesAutocomplete, { getGeocode, getLatLng } from "use-places-autocomplete";
 import { Autocomplete } from "@mui/material";
 import { TextField } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
+import InputAdornment from '@mui/material/InputAdornment';
 
 
 // Component for places autocomplete
@@ -19,7 +21,10 @@ export default function PlacesAutocomplete3({coverageWarn, cusWidth = false}) {
       suggestions: { status, data },
       clearSuggestions,
     } = usePlacesAutocomplete({
-      componentRestrictions: { country: "JM" }, // Restrict to Jamaica
+      requestOptions: {
+        componentRestrictions: { country: "JM" } // Restricts to Jamaica
+      },
+      debounce: 300
     });
   
     const handleSelect = async (event, newValue) => {
@@ -81,7 +86,19 @@ export default function PlacesAutocomplete3({coverageWarn, cusWidth = false}) {
           setValue(newInputValue);
         }}
         renderInput={(params) => (
-          <TextField {...params} label="Search an address" variant="outlined" />
+          <TextField 
+            {...params} 
+            label="Search an address" 
+            variant="outlined" 
+            InputProps={{
+              ...params.InputProps,
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon />
+                </InputAdornment>
+              ),
+            }}
+          />
         )}
       />
     );
