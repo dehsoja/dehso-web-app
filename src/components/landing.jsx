@@ -97,7 +97,7 @@ function AboutUs() {
             <PlacesAutocomplete3 coverageWarn={handleWarning}/>
             </Box>
             <Typography variant="caption" mt={1} color={"textSecondary"}>
-              Search an address. Learn more about the neighborhood.
+             Learn more about Jamaican neighbourhoods.
             </Typography>
             
           
