@@ -15,6 +15,7 @@ import { Stack } from "@mui/material";
 import { Box } from "@mui/material";
 import { Grid } from "@mui/material";
 import { DataGrid } from '@mui/x-data-grid';
+import Chip from '@mui/material/Chip';
 
 export default function POIAccordion2({ selected, groupedPOIs, safety, scores, locationString, moveTOInfoWindow }) {
     
@@ -39,6 +40,18 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
     for (const category in groupedPOIs) {
         groupedPOIs[category].sort((a, b) => a.distanceInKm - b.distanceInKm);
     }
+
+    const healthFacility = groupedPOIs["healthFacility"]
+    const supermarket = groupedPOIs["supermarket"];
+    const education = groupedPOIs["education"];
+    const leisure = groupedPOIs["leisure"];
+    const financialServices = groupedPOIs["financialServices"];
+    const commercialBank = groupedPOIs["financialServices"] ? groupedPOIs["financialServices"].filter(facility => facility.type === "Commercial Bank") : null;
+    const atm = groupedPOIs["financialServices"] ? groupedPOIs["financialServices"].filter(facility => facility.type === "ATM") : null;
+    const emergencyServices = groupedPOIs["emergencyservices"];
+    const policeStation = groupedPOIs["emergencyservices"] ? groupedPOIs["emergencyservices"].filter(facility => facility.type === "Police Station") : null;
+    const fireStation = groupedPOIs["emergencyservices"] ? groupedPOIs["emergencyservices"].filter(facility => facility.type === "Fire Station") : null;
+    const ambulanceService = groupedPOIs["emergencyservices"] ? groupedPOIs["emergencyservices"].filter(facility => facility.type === "Ambulance Service") : null;
     
 
     return (
@@ -64,7 +77,7 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                     <Accordion 
                         // sx={{ border: '1px solid #ccc'  }}
                         disableGutters
-                        disabled={!groupedPOIs["healthFacility"]} 
+                        disabled={!healthFacility} 
                         expanded={expanded === 'panel1'} 
                         onChange={handleChange('panel1')}
                         sx={{ boxShadow: 'none' }}
@@ -74,10 +87,16 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                 <Grid item>
                                     <Typography  sx={{ fontSize: 14, fontWeight: 'bold' }}variant="subtitle1" align="left" >Health Care</Typography>
                                     <Stack direction="row" spacing={.5} alignItems="center">
-                                        <Avatar 
-                                            src="https://res.cloudinary.com/dubn0hzzi/image/upload/v1733082411/homeHealth3Key_ecjrmv.svg"
-                                            sx={{ width: 22, height: 22 }}
+                                        <Chip
+                                            avatar={<Avatar 
+                                                src="https://res.cloudinary.com/dubn0hzzi/image/upload/v1733082411/homeHealth3Key_ecjrmv.svg"
+                                                
+                                            />}
+                                            label={healthFacility.length}
+                                        
+                                            size="small"
                                         />
+                                       
                                     
                                     </Stack>
                                 </Grid>
@@ -104,7 +123,7 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {groupedPOIs["healthFacility"] && groupedPOIs["healthFacility"].map((facility, index) => (
+                                        {healthFacility && healthFacility.map((facility, index) => (
                                             <TableRow key={facility.name}>
                                                 <TableCell>
                                                     <ButtonBase onClick={() => moveTOInfoWindow((index + "healthFacility"), facility.location.coordinates[1],facility.location.coordinates[0])} style={{ display: 'block', outline: 'none' }}>
@@ -127,7 +146,7 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                     <Accordion 
                         // sx={{ border: '1px solid #ccc'  }}
                         disableGutters
-                        disabled={!groupedPOIs["supermarket"]} 
+                        disabled={!supermarket} 
                         expanded={expanded === 'panel2'} 
                         onChange={handleChange('panel2')}
                         sx={{ boxShadow: 'none' }}
@@ -137,10 +156,16 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                 <Grid item>
                                     <Typography sx={{ fontSize: 14, fontWeight: 'bold' }} variant="subtitle1" align="left">Grocery Stores</Typography>
                                     <Stack direction="row" spacing={.5} alignItems="center">
-                                        <Avatar 
-                                            src="https://res.cloudinary.com/dubn0hzzi/image/upload/v1732760837/shoppingCartKey_irnuvj.svg"
-                                            sx={{ width: 22, height: 22 }}
+                                        <Chip
+                                            avatar={<Avatar 
+                                                src="https://res.cloudinary.com/dubn0hzzi/image/upload/v1732760837/shoppingCartKey_irnuvj.svg"
+                                                
+                                            />}
+                                            label={supermarket.length}
+                                        
+                                            size="small"
                                         />
+                                        
                                     
                                     </Stack>
                                 </Grid>
@@ -167,7 +192,7 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {groupedPOIs["supermarket"] && groupedPOIs["supermarket"].map((facility,index) => (
+                                        {supermarket && supermarket.map((facility,index) => (
                                             <TableRow key={facility.name}>
                                                 <TableCell>
                                                     <ButtonBase onClick={() => moveTOInfoWindow((index + "supermarket"), facility.location.coordinates[1],facility.location.coordinates[0])} style={{ display: 'block', outline: 'none' }}>
@@ -190,7 +215,7 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                     <Accordion 
                         // sx={{ border: '1px solid #ccc'  }}
                         disableGutters
-                        disabled={!groupedPOIs["education"]} 
+                        disabled={!education} 
                         expanded={expanded === 'panel8'} 
                         onChange={handleChange('panel8')}
                         sx={{ boxShadow: 'none' }}
@@ -200,10 +225,16 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                 <Grid item>
                                     <Typography  sx={{ fontSize: 14, fontWeight: 'bold' }} variant="subtitle1" align="left">Schools</Typography>
                                     <Stack direction="row" spacing={.5} alignItems="center">
-                                        <Avatar 
-                                            src="https://res.cloudinary.com/dubn0hzzi/image/upload/v1732760836/schoolKey_nzzjyc.svg"
-                                            sx={{ width: 22, height: 22 }}
+                                        <Chip
+                                            avatar={<Avatar 
+                                                src="https://res.cloudinary.com/dubn0hzzi/image/upload/v1732760836/schoolKey_nzzjyc.svg"
+                                                
+                                            />}
+                                            label={education.length}
+                                        
+                                            size="small"
                                         />
+                                        
                                     
                                     </Stack>
                                 </Grid>
@@ -229,7 +260,7 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {groupedPOIs["education"] && groupedPOIs["education"].map((facility,index) => (
+                                        {education && education.map((facility,index) => (
                                             <TableRow key={facility.name}>
                                                 <TableCell>
                                                     <ButtonBase onClick={() => moveTOInfoWindow((index + "education"), facility.location.coordinates[1],facility.location.coordinates[0])} style={{ display: 'block', outline: 'none' }}>
@@ -252,7 +283,7 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                     <Accordion 
                         // sx={{ border: '1px solid #ccc'  }}
                         disableGutters
-                        disabled={!groupedPOIs["leisure"]} 
+                        disabled={!leisure} 
                         expanded={expanded === 'panel7'} 
                         onChange={handleChange('panel7')}
                         sx={{ boxShadow: 'none' }}
@@ -284,7 +315,7 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {groupedPOIs["leisure"] && groupedPOIs["leisure"].map((facility,index) => (
+                                        {leisure && leisure.map((facility,index) => (
                                             <TableRow key={facility.name}>
                                                 <TableCell>
                                                     <ButtonBase onClick={() => moveTOInfoWindow((index + "leisure"), facility.location.coordinates[1],facility.location.coordinates[0])} style={{ display: 'block', outline: 'none' }}>
@@ -307,7 +338,7 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                     <Accordion 
                         // sx={{ border: '1px solid #ccc'  }}
                         disableGutters
-                        disabled={!groupedPOIs["financialServices"]} 
+                        disabled={!financialServices} 
                         expanded={expanded === 'panel5'} 
                         onChange={handleChange('panel5')}
                         sx={{ boxShadow: 'none' }}
@@ -317,13 +348,23 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                 <Grid item>
                                     <Typography  sx={{ fontSize: 14, fontWeight: 'bold' }} variant="subtitle1" align="left">Financial Services</Typography>
                                     <Stack direction="row" spacing={.5} alignItems="center">
-                                        <Avatar 
-                                            src="https://res.cloudinary.com/dubn0hzzi/image/upload/v1732760835/bankKey_uomtun.svg"
-                                            sx={{ width: 22, height: 22 }}
+                                        <Chip
+                                            avatar={<Avatar 
+                                                src="https://res.cloudinary.com/dubn0hzzi/image/upload/v1732760835/bankKey_uomtun.svg"
+                                                
+                                            />}
+                                            label={commercialBank.length}
+                                        
+                                            size="small"
                                         />
-                                        <Avatar 
-                                            src="https://res.cloudinary.com/dubn0hzzi/image/upload/v1732760835/atmKey_gzvv44.svg"
-                                            sx={{ width: 22, height: 22 }}
+                                        <Chip
+                                            avatar={<Avatar 
+                                                src="https://res.cloudinary.com/dubn0hzzi/image/upload/v1732760835/atmKey_gzvv44.svg"
+                                                
+                                            />}
+                                            label={atm.length}
+                                        
+                                            size="small"
                                         />
                                     
                                     </Stack>
@@ -342,7 +383,7 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                         </AccordionSummary>
                         <AccordionDetails>
 
-                            {groupedPOIs["financialServices"] && groupedPOIs["financialServices"].filter(facility => facility.type === "Commercial Bank").length > 0 && (
+                            {financialServices && commercialBank.length > 0 && (
                                 <>
                                 <Box mt={1}>
                                     <Typography variant="body2" sx={{ fontWeight: 'bold' }} >
@@ -358,7 +399,7 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
-                                            {groupedPOIs["financialServices"].filter(facility => facility.type === "Commercial Bank").map((facility,index) => (
+                                            {commercialBank.map((facility,index) => (
                                                 <TableRow key={facility.name}>
                                                     <TableCell>
                                                         <ButtonBase onClick={() => moveTOInfoWindow((index + "Commercial Bank"), facility.location.coordinates[1],facility.location.coordinates[0])} style={{ display: 'block', outline: 'none' }}>
@@ -378,7 +419,7 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                 </TableContainer>
                                 </>
                             )}
-                            {groupedPOIs["financialServices"] && groupedPOIs["financialServices"].filter(facility => facility.type === "ATM").length > 0 && (
+                            {financialServices && atm.length > 0 && (
                                 <>
                                 <Box mt={3}>
                                     <Typography variant="body2" sx={{ fontWeight: 'bold' }} >
@@ -394,7 +435,7 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
-                                            {groupedPOIs["financialServices"].filter(facility => facility.type === "ATM").map((facility,index) => (
+                                            {atm.map((facility,index) => (
                                                 <TableRow key={facility.name}>
                                                     <TableCell>
                                                         <ButtonBase onClick={() => moveTOInfoWindow((index + "ATM"), facility.location.coordinates[1],facility.location.coordinates[0])} style={{ display: 'block', outline: 'none' }}>
@@ -419,7 +460,7 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                     <Accordion 
                         // sx={{ border: '1px solid #ccc'  }}
                         disableGutters
-                        disabled={!groupedPOIs["emergencyservices"]} 
+                        disabled={!emergencyServices} 
                         expanded={expanded === 'panel3'} 
                         onChange={handleChange('panel3')}
                         sx={{ boxShadow: 'none' }}
@@ -429,18 +470,34 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                 <Grid item>
                                     <Typography  sx={{ fontSize: 14, fontWeight: 'bold' }} variant="subtitle1" align="left">Emergency Services</Typography>
                                     <Stack direction="row" spacing={.5} alignItems="center">
-                                        <Avatar 
-                                            src="https://res.cloudinary.com/dubn0hzzi/image/upload/v1732760836/localPoliceKey_ntwrkm.svg"
-                                            sx={{ width: 22, height: 22 }}
+                                        <Chip
+                                            avatar={<Avatar 
+                                                src="https://res.cloudinary.com/dubn0hzzi/image/upload/v1732760836/localPoliceKey_ntwrkm.svg"
+                                                
+                                            />}
+                                            label={policeStation.length}
+                                        
+                                            size="small"
                                         />
-                                        <Avatar 
-                                            src="https://res.cloudinary.com/dubn0hzzi/image/upload/v1732760835/ambulanceKey_s6c4cg.svg"
-                                            sx={{ width: 22, height: 22 }}
+                                        <Chip
+                                            avatar={<Avatar 
+                                                src="https://res.cloudinary.com/dubn0hzzi/image/upload/v1732760835/fireTruckKey_jeqdlh.svg"
+                                                
+                                            />}
+                                            label={fireStation.length}
+                                        
+                                            size="small"
                                         />
-                                        <Avatar 
-                                            src="https://res.cloudinary.com/dubn0hzzi/image/upload/v1732760835/fireTruckKey_jeqdlh.svg"
-                                            sx={{ width: 22, height: 22 }}
+                                        <Chip
+                                            avatar={<Avatar 
+                                                src="https://res.cloudinary.com/dubn0hzzi/image/upload/v1732760835/ambulanceKey_s6c4cg.svg"
+                                                
+                                            />}
+                                            label={ambulanceService.length}
+                                        
+                                            size="small"
                                         />
+
                                     
                                     </Stack>
                                 </Grid>
@@ -457,33 +514,115 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                             
                         </AccordionSummary>
                         <AccordionDetails>
-                            <TableContainer component={Paper} sx={{ boxShadow: 'none' }}> {/* Optional: Wrap table in Paper */}
-                                <Table>
-                                    <TableHead>
-                                        <TableRow>
-                                            <TableCell>Name</TableCell>
-                                            <TableCell>Distance</TableCell>
-                                        </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        {groupedPOIs["emergencyservices"] && groupedPOIs["emergencyservices"].map((facility,index) => (
-                                            <TableRow key={facility.name}>
-                                                <TableCell>
-                                                    <ButtonBase onClick={() => moveTOInfoWindow((index + "emergencyservices"), facility.location.coordinates[1],facility.location.coordinates[0])} style={{ display: 'block', outline: 'none' }}>
-                                                        <Typography variant="body2" align="left" >
-                                                            {facility.name}
-                                                        </Typography>
-                                                    </ButtonBase>
-                                                    <Typography sx={{ fontSize: 12 }} color="text.secondary">
-                                                        {facility.type} 
-                                                    </Typography>
-                                                </TableCell>
-                                                <TableCell>{facility.distanceInKm} km</TableCell>
+
+                            {emergencyServices && policeStation.length > 0 && (
+                                <>
+                                <Box mt={1}>
+                                <Typography variant="body2" sx={{ fontWeight: 'bold' }} >
+                                    Police Stations
+                                </Typography>
+                                </Box>
+                                <TableContainer component={Paper} sx={{ boxShadow: 'none' }}> {/* Optional: Wrap table in Paper */}
+                                    <Table>
+                                        <TableHead>
+                                            <TableRow>
+                                                <TableCell>Name</TableCell>
+                                                <TableCell>Distance</TableCell>
                                             </TableRow>
-                                        ))}
-                                    </TableBody>
-                                </Table>
-                            </TableContainer> 
+                                        </TableHead>
+                                        <TableBody>
+                                            {policeStation.map((facility,index) => (
+                                                <TableRow key={facility.name}>
+                                                    <TableCell>
+                                                        <ButtonBase onClick={() => moveTOInfoWindow((emergencyServices.indexOf(facility) + "emergencyservices"), facility.location.coordinates[1],facility.location.coordinates[0])} style={{ display: 'block', outline: 'none' }}>
+                                                            <Typography variant="body2" align="left" >
+                                                                {facility.name}
+                                                            </Typography>
+                                                        </ButtonBase>
+                                                        <Typography sx={{ fontSize: 12 }} color="text.secondary">
+                                                            {facility.type} 
+                                                        </Typography>
+                                                    </TableCell>
+                                                    <TableCell>{facility.distanceInKm} km</TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
+                                </>
+                            )}
+                            {emergencyServices && fireStation.length > 0 && (
+                                <>
+                                <Box mt={3}>
+                                    <Typography variant="body2" sx={{ fontWeight: 'bold' }} >
+                                        Fire Stations
+                                   </Typography>
+                                </Box>
+                                <TableContainer component={Paper} sx={{ boxShadow: 'none' }}> {/* Optional: Wrap table in Paper */}
+                                    <Table>
+                                        <TableHead>
+                                            <TableRow>
+                                                <TableCell>Name</TableCell>
+                                                <TableCell>Distance</TableCell>
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            {fireStation.map((facility,index) => (
+                                                <TableRow key={facility.name}>
+                                                    <TableCell>
+                                                        <ButtonBase onClick={() => moveTOInfoWindow((emergencyServices.indexOf(facility) + "emergencyservices"), facility.location.coordinates[1],facility.location.coordinates[0])} style={{ display: 'block', outline: 'none' }}>
+                                                            <Typography variant="body2" align="left" >
+                                                                {facility.name}
+                                                            </Typography>
+                                                        </ButtonBase>
+                                                        <Typography sx={{ fontSize: 12 }} color="text.secondary">
+                                                            {facility.type} 
+                                                        </Typography>
+                                                    </TableCell>
+                                                    <TableCell>{facility.distanceInKm} km</TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
+                                </>
+                            )}
+                            {emergencyServices && ambulanceService.length > 0 && (
+                                <>
+                                <Box mt={3}>
+                                    <Typography variant="body2" sx={{ fontWeight: 'bold' }} >
+                                        Ambulance Services
+                                   </Typography>
+                                </Box>
+                                <TableContainer component={Paper} sx={{ boxShadow: 'none' }}> {/* Optional: Wrap table in Paper */}
+                                    <Table>
+                                        <TableHead>
+                                            <TableRow>
+                                                <TableCell>Name</TableCell>
+                                                <TableCell>Distance</TableCell>
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            {ambulanceService.map((facility,index) => (
+                                                <TableRow key={facility.name}>
+                                                    <TableCell>
+                                                        <ButtonBase onClick={() => moveTOInfoWindow((emergencyServices.indexOf(facility) + "emergencyservices"), facility.location.coordinates[1],facility.location.coordinates[0])} style={{ display: 'block', outline: 'none' }}>
+                                                            <Typography variant="body2" align="left" >
+                                                                {facility.name}
+                                                            </Typography>
+                                                        </ButtonBase>
+                                                        <Typography sx={{ fontSize: 12 }} color="text.secondary">
+                                                            {facility.type} 
+                                                        </Typography>
+                                                    </TableCell>
+                                                    <TableCell>{facility.distanceInKm} km</TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
+                                </>
+                            )}
                         </AccordionDetails>
                     </Accordion>
                     <Accordion 

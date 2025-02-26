@@ -21,6 +21,8 @@ import { useLoadScript} from "@react-google-maps/api";
 import PlacesAutocomplete2 from "./PlacesAutocomplete2";
 import PlacesAutocomplete3 from './PlacesAutocomplete3';
 import { Alert } from "@mui/material";
+import { Typography } from "@mui/material";
+
 
 import Header from "./header";
 import HeaderB from './headerB';
@@ -76,7 +78,7 @@ function AboutUs() {
       </Grid>
       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                          
-        <Alert severity="info" sx={{ width: '100%'}}>
+        <Alert severity="warning" sx={{ width: '100%', textAlign: 'left'}}>
           Coverage: Spanish Town and Portmore, Jamaica.
         </Alert>
       </Box>
@@ -94,6 +96,9 @@ function AboutUs() {
 
             <PlacesAutocomplete3 coverageWarn={handleWarning}/>
             </Box>
+            <Typography variant="caption" mt={1} color={"textSecondary"}>
+              Search an address. Learn more about the neighborhood.
+            </Typography>
             
           
           
