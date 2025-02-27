@@ -84,7 +84,7 @@ export default function Map3({nameParam}) {
 
     const handleResponseStatusWarning = (status) => {
       if (status === "404"){
-        setDialogMsg("No records found for selected location.")
+        setDialogMsg("Please search for a location within Spanish Town or Portmore, Jamaica.")
       }else{
         setDialogMsg("There was an error please try again later.")
       }
@@ -209,8 +209,8 @@ export default function Map3({nameParam}) {
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: "white" }}>
           {/* <PlacesAutocomplete2 setSelected={handleSelect} /> */}
           <Header 
-            places={<PlacesAutocomplete3 coverageWarn={handleWarning} />} 
-            placesSmall={<PlacesAutocomplete3 coverageWarn={handleWarning} cusWidth={260} />}
+            places={<PlacesAutocomplete3 coverageWarn={handleWarning} preScoreabilityCheck={false}  />} 
+            placesSmall={<PlacesAutocomplete3 coverageWarn={handleWarning} cusWidth={260} preScoreabilityCheck={false} />}
           >
 
           </Header>
