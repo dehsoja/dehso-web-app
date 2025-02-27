@@ -10,7 +10,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 
 
 // Component for places autocomplete
-export default function PlacesAutocomplete3({coverageWarn, cusWidth = false}) {
+export default function PlacesAutocomplete3({coverageWarn, cusWidth = false, preScoreabilityCheck = true}) {
     
     const navigate = useNavigate();
 
@@ -41,9 +41,13 @@ export default function PlacesAutocomplete3({coverageWarn, cusWidth = false}) {
             // Check if the selected location is within Jamaica
             if (!(results[0].address_components.some(component => component.short_name === "JM" )) ) throw new Error("404");
 
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/pois/scoreable/${lat}/${lng}`); // Include lat/lng in query
             
-            if (!response.ok) throw new Error(response.status);
+            if (preScoreabilityCheck) {
+              
+              const response = await fetch(`${import.meta.env.VITE_API_URL}/pois/scoreable/${lat}/${lng}`); // Include lat/lng in query
+              
+              if (!response.ok) throw new Error(response.status);
+            }
 
             
             const newStr = newValue.replaceAll(" ", "+");
