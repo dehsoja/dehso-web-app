@@ -1,6 +1,6 @@
 import './App.css'
 // import MapFiddle from './components/MapFiddle';
-import Places11 from './components/Places11';
+// import Places11 from './components/Places11';
 import Places12 from './components/Places12';
 import AboutUs from './components/aboutus';
 import Personas from './components/personas';
