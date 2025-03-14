@@ -17,7 +17,7 @@ import CircleIcon from '@mui/icons-material/Circle';
 import InboxIcon from '@mui/icons-material/Inbox';
 import DraftsIcon from '@mui/icons-material/Drafts';
 import { useNavigate } from "react-router-dom";
-import { useLoadScript} from "@react-google-maps/api";
+import { useJsApiLoader} from "@react-google-maps/api";
 import PlacesAutocomplete2 from "./PlacesAutocomplete2";
 import PlacesAutocomplete3 from './PlacesAutocomplete3';
 import { Alert } from "@mui/material";
@@ -28,13 +28,16 @@ import Header from "./header";
 import HeaderB from './headerB';
 import {Link} from 'react-router-dom';
 
-function AboutUs() {
+
+const libraries =  ["places"];
+
+function Landing() {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [dialogMsg, setDialogMsg] = useState("");
-  const { isLoaded } = useLoadScript({
+  const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: import.meta.env.VITE_MAP_KEY,
-    libraries: ["places"], 
+    libraries, 
   });
 
 
@@ -83,7 +86,7 @@ function AboutUs() {
         </Alert>
       </Box>
         
-      <Box container display={"flex"} flexDirection={"column"} justifyContent="center" alignItems="center" spacing={3} mt={15}>
+      <Box display={"flex"} flexDirection={"column"} justifyContent="center" alignItems="center" spacing={3} mt={15}>
           
           
               <Link to="/">
@@ -131,4 +134,4 @@ function AboutUs() {
   );
 }
 
-export default AboutUs;
+export default Landing;
