@@ -29,7 +29,7 @@ import HeaderB from './headerB';
 import {Link} from 'react-router-dom';
 
 
-const libraries =  ["places"];
+const libraries =  ["places", "marker"];
 
 function Landing() {
   const navigate = useNavigate();

@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useRef, useCallback, useEffect } from "react";
-import { GoogleMap, Marker, Circle, InfoWindowF, MarkerClusterer } from "@react-google-maps/api";
+import { GoogleMap, Marker, Circle, InfoWindowF } from "@react-google-maps/api";
 import PlacesAutocomplete2 from "./PlacesAutocomplete2";
 import PlacesAutocomplete3 from "./PlacesAutocomplete3";
 import POIAccordion2 from "./poiAccordion2";
@@ -17,6 +17,7 @@ import { DialogTitle } from "@mui/material";
 import { Alert } from "@mui/material";
 import {Link} from 'react-router-dom';
 import { getGeocode, getLatLng } from "use-places-autocomplete";
+import { MarkerClusterer } from "@googlemaps/markerclusterer";
 
 export default function Map3({nameParam}) {
     const center = useMemo(() => ({ lat: 18.1096, lng: -77.2975 }), []);
@@ -31,6 +32,15 @@ export default function Map3({nameParam}) {
     const [dialogMsg, setDialogMsg] = useState("");
     const mapRef = useRef();
     const circlesRef = useRef([]); // Ref to store circle instances
+    const markersRef = useRef([]);
+    const healthclustererRef = useRef(null);
+    const supernmarketclustererRef = useRef(null);
+    const educationclustererRef = useRef(null);
+    const atmclustererRef = useRef(null);
+    const bankclustererRef = useRef(null);
+    const emergencyservicesclustererRef = useRef(null);
+    const [markers, setMarkers] = useState([]);
+    const infoWindowRef = useRef(null); // Single InfoWindow instance
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -116,6 +126,94 @@ export default function Map3({nameParam}) {
       
     }
 
+    // Function to open/update the single InfoWindow
+    const openInfoWindow = (title) => {
+      const marker = markersRef.current.find((m) => m.title === title);
+      const map = mapRef.current;
+      if (marker && map && infoWindowRef.current) {
+        // Update InfoWindow content and position
+        infoWindowRef.current.setContent(marker.customData.content);
+        infoWindowRef.current.open({
+          anchor: marker,
+          map,
+          shouldFocus: false,
+        });
+
+      }
+    };
+
+    const openInfoWindowZoom = (title) => {
+      const marker = markersRef.current.find((m) => m.title === title);
+      const map = mapRef.current;
+      if (marker && map && infoWindowRef.current) {
+        // Update InfoWindow content and position
+        infoWindowRef.current.setContent(marker.customData.content);
+        infoWindowRef.current.open({
+          anchor: marker,
+          map,
+          shouldFocus: false,
+        });
+
+        map.panTo(marker.customData.position);
+        map.setZoom(25); // Adjust zoom level as needed
+
+        setTimeout(() => {
+          const element = document.getElementById(title);
+          
+          if (element) {
+            element.scrollIntoView({ behavior: "smooth" });
+          }
+  
+        }, 500); // Delay of 500 milliseconds
+      }
+    };
+
+    const createMarkers = (markerType,grouping) => {
+      const markers = grouping[markerType].map((facility, index) => {
+        const marker =  new google.maps.marker.AdvancedMarkerElement({
+          position:{ lat: facility.location.coordinates[1], lng: facility.location.coordinates[0] },
+          title: index + facility.type.replace(/\s/g, ''),
+          // content: pin.element, // Use the PinElement as content
+          content: createMarkerIcon(markerIconsLinks[facility.type.replace(/\s/g, '')]),
+        });  
+
+        // Store position and content in marker for easy access
+        marker.customData = {
+          position: { lat: facility.location.coordinates[1], lng: facility.location.coordinates[0] },
+          content: `<div style="color: black; padding: 10px;"><h3 id="${index + facility.type.replace(/\s/g, '')}">${facility.name}</h3><p>(${facility.type})</p></div>`,
+        };
+        // Add click listener to open info window
+        marker.addListener("click", () => openInfoWindow(index + facility.type.replace(/\s/g, '')) );
+
+        return marker;
+      });
+
+      return markers;
+    }
+
+    const createMarkersByType = (markerType,markerType2,grouping) => {
+      const markers = grouping[markerType].filter(facility => facility.type === markerType2).map((facility, index) => {
+        const marker =  new google.maps.marker.AdvancedMarkerElement({
+          position:{ lat: facility.location.coordinates[1], lng: facility.location.coordinates[0] },
+          title: index + facility.type.replace(/\s/g, ''),
+          // content: pin.element, // Use the PinElement as content
+          content: createMarkerIcon(markerIconsLinks[facility.type.replace(/\s/g, '')]),
+        });  
+
+        // Store position and content in marker for easy access
+        marker.customData = {
+          position: { lat: facility.location.coordinates[1], lng: facility.location.coordinates[0] },
+          content: `<div style="color: black; padding: 10px;"><h3 id="${index + facility.type.replace(/\s/g, '')}">${facility.name}</h3><p>(${facility.type})</p></div>`,
+        };
+        // Add click listener to open info window
+        marker.addListener("click", () => openInfoWindow(index + facility.type.replace(/\s/g, '')) );
+
+        return marker;
+      });
+
+      return markers;
+    }
+
     const selectHelper = async (newValue,newValueString,data) => {
         
       try {
@@ -124,6 +222,46 @@ export default function Map3({nameParam}) {
         setSelectedFacility(null);
         // Remove previous circles
         circlesRef.current.forEach((circle) => circle.setMap(null));
+        
+        // Clear the clusterer
+        if (healthclustererRef.current) {
+          healthclustererRef.current.clearMarkers();  // This removes clustered markers
+          healthclustererRef.current = null;
+        }
+
+        if (supernmarketclustererRef.current) {
+          supernmarketclustererRef.current.clearMarkers();  // This removes clustered markers
+          supernmarketclustererRef.current = null;
+        }
+
+        if (educationclustererRef.current) {
+          educationclustererRef.current.clearMarkers();  // This removes clustered markers
+          educationclustererRef.current = null;
+        }
+
+        if (atmclustererRef.current) {
+          atmclustererRef.current.clearMarkers();  // This removes clustered markers
+          atmclustererRef.current = null;
+        }
+
+        if (bankclustererRef.current) {
+          bankclustererRef.current.clearMarkers();  // This removes clustered markers
+          bankclustererRef.current = null;
+        }
+
+        if (emergencyservicesclustererRef.current) {
+          emergencyservicesclustererRef.current.clearMarkers();  // This removes clustered markers
+          emergencyservicesclustererRef.current = null;
+        }
+
+        if (infoWindowRef.current) {
+          infoWindowRef.current.close();
+          infoWindowRef.current = null
+        }
+
+        markersRef.current = [];
+
+
         setSelected(newValue);
         setSelectedString(newValueString)
         
@@ -158,6 +296,89 @@ export default function Map3({nameParam}) {
                   });
                   circlesRef.current.push(newCircle);
               })
+            
+            // const locationPin =  new google.maps.marker.AdvancedMarkerElement({
+            //   map,
+            //   position: newValue,
+              
+            //   title: 'Custom Pin Marker',
+            //   // content: pin.element, // Use the PinElement as content
+            // });
+
+            // Create one shared InfoWindow
+            // const infoWindow = new google.maps.InfoWindow();
+
+            // Initialize single InfoWindow
+            infoWindowRef.current = new google.maps.InfoWindow({
+              content: "", // Start with empty content
+            });
+            
+
+            
+            
+            const healthMarkers = createMarkers("healthFacility", grouping)
+
+            // Cluster them using MarkerClusterer
+            healthclustererRef.current = new MarkerClusterer({ 
+              map, 
+              markers: healthMarkers,
+              renderer: new CustomClusterRenderer("./healthCluster.svg"),
+            });
+
+            const supermarketMarkers = createMarkers("supermarket", grouping)
+
+            // Cluster them using MarkerClusterer
+            supernmarketclustererRef.current = new MarkerClusterer({ 
+              map, 
+              markers: supermarketMarkers,
+              renderer: new CustomClusterRenderer("./groceryCluster.svg"),
+            });
+
+            const educationMarkers = createMarkers("education", grouping)
+
+            // Cluster them using MarkerClusterer
+            educationclustererRef.current = new MarkerClusterer({ 
+              map, 
+              markers: educationMarkers,
+              renderer: new CustomClusterRenderer("./educationCluster.svg"),
+            });
+
+
+            const atmMarkers = createMarkersByType("financialServices","ATM", grouping)
+
+            // Cluster them using MarkerClusterer
+            atmclustererRef.current = new MarkerClusterer({ 
+              map, 
+              markers: atmMarkers,
+              renderer: new CustomClusterRenderer("./financeCluster.svg"),
+            });
+
+            const bankMarkers = createMarkersByType("financialServices","Commercial Bank", grouping)
+
+            // Cluster them using MarkerClusterer
+            bankclustererRef.current = new MarkerClusterer({ 
+              map, 
+              markers: bankMarkers,
+              renderer: new CustomClusterRenderer("./financeCluster.svg"),
+            });
+
+
+            const emergencyservicesMarkers = createMarkers("emergencyservices", grouping)
+
+            // Cluster them using MarkerClusterer
+            emergencyservicesclustererRef.current = new MarkerClusterer({ 
+              map, 
+              markers: emergencyservicesMarkers,
+              renderer: new CustomClusterRenderer("./emergencyCluster.svg"),
+            });
+
+
+
+            
+
+            markersRef.current = [...healthMarkers, ...supermarketMarkers, ...educationMarkers, ...atmMarkers, ...bankMarkers, ...emergencyservicesMarkers];
+            
+
         }
 
       } catch (error) {
@@ -243,7 +464,7 @@ export default function Map3({nameParam}) {
               safety={safety} 
               scores={scores} 
               locationString={selectedString}
-              moveTOInfoWindow={moveTOInfoWindow}
+              moveTOInfoWindow={openInfoWindowZoom}
             />
           </Box>
         )}
@@ -270,7 +491,7 @@ export default function Map3({nameParam}) {
 
                     
                     {/* Health Cluster */}
-                    {groupedPOIs["healthFacility"] && (
+                    {/* {groupedPOIs["healthFacility"] && (
                       <MarkerClusterer
                         options={{
                           styles: [
@@ -304,7 +525,7 @@ export default function Map3({nameParam}) {
                                                   <h3 id={index + "healthFacility"}>{facility.name}</h3>
           
                                                   <p>({facility.type})</p> 
-                                                  {/* <p>{facility.address}</p>  */}
+                                
                                               </div>
                               
                                       </InfoWindowF>
@@ -313,10 +534,10 @@ export default function Map3({nameParam}) {
                           ))
                         }
                       </MarkerClusterer>
-                    )}
+                    )} */}
                     
                     {/* Grocery Cluster */}
-                    {groupedPOIs["supermarket"] && (
+                    {/* {groupedPOIs["supermarket"] && (
                       <MarkerClusterer
                         options={{
                           styles: [
@@ -358,10 +579,10 @@ export default function Map3({nameParam}) {
                           ))
                         }
                       </MarkerClusterer>
-                    )}
+                    )} */}
 
                     {/* Education Cluster */}
-                    {groupedPOIs["education"] && (
+                    {/* {groupedPOIs["education"] && (
                       <MarkerClusterer
                         options={{
                           styles: [
@@ -403,10 +624,10 @@ export default function Map3({nameParam}) {
                           ))
                         }
                       </MarkerClusterer>
-                    )}
+                    )} */}
 
                     {/* ATM Financial Services Cluster */}
-                    {(groupedPOIs["financialServices"] && groupedPOIs["financialServices"].filter(facility => facility.type === "ATM").length > 0) && (
+                    {/* {(groupedPOIs["financialServices"] && groupedPOIs["financialServices"].filter(facility => facility.type === "ATM").length > 0) && (
                       <MarkerClusterer
                         options={{
                           styles: [
@@ -448,10 +669,10 @@ export default function Map3({nameParam}) {
                           ))
                         }
                       </MarkerClusterer>
-                    )}
+                    )} */}
 
                     {/* Commercial Bank Financial Services Cluster */}
-                    {(groupedPOIs["financialServices"] && groupedPOIs["financialServices"].filter(facility => facility.type === "Commercial Bank").length > 0) && (
+                    {/* {(groupedPOIs["financialServices"] && groupedPOIs["financialServices"].filter(facility => facility.type === "Commercial Bank").length > 0) && (
                       <MarkerClusterer
                         options={{
                           styles: [
@@ -493,10 +714,10 @@ export default function Map3({nameParam}) {
                           ))
                         }
                       </MarkerClusterer>
-                    )}
+                    )} */}
 
                     {/* Emergency Services Cluster */}
-                    {groupedPOIs["emergencyservices"] && (
+                    {/* {groupedPOIs["emergencyservices"] && (
                       <MarkerClusterer
                         options={{
                           styles: [
@@ -538,7 +759,7 @@ export default function Map3({nameParam}) {
                           ))
                         }
                       </MarkerClusterer>
-                    )}
+                    )} */}
 
 
                     
@@ -638,3 +859,34 @@ const myCircles = [
     {radius: 5000, options: middleOptions},
     {radius: 10000, options: farOptions},
 ]
+
+// Custom renderer that accepts an icon URL as a parameter
+class CustomClusterRenderer {
+  constructor(iconUrl) {
+    this.iconUrl = iconUrl;
+  }
+
+  render({ count, position, markers }) {
+    const icon = document.createElement("div");
+    icon.innerHTML = `
+      <img src="${this.iconUrl}" style="width: 30px; height: 30px;" />
+      <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-size: 12px;">
+        ${count}
+      </div>
+    `;
+
+    return new google.maps.marker.AdvancedMarkerElement({
+      position,
+      content: icon,
+      zIndex: 1000,
+    });
+  }
+}
+
+const createMarkerIcon = (iconUrl) => {
+  return document.createElement("div").appendChild(
+    Object.assign(document.createElement("img"), {
+      src: iconUrl,
+    })
+  )
+}

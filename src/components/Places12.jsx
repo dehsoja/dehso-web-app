@@ -8,7 +8,7 @@ import Map4 from "./Map4";
 
 
 
-const libraries = ["places"];
+const libraries = ["places", "marker"];
 export default function Places12() {
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: import.meta.env.VITE_MAP_KEY,

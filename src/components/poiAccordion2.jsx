@@ -126,7 +126,7 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                         {healthFacility && healthFacility.map((facility, index) => (
                                             <TableRow key={facility.name}>
                                                 <TableCell>
-                                                    <ButtonBase onClick={() => moveTOInfoWindow((index + "healthFacility"), facility.location.coordinates[1],facility.location.coordinates[0])} style={{ display: 'block', outline: 'none' }}>
+                                                    <ButtonBase onClick={() => moveTOInfoWindow(index + facility.type.replace(/\s/g, ''))} style={{ display: 'block', outline: 'none' }}>
                                                         <Typography variant="body2" align="left" >
                                                             {facility.name}
                                                         </Typography>
@@ -195,7 +195,7 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                         {supermarket && supermarket.map((facility,index) => (
                                             <TableRow key={facility.name}>
                                                 <TableCell>
-                                                    <ButtonBase onClick={() => moveTOInfoWindow((index + "supermarket"), facility.location.coordinates[1],facility.location.coordinates[0])} style={{ display: 'block', outline: 'none' }}>
+                                                    <ButtonBase onClick={() => moveTOInfoWindow(index + facility.type.replace(/\s/g, ''))} style={{ display: 'block', outline: 'none' }}>
                                                         <Typography variant="body2" align="left" >
                                                             {facility.name}
                                                         </Typography>
@@ -263,7 +263,7 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                         {education && education.map((facility,index) => (
                                             <TableRow key={facility.name}>
                                                 <TableCell>
-                                                    <ButtonBase onClick={() => moveTOInfoWindow((index + "education"), facility.location.coordinates[1],facility.location.coordinates[0])} style={{ display: 'block', outline: 'none' }}>
+                                                    <ButtonBase onClick={() => moveTOInfoWindow(index + facility.type.replace(/\s/g, ''))} style={{ display: 'block', outline: 'none' }}>
                                                         <Typography variant="body2" align="left" >
                                                             {facility.name}
                                                         </Typography>
@@ -318,7 +318,7 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                         {leisure && leisure.map((facility,index) => (
                                             <TableRow key={facility.name}>
                                                 <TableCell>
-                                                    <ButtonBase onClick={() => moveTOInfoWindow((index + "leisure"), facility.location.coordinates[1],facility.location.coordinates[0])} style={{ display: 'block', outline: 'none' }}>
+                                                    <ButtonBase onClick={() => moveTOInfoWindow(index + facility.type.replace(/\s/g, ''))} style={{ display: 'block', outline: 'none' }}>
                                                         <Typography variant="body2" align="left" >
                                                             {facility.name}
                                                         </Typography>
@@ -402,7 +402,7 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                             {commercialBank.map((facility,index) => (
                                                 <TableRow key={facility.name}>
                                                     <TableCell>
-                                                        <ButtonBase onClick={() => moveTOInfoWindow((index + "Commercial Bank"), facility.location.coordinates[1],facility.location.coordinates[0])} style={{ display: 'block', outline: 'none' }}>
+                                                        <ButtonBase onClick={() => moveTOInfoWindow(index + facility.type.replace(/\s/g, ''))} style={{ display: 'block', outline: 'none' }}>
                                                             <Typography variant="body2" align="left" >
                                                                 {facility.name}
                                                             </Typography>
@@ -438,7 +438,7 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                             {atm.map((facility,index) => (
                                                 <TableRow key={facility.name}>
                                                     <TableCell>
-                                                        <ButtonBase onClick={() => moveTOInfoWindow((index + "ATM"), facility.location.coordinates[1],facility.location.coordinates[0])} style={{ display: 'block', outline: 'none' }}>
+                                                        <ButtonBase onClick={() => moveTOInfoWindow(index + facility.type.replace(/\s/g, ''))} style={{ display: 'block', outline: 'none' }}>
                                                             <Typography variant="body2" align="left" >
                                                                 {facility.name}
                                                             </Typography>
@@ -534,7 +534,7 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                             {policeStation.map((facility,index) => (
                                                 <TableRow key={facility.name}>
                                                     <TableCell>
-                                                        <ButtonBase onClick={() => moveTOInfoWindow((emergencyServices.indexOf(facility) + "emergencyservices"), facility.location.coordinates[1],facility.location.coordinates[0])} style={{ display: 'block', outline: 'none' }}>
+                                                        <ButtonBase onClick={() => moveTOInfoWindow(emergencyServices.indexOf(facility) + facility.type.replace(/\s/g, ''))} style={{ display: 'block', outline: 'none' }}>
                                                             <Typography variant="body2" align="left" >
                                                                 {facility.name}
                                                             </Typography>
@@ -570,7 +570,7 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                             {fireStation.map((facility,index) => (
                                                 <TableRow key={facility.name}>
                                                     <TableCell>
-                                                        <ButtonBase onClick={() => moveTOInfoWindow((emergencyServices.indexOf(facility) + "emergencyservices"), facility.location.coordinates[1],facility.location.coordinates[0])} style={{ display: 'block', outline: 'none' }}>
+                                                        <ButtonBase onClick={() => moveTOInfoWindow(emergencyServices.indexOf(facility) + facility.type.replace(/\s/g, ''))} style={{ display: 'block', outline: 'none' }}>
                                                             <Typography variant="body2" align="left" >
                                                                 {facility.name}
                                                             </Typography>
@@ -606,7 +606,7 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                             {ambulanceService.map((facility,index) => (
                                                 <TableRow key={facility.name}>
                                                     <TableCell>
-                                                        <ButtonBase onClick={() => moveTOInfoWindow((emergencyServices.indexOf(facility) + "emergencyservices"), facility.location.coordinates[1],facility.location.coordinates[0])} style={{ display: 'block', outline: 'none' }}>
+                                                        <ButtonBase onClick={() => moveTOInfoWindow(emergencyServices.indexOf(facility) + facility.type.replace(/\s/g, ''))} style={{ display: 'block', outline: 'none' }}>
                                                             <Typography variant="body2" align="left" >
                                                                 {facility.name}
                                                             </Typography>
