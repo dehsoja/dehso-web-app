@@ -169,49 +169,106 @@ export default function Map3({nameParam}) {
     };
 
     const createMarkers = (markerType,grouping) => {
-      const markers = grouping[markerType].map((facility, index) => {
-        const marker =  new google.maps.marker.AdvancedMarkerElement({
-          position:{ lat: facility.location.coordinates[1], lng: facility.location.coordinates[0] },
-          title: index + facility.type.replace(/\s/g, ''),
-          // content: pin.element, // Use the PinElement as content
-          content: createMarkerIcon(markerIconsLinks[facility.type.replace(/\s/g, '')]),
-        });  
+      
+      if(grouping[markerType]){
 
-        // Store position and content in marker for easy access
-        marker.customData = {
-          position: { lat: facility.location.coordinates[1], lng: facility.location.coordinates[0] },
-          content: `<div style="color: black; padding: 10px;"><h3 id="${index + facility.type.replace(/\s/g, '')}">${facility.name}</h3><p>(${facility.type})</p></div>`,
-        };
-        // Add click listener to open info window
-        marker.addListener("click", () => openInfoWindow(index + facility.type.replace(/\s/g, '')) );
-
-        return marker;
-      });
-
-      return markers;
+        const markers = grouping[markerType].map((facility, index) => {
+          const marker =  new google.maps.marker.AdvancedMarkerElement({
+            position:{ lat: facility.location.coordinates[1], lng: facility.location.coordinates[0] },
+            title: index + facility.type.replace(/\s/g, ''),
+            // content: pin.element, // Use the PinElement as content
+            content: createMarkerIcon(markerIconsLinks[facility.type.replace(/\s/g, '')]),
+          });  
+          
+          // Store position and content in marker for easy access
+          marker.customData = {
+            position: { lat: facility.location.coordinates[1], lng: facility.location.coordinates[0] },
+            content: `<div style="color: black; padding: 10px;"><h3 id="${index + facility.type.replace(/\s/g, '')}">${facility.name}</h3><p>(${facility.type})</p></div>`,
+          };
+          // Add click listener to open info window
+          marker.addListener("click", () => openInfoWindow(index + facility.type.replace(/\s/g, '')) );
+          
+          return marker;
+        });
+        
+        return markers;
+      }else{
+        return [];
+      }
     }
 
     const createMarkersByType = (markerType,markerType2,grouping) => {
-      const markers = grouping[markerType].filter(facility => facility.type === markerType2).map((facility, index) => {
-        const marker =  new google.maps.marker.AdvancedMarkerElement({
-          position:{ lat: facility.location.coordinates[1], lng: facility.location.coordinates[0] },
-          title: index + facility.type.replace(/\s/g, ''),
-          // content: pin.element, // Use the PinElement as content
-          content: createMarkerIcon(markerIconsLinks[facility.type.replace(/\s/g, '')]),
-        });  
+      
+      if(grouping[markerType] && grouping[markerType].some(facility => facility.type === markerType2)){
 
-        // Store position and content in marker for easy access
-        marker.customData = {
-          position: { lat: facility.location.coordinates[1], lng: facility.location.coordinates[0] },
-          content: `<div style="color: black; padding: 10px;"><h3 id="${index + facility.type.replace(/\s/g, '')}">${facility.name}</h3><p>(${facility.type})</p></div>`,
-        };
-        // Add click listener to open info window
-        marker.addListener("click", () => openInfoWindow(index + facility.type.replace(/\s/g, '')) );
+        const markers = grouping[markerType].filter(facility => facility.type === markerType2).map((facility, index) => {
+          const marker =  new google.maps.marker.AdvancedMarkerElement({
+            position:{ lat: facility.location.coordinates[1], lng: facility.location.coordinates[0] },
+            title: index + facility.type.replace(/\s/g, ''),
+            // content: pin.element, // Use the PinElement as content
+            content: createMarkerIcon(markerIconsLinks[facility.type.replace(/\s/g, '')]),
+          });  
+          
+          // Store position and content in marker for easy access
+          marker.customData = {
+            position: { lat: facility.location.coordinates[1], lng: facility.location.coordinates[0] },
+            content: `<div style="color: black; padding: 10px;"><h3 id="${index + facility.type.replace(/\s/g, '')}">${facility.name}</h3><p>(${facility.type})</p></div>`,
+          };
+          // Add click listener to open info window
+          marker.addListener("click", () => openInfoWindow(index + facility.type.replace(/\s/g, '')) );
+          
+          return marker;
+        });
+        
+        return markers;
+      }else{
+        return [];
+      }
+    }
 
-        return marker;
-      });
+    const clearMapArtifacts= () => {
 
-      return markers;
+      // Remove previous circles
+      circlesRef.current.forEach((circle) => circle.setMap(null));
+        
+      // Clear the clusterer
+      if (healthclustererRef.current) {
+        healthclustererRef.current.clearMarkers();  // This removes clustered markers
+        healthclustererRef.current = null;
+      }
+
+      if (supernmarketclustererRef.current) {
+        supernmarketclustererRef.current.clearMarkers();  // This removes clustered markers
+        supernmarketclustererRef.current = null;
+      }
+
+      if (educationclustererRef.current) {
+        educationclustererRef.current.clearMarkers();  // This removes clustered markers
+        educationclustererRef.current = null;
+      }
+
+      if (atmclustererRef.current) {
+        atmclustererRef.current.clearMarkers();  // This removes clustered markers
+        atmclustererRef.current = null;
+      }
+
+      if (bankclustererRef.current) {
+        bankclustererRef.current.clearMarkers();  // This removes clustered markers
+        bankclustererRef.current = null;
+      }
+
+      if (emergencyservicesclustererRef.current) {
+        emergencyservicesclustererRef.current.clearMarkers();  // This removes clustered markers
+        emergencyservicesclustererRef.current = null;
+      }
+
+      if (infoWindowRef.current) {
+        infoWindowRef.current.close();
+        infoWindowRef.current = null
+      }
+
+      markersRef.current = [];
+
     }
 
     const selectHelper = async (newValue,newValueString,data) => {
@@ -220,46 +277,8 @@ export default function Map3({nameParam}) {
 
         //Close any open info windows
         setSelectedFacility(null);
-        // Remove previous circles
-        circlesRef.current.forEach((circle) => circle.setMap(null));
         
-        // Clear the clusterer
-        if (healthclustererRef.current) {
-          healthclustererRef.current.clearMarkers();  // This removes clustered markers
-          healthclustererRef.current = null;
-        }
-
-        if (supernmarketclustererRef.current) {
-          supernmarketclustererRef.current.clearMarkers();  // This removes clustered markers
-          supernmarketclustererRef.current = null;
-        }
-
-        if (educationclustererRef.current) {
-          educationclustererRef.current.clearMarkers();  // This removes clustered markers
-          educationclustererRef.current = null;
-        }
-
-        if (atmclustererRef.current) {
-          atmclustererRef.current.clearMarkers();  // This removes clustered markers
-          atmclustererRef.current = null;
-        }
-
-        if (bankclustererRef.current) {
-          bankclustererRef.current.clearMarkers();  // This removes clustered markers
-          bankclustererRef.current = null;
-        }
-
-        if (emergencyservicesclustererRef.current) {
-          emergencyservicesclustererRef.current.clearMarkers();  // This removes clustered markers
-          emergencyservicesclustererRef.current = null;
-        }
-
-        if (infoWindowRef.current) {
-          infoWindowRef.current.close();
-          infoWindowRef.current = null
-        }
-
-        markersRef.current = [];
+        clearMapArtifacts()
 
 
         setSelected(newValue);
@@ -273,7 +292,7 @@ export default function Map3({nameParam}) {
             return groups;
         }, {});
         setGroupedPOIs(grouping)
-        
+  
         setSafety(null)
         if (data.safety) setSafety(data.safety);
         
@@ -297,17 +316,7 @@ export default function Map3({nameParam}) {
                   circlesRef.current.push(newCircle);
               })
             
-            // const locationPin =  new google.maps.marker.AdvancedMarkerElement({
-            //   map,
-            //   position: newValue,
-              
-            //   title: 'Custom Pin Marker',
-            //   // content: pin.element, // Use the PinElement as content
-            // });
-
-            // Create one shared InfoWindow
-            // const infoWindow = new google.maps.InfoWindow();
-
+            
             // Initialize single InfoWindow
             infoWindowRef.current = new google.maps.InfoWindow({
               content: "", // Start with empty content
@@ -392,7 +401,7 @@ export default function Map3({nameParam}) {
       setPoi([]);
       setGroupedPOIs([]);
       // Remove previous circles
-      circlesRef.current.forEach((circle) => circle.setMap(null));
+      clearMapArtifacts();
       handleResponseStatusWarning(msg)
     }
   
@@ -437,12 +446,7 @@ export default function Map3({nameParam}) {
           </Header>
         </Box>
         
-        {/* <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                  
-          <Alert severity="info" sx={{ width: '100%'}}>
-            Coverage: Spanish Town and Portmore, Jamaica.
-          </Alert>
-        </Box> */}
+        
         
 
 

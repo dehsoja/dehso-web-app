@@ -92,7 +92,7 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                                 src="https://res.cloudinary.com/dubn0hzzi/image/upload/v1733082411/homeHealth3Key_ecjrmv.svg"
                                                 
                                             />}
-                                            label={healthFacility.length}
+                                            label={healthFacility ? healthFacility.length:0}
                                         
                                             size="small"
                                         />
@@ -161,7 +161,7 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                                 src="https://res.cloudinary.com/dubn0hzzi/image/upload/v1732760837/shoppingCartKey_irnuvj.svg"
                                                 
                                             />}
-                                            label={supermarket.length}
+                                            label={supermarket ? supermarket.length:0}
                                         
                                             size="small"
                                         />
@@ -230,7 +230,7 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                                 src="https://res.cloudinary.com/dubn0hzzi/image/upload/v1732760836/schoolKey_nzzjyc.svg"
                                                 
                                             />}
-                                            label={education.length}
+                                            label={education ? education.length:0 }
                                         
                                             size="small"
                                         />
@@ -353,7 +353,7 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                                 src="https://res.cloudinary.com/dubn0hzzi/image/upload/v1732760835/bankKey_uomtun.svg"
                                                 
                                             />}
-                                            label={commercialBank.length}
+                                            label={commercialBank ? commercialBank.length:0}
                                         
                                             size="small"
                                         />
@@ -362,7 +362,7 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                                 src="https://res.cloudinary.com/dubn0hzzi/image/upload/v1732760835/atmKey_gzvv44.svg"
                                                 
                                             />}
-                                            label={atm.length}
+                                            label={atm ? atm.length:0}
                                         
                                             size="small"
                                         />
@@ -475,7 +475,7 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                                 src="https://res.cloudinary.com/dubn0hzzi/image/upload/v1732760836/localPoliceKey_ntwrkm.svg"
                                                 
                                             />}
-                                            label={policeStation.length}
+                                            label={policeStation ? policeStation.length:0}
                                         
                                             size="small"
                                         />
@@ -484,7 +484,7 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                                 src="https://res.cloudinary.com/dubn0hzzi/image/upload/v1732760835/fireTruckKey_jeqdlh.svg"
                                                 
                                             />}
-                                            label={fireStation.length}
+                                            label={fireStation ? fireStation.length:0}
                                         
                                             size="small"
                                         />
@@ -493,7 +493,7 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                                 src="https://res.cloudinary.com/dubn0hzzi/image/upload/v1732760835/ambulanceKey_s6c4cg.svg"
                                                 
                                             />}
-                                            label={ambulanceService.length}
+                                            label={ambulanceService ? ambulanceService.length:0}
                                         
                                             size="small"
                                         />
