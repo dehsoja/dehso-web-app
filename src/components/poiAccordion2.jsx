@@ -92,7 +92,7 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                                 src="https://res.cloudinary.com/dubn0hzzi/image/upload/v1733082411/homeHealth3Key_ecjrmv.svg"
                                                 
                                             />}
-                                            label={healthFacility.length}
+                                            label={healthFacility ? healthFacility.length:0}
                                         
                                             size="small"
                                         />
@@ -126,7 +126,7 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                         {healthFacility && healthFacility.map((facility, index) => (
                                             <TableRow key={facility.name}>
                                                 <TableCell>
-                                                    <ButtonBase onClick={() => moveTOInfoWindow((index + "healthFacility"), facility.location.coordinates[1],facility.location.coordinates[0])} style={{ display: 'block', outline: 'none' }}>
+                                                    <ButtonBase onClick={() => moveTOInfoWindow(index + facility.type.replace(/\s/g, ''))} style={{ display: 'block', outline: 'none' }}>
                                                         <Typography variant="body2" align="left" >
                                                             {facility.name}
                                                         </Typography>
@@ -161,7 +161,7 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                                 src="https://res.cloudinary.com/dubn0hzzi/image/upload/v1732760837/shoppingCartKey_irnuvj.svg"
                                                 
                                             />}
-                                            label={supermarket.length}
+                                            label={supermarket ? supermarket.length:0}
                                         
                                             size="small"
                                         />
@@ -195,7 +195,7 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                         {supermarket && supermarket.map((facility,index) => (
                                             <TableRow key={facility.name}>
                                                 <TableCell>
-                                                    <ButtonBase onClick={() => moveTOInfoWindow((index + "supermarket"), facility.location.coordinates[1],facility.location.coordinates[0])} style={{ display: 'block', outline: 'none' }}>
+                                                    <ButtonBase onClick={() => moveTOInfoWindow(index + facility.type.replace(/\s/g, ''))} style={{ display: 'block', outline: 'none' }}>
                                                         <Typography variant="body2" align="left" >
                                                             {facility.name}
                                                         </Typography>
@@ -230,7 +230,7 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                                 src="https://res.cloudinary.com/dubn0hzzi/image/upload/v1732760836/schoolKey_nzzjyc.svg"
                                                 
                                             />}
-                                            label={education.length}
+                                            label={education ? education.length:0 }
                                         
                                             size="small"
                                         />
@@ -263,7 +263,7 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                         {education && education.map((facility,index) => (
                                             <TableRow key={facility.name}>
                                                 <TableCell>
-                                                    <ButtonBase onClick={() => moveTOInfoWindow((index + "education"), facility.location.coordinates[1],facility.location.coordinates[0])} style={{ display: 'block', outline: 'none' }}>
+                                                    <ButtonBase onClick={() => moveTOInfoWindow(index + facility.type.replace(/\s/g, ''))} style={{ display: 'block', outline: 'none' }}>
                                                         <Typography variant="body2" align="left" >
                                                             {facility.name}
                                                         </Typography>
@@ -318,7 +318,7 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                         {leisure && leisure.map((facility,index) => (
                                             <TableRow key={facility.name}>
                                                 <TableCell>
-                                                    <ButtonBase onClick={() => moveTOInfoWindow((index + "leisure"), facility.location.coordinates[1],facility.location.coordinates[0])} style={{ display: 'block', outline: 'none' }}>
+                                                    <ButtonBase onClick={() => moveTOInfoWindow(index + facility.type.replace(/\s/g, ''))} style={{ display: 'block', outline: 'none' }}>
                                                         <Typography variant="body2" align="left" >
                                                             {facility.name}
                                                         </Typography>
@@ -353,7 +353,7 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                                 src="https://res.cloudinary.com/dubn0hzzi/image/upload/v1732760835/bankKey_uomtun.svg"
                                                 
                                             />}
-                                            label={commercialBank.length}
+                                            label={commercialBank ? commercialBank.length:0}
                                         
                                             size="small"
                                         />
@@ -362,7 +362,7 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                                 src="https://res.cloudinary.com/dubn0hzzi/image/upload/v1732760835/atmKey_gzvv44.svg"
                                                 
                                             />}
-                                            label={atm.length}
+                                            label={atm ? atm.length:0}
                                         
                                             size="small"
                                         />
@@ -402,7 +402,7 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                             {commercialBank.map((facility,index) => (
                                                 <TableRow key={facility.name}>
                                                     <TableCell>
-                                                        <ButtonBase onClick={() => moveTOInfoWindow((index + "Commercial Bank"), facility.location.coordinates[1],facility.location.coordinates[0])} style={{ display: 'block', outline: 'none' }}>
+                                                        <ButtonBase onClick={() => moveTOInfoWindow(index + facility.type.replace(/\s/g, ''))} style={{ display: 'block', outline: 'none' }}>
                                                             <Typography variant="body2" align="left" >
                                                                 {facility.name}
                                                             </Typography>
@@ -438,7 +438,7 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                             {atm.map((facility,index) => (
                                                 <TableRow key={facility.name}>
                                                     <TableCell>
-                                                        <ButtonBase onClick={() => moveTOInfoWindow((index + "ATM"), facility.location.coordinates[1],facility.location.coordinates[0])} style={{ display: 'block', outline: 'none' }}>
+                                                        <ButtonBase onClick={() => moveTOInfoWindow(index + facility.type.replace(/\s/g, ''))} style={{ display: 'block', outline: 'none' }}>
                                                             <Typography variant="body2" align="left" >
                                                                 {facility.name}
                                                             </Typography>
@@ -475,7 +475,7 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                                 src="https://res.cloudinary.com/dubn0hzzi/image/upload/v1732760836/localPoliceKey_ntwrkm.svg"
                                                 
                                             />}
-                                            label={policeStation.length}
+                                            label={policeStation ? policeStation.length:0}
                                         
                                             size="small"
                                         />
@@ -484,7 +484,7 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                                 src="https://res.cloudinary.com/dubn0hzzi/image/upload/v1732760835/fireTruckKey_jeqdlh.svg"
                                                 
                                             />}
-                                            label={fireStation.length}
+                                            label={fireStation ? fireStation.length:0}
                                         
                                             size="small"
                                         />
@@ -493,7 +493,7 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                                 src="https://res.cloudinary.com/dubn0hzzi/image/upload/v1732760835/ambulanceKey_s6c4cg.svg"
                                                 
                                             />}
-                                            label={ambulanceService.length}
+                                            label={ambulanceService ? ambulanceService.length:0}
                                         
                                             size="small"
                                         />
@@ -534,7 +534,7 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                             {policeStation.map((facility,index) => (
                                                 <TableRow key={facility.name}>
                                                     <TableCell>
-                                                        <ButtonBase onClick={() => moveTOInfoWindow((emergencyServices.indexOf(facility) + "emergencyservices"), facility.location.coordinates[1],facility.location.coordinates[0])} style={{ display: 'block', outline: 'none' }}>
+                                                        <ButtonBase onClick={() => moveTOInfoWindow(emergencyServices.indexOf(facility) + facility.type.replace(/\s/g, ''))} style={{ display: 'block', outline: 'none' }}>
                                                             <Typography variant="body2" align="left" >
                                                                 {facility.name}
                                                             </Typography>
@@ -570,7 +570,7 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                             {fireStation.map((facility,index) => (
                                                 <TableRow key={facility.name}>
                                                     <TableCell>
-                                                        <ButtonBase onClick={() => moveTOInfoWindow((emergencyServices.indexOf(facility) + "emergencyservices"), facility.location.coordinates[1],facility.location.coordinates[0])} style={{ display: 'block', outline: 'none' }}>
+                                                        <ButtonBase onClick={() => moveTOInfoWindow(emergencyServices.indexOf(facility) + facility.type.replace(/\s/g, ''))} style={{ display: 'block', outline: 'none' }}>
                                                             <Typography variant="body2" align="left" >
                                                                 {facility.name}
                                                             </Typography>
@@ -606,7 +606,7 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                             {ambulanceService.map((facility,index) => (
                                                 <TableRow key={facility.name}>
                                                     <TableCell>
-                                                        <ButtonBase onClick={() => moveTOInfoWindow((emergencyServices.indexOf(facility) + "emergencyservices"), facility.location.coordinates[1],facility.location.coordinates[0])} style={{ display: 'block', outline: 'none' }}>
+                                                        <ButtonBase onClick={() => moveTOInfoWindow(emergencyServices.indexOf(facility) + facility.type.replace(/\s/g, ''))} style={{ display: 'block', outline: 'none' }}>
                                                             <Typography variant="body2" align="left" >
                                                                 {facility.name}
                                                             </Typography>
