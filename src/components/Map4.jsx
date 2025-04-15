@@ -29,7 +29,7 @@ export default function Map3({nameParam}) {
     const [safety, setSafety] = useState(null);
     const [scores, setScores] = useState(null);
     const [open, setOpen] = useState(false);
-    const [dialogMsg, setDialogMsg] = useState("");
+    const [dialogMsg, setDialogMsg] = useState("Loading...");
     const mapRef = useRef();
     const circlesRef = useRef([]); // Ref to store circle instances
     const markersRef = useRef([]);
@@ -103,7 +103,7 @@ export default function Map3({nameParam}) {
   
     const handleClose = () => {
       setOpen(false);
-      setDialogMsg("")
+      // setDialogMsg("")
     };
 
     const moveTOInfoWindow = (windowName, lat, lng) => {
@@ -450,55 +450,70 @@ export default function Map3({nameParam}) {
         
 
 
-        {selected && poi.length > 0 && (
-          <Box
-            sx={{
-              position: isSmallScreen ? 'static' : 'absolute',
-              top: isSmallScreen ? 0 : "8%",
-              left: isSmallScreen ? 0 : "5%",
-              zIndex: 10,
-              width: isSmallScreen ? '95%' : "25%",
-              backgroundColor: "white",
-              margin: isSmallScreen ? theme.spacing(1) : theme.spacing(5), // Add margin for small screens
-            }}
-          >
-            <POIAccordion2 
-              selected={selected} 
-              groupedPOIs= {groupedPOIs} 
-              safety={safety} 
-              scores={scores} 
-              locationString={selectedString}
-              moveTOInfoWindow={openInfoWindowZoom}
-            />
-          </Box>
-        )}
+        {selected && poi.length > 0 ? (
+              <Box
+                sx={{
+                  position: isSmallScreen ? 'static' : 'absolute',
+                  top: isSmallScreen ? 0 : "8%",
+                  left: isSmallScreen ? 0 : "5%",
+                  zIndex: 10,
+                  width: isSmallScreen ? '95%' : "25%",
+                  backgroundColor: "white",
+                  margin: isSmallScreen ? theme.spacing(1) : theme.spacing(5), // Add margin for small screens
+                }}
+                >
+                <POIAccordion2 
+                  selected={selected} 
+                  groupedPOIs= {groupedPOIs} 
+                  safety={safety} 
+                  scores={scores} 
+                  locationString={selectedString}
+                  moveTOInfoWindow={openInfoWindowZoom}
+                  />
+              </Box>
 
-        <Box sx={{ height: "100%" }}>
-          <GoogleMap
-              zoom={10}
-              center={center} // Center on selected or default
-              mapContainerStyle={containerStyle}
-            //   disableDefaultUI={true}
-            //   options={options}
-              options={{
-                mapId:import.meta.env.VITE_MAP_ID,
-                // disableDefaultUI: true,
-                clickableIcons: false,
-                mapTypeControl: false,
-                streetViewControl: false,
-              }} // Correctly set options here
-              onLoad={onLoad}
+          ) : (
+            <Box 
+              sx={{ 
+                display: 'flex', 
+                flexDirection: 'column', 
+                alignItems: 'center', 
+                justifyContent: 'center', 
+                height: '100%', 
+                width: '100%' 
+              }}
             >
-              {selected && poi.length > 0 && (
-                <>
-                    <Marker position={selected} />
+              {/* <CircularProgress /> */}
+              <Box marginBottom={30} sx={{ color: 'text.secondary' }}>{dialogMsg}</Box>
+            </Box>
+          )
+        }
 
-                    
-                </>
-              )}
-            </GoogleMap>
-        </Box>
-        
+              <Box sx={{ height: "100%" }}>
+                <GoogleMap
+                    zoom={10}
+                    center={center} // Center on selected or default
+                    mapContainerStyle={containerStyle}
+                    //   disableDefaultUI={true}
+                    //   options={options}
+                    options={{
+                      mapId:import.meta.env.VITE_MAP_ID,
+                      // disableDefaultUI: true,
+                      clickableIcons: false,
+                      mapTypeControl: false,
+                      streetViewControl: false,
+                    }} // Correctly set options here
+                    onLoad={onLoad}
+                    >
+                    {selected && poi.length > 0 && (
+                      <>
+                          <Marker position={selected} />
+
+                          
+                      </>
+                    )}
+                  </GoogleMap>
+              </Box>
           <Dialog
             open={open}
             onClose={handleClose}
