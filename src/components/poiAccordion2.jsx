@@ -4,7 +4,7 @@ import { AccordionSummary } from "@mui/material";
 import { AccordionDetails } from "@mui/material";
 import { Typography } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, ButtonBase } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TablePagination, Paper, Button, ButtonBase } from '@mui/material';
 import { Card } from "@mui/material";
 import { CardHeader } from "@mui/material";
 import { CardContent } from "@mui/material";
@@ -20,6 +20,17 @@ import Chip from '@mui/material/Chip';
 export default function POIAccordion2({ selected, groupedPOIs, safety, scores, locationString, moveTOInfoWindow }) {
     
     const [expanded, setExpanded] = useState(false);
+    const [pagehealthFacility, setPagehealthFacility] = useState(0);
+    const [pageSupermarket, setPageSupermarket] = useState(0);
+    const [pageEducation, setPageEducation] = useState(0);
+    const [pageLeisure, setPageLeisure] = useState(0);
+    const [pageCommercialBank, setPageCommercialBank] = useState(0);
+    const [pageAtm, setPageAtm] = useState(0);
+    const [pagePoliceStation, setPagePoliceStation] = useState(0);
+    const [pageFireStation, setPageFireStation] = useState(0);
+    const [pageAmbulanceService, setPageAmbulanceService] = useState(0);
+
+    const tablePageCount = 4;
 
     const handleChange = (panel) => (event, isExpanded) => {
         setExpanded(isExpanded ? panel : false); // Update state on click
@@ -42,16 +53,25 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
     }
 
     const healthFacility = groupedPOIs["healthFacility"]
+    const slicedHealthFacility = healthFacility ? healthFacility.slice(pagehealthFacility * tablePageCount, pagehealthFacility * tablePageCount + tablePageCount) : healthFacility;
     const supermarket = groupedPOIs["supermarket"];
+    const slicedSupermarket = supermarket ? supermarket.slice(pageSupermarket * tablePageCount, pageSupermarket * tablePageCount + tablePageCount) : supermarket;
     const education = groupedPOIs["education"];
+    const slicedEducation = education ? education.slice(pageEducation * tablePageCount, pageEducation * tablePageCount + tablePageCount) : education;
     const leisure = groupedPOIs["leisure"];
+    const slicedLeisure = leisure ? leisure.slice(pageLeisure * tablePageCount, pageLeisure * tablePageCount + tablePageCount) : leisure;
     const financialServices = groupedPOIs["financialServices"];
     const commercialBank = groupedPOIs["financialServices"] ? groupedPOIs["financialServices"].filter(facility => facility.type === "Commercial Bank") : null;
+    const slicedCommercialBank = commercialBank ? commercialBank.slice(pageCommercialBank * tablePageCount, pageCommercialBank * tablePageCount + tablePageCount) : commercialBank;
     const atm = groupedPOIs["financialServices"] ? groupedPOIs["financialServices"].filter(facility => facility.type === "ATM") : null;
+    const slicedAtm = atm ? atm.slice(pageAtm * tablePageCount, pageAtm * tablePageCount + tablePageCount) : atm;
     const emergencyServices = groupedPOIs["emergencyservices"];
     const policeStation = groupedPOIs["emergencyservices"] ? groupedPOIs["emergencyservices"].filter(facility => facility.type === "Police Station") : null;
+    const slicedPoliceStation = policeStation ? policeStation.slice(pagePoliceStation * tablePageCount, pagePoliceStation * tablePageCount + tablePageCount) : policeStation;
     const fireStation = groupedPOIs["emergencyservices"] ? groupedPOIs["emergencyservices"].filter(facility => facility.type === "Fire Station") : null;
+    const slicedFireStation = fireStation ? fireStation.slice(pageFireStation * tablePageCount, pageFireStation * tablePageCount + tablePageCount) : fireStation;
     const ambulanceService = groupedPOIs["emergencyservices"] ? groupedPOIs["emergencyservices"].filter(facility => facility.type === "Ambulance Service") : null;
+    const slicedAmbulanceService = ambulanceService ? ambulanceService.slice(pageAmbulanceService * tablePageCount, pageAmbulanceService * tablePageCount + tablePageCount) : ambulanceService;
     
 
     return (
@@ -123,7 +143,7 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {healthFacility && healthFacility.map((facility, index) => (
+                                        {healthFacility && slicedHealthFacility.map((facility, index) => (
                                             <TableRow key={facility.name}>
                                                 <TableCell>
                                                     <ButtonBase onClick={() => moveTOInfoWindow(index + facility.type.replace(/\s/g, ''))} style={{ display: 'block', outline: 'none' }}>
@@ -141,6 +161,14 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                     </TableBody>
                                 </Table>
                             </TableContainer>
+                            <TablePagination
+                                rowsPerPageOptions={[]}
+                                component="div"
+                                count={healthFacility ? healthFacility.length : 0}
+                                rowsPerPage={tablePageCount}
+                                page={pagehealthFacility}
+                                onPageChange={(event, newPage) => setPagehealthFacility(newPage)}
+                            />
                         </AccordionDetails>
                     </Accordion>
                     <Accordion 
@@ -192,7 +220,7 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {supermarket && supermarket.map((facility,index) => (
+                                        {supermarket && slicedSupermarket.map((facility,index) => (
                                             <TableRow key={facility.name}>
                                                 <TableCell>
                                                     <ButtonBase onClick={() => moveTOInfoWindow(index + facility.type.replace(/\s/g, ''))} style={{ display: 'block', outline: 'none' }}>
@@ -210,6 +238,14 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                     </TableBody>
                                 </Table>
                             </TableContainer>
+                            <TablePagination
+                                rowsPerPageOptions={[]}
+                                component="div"
+                                count={supermarket ? supermarket.length : 0}
+                                rowsPerPage={tablePageCount}
+                                page={pageSupermarket}
+                                onPageChange={(event, newPage) => setPageSupermarket(newPage)}
+                            />
                         </AccordionDetails>
                     </Accordion>
                     <Accordion 
@@ -260,7 +296,7 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {education && education.map((facility,index) => (
+                                        {education && slicedEducation.map((facility,index) => (
                                             <TableRow key={facility.name}>
                                                 <TableCell>
                                                     <ButtonBase onClick={() => moveTOInfoWindow(index + facility.type.replace(/\s/g, ''))} style={{ display: 'block', outline: 'none' }}>
@@ -278,6 +314,14 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                     </TableBody>
                                 </Table>
                             </TableContainer> 
+                            <TablePagination
+                                rowsPerPageOptions={[]}
+                                component="div"
+                                count={education ? education.length : 0}
+                                rowsPerPage={tablePageCount}
+                                page={pageEducation}
+                                onPageChange={(event, newPage) => setPageEducation(newPage)}
+                            />
                         </AccordionDetails>
                     </Accordion>
                     <Accordion 
@@ -315,7 +359,7 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {leisure && leisure.map((facility,index) => (
+                                        {leisure && slicedLeisure.map((facility,index) => (
                                             <TableRow key={facility.name}>
                                                 <TableCell>
                                                     <ButtonBase onClick={() => moveTOInfoWindow(index + facility.type.replace(/\s/g, ''))} style={{ display: 'block', outline: 'none' }}>
@@ -333,6 +377,14 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                     </TableBody>
                                 </Table>
                             </TableContainer> 
+                            <TablePagination
+                                rowsPerPageOptions={[]}
+                                component="div"
+                                count={leisure ? leisure.length : 0 }
+                                rowsPerPage={tablePageCount}
+                                page={pageLeisure}
+                                onPageChange={(event, newPage) => setPageLeisure(newPage)}
+                            />
                         </AccordionDetails>
                     </Accordion>
                     <Accordion 
@@ -399,7 +451,7 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
-                                            {commercialBank.map((facility,index) => (
+                                            {slicedCommercialBank.map((facility,index) => (
                                                 <TableRow key={facility.name}>
                                                     <TableCell>
                                                         <ButtonBase onClick={() => moveTOInfoWindow(index + facility.type.replace(/\s/g, ''))} style={{ display: 'block', outline: 'none' }}>
@@ -417,6 +469,14 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                         </TableBody>
                                     </Table>
                                 </TableContainer>
+                                <TablePagination
+                                    rowsPerPageOptions={[]}
+                                    component="div"
+                                    count={commercialBank ? commercialBank.length : 0}
+                                    rowsPerPage={tablePageCount}
+                                    page={pageCommercialBank}
+                                    onPageChange={(event, newPage) => setPageCommercialBank(newPage)}
+                                />
                                 </>
                             )}
                             {financialServices && atm.length > 0 && (
@@ -435,7 +495,7 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
-                                            {atm.map((facility,index) => (
+                                            {slicedAtm.map((facility,index) => (
                                                 <TableRow key={facility.name}>
                                                     <TableCell>
                                                         <ButtonBase onClick={() => moveTOInfoWindow(index + facility.type.replace(/\s/g, ''))} style={{ display: 'block', outline: 'none' }}>
@@ -453,6 +513,14 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                         </TableBody>
                                     </Table>
                                 </TableContainer>
+                                <TablePagination
+                                    rowsPerPageOptions={[]}
+                                    component="div"
+                                    count={atm ? atm.length : 0}
+                                    rowsPerPage={tablePageCount}
+                                    page={pageAtm}
+                                    onPageChange={(event, newPage) => setPageAtm(newPage)}
+                                />
                                 </>
                             )}
                         </AccordionDetails>
@@ -531,7 +599,7 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
-                                            {policeStation.map((facility,index) => (
+                                            {slicedPoliceStation.map((facility,index) => (
                                                 <TableRow key={facility.name}>
                                                     <TableCell>
                                                         <ButtonBase onClick={() => moveTOInfoWindow(emergencyServices.indexOf(facility) + facility.type.replace(/\s/g, ''))} style={{ display: 'block', outline: 'none' }}>
@@ -549,6 +617,14 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                         </TableBody>
                                     </Table>
                                 </TableContainer>
+                                <TablePagination
+                                    rowsPerPageOptions={[]}
+                                    component="div"
+                                    count={policeStation ? policeStation.length : 0}
+                                    rowsPerPage={tablePageCount}
+                                    page={pagePoliceStation}
+                                    onPageChange={(event, newPage) => setPagePoliceStation(newPage)}
+                                />
                                 </>
                             )}
                             {emergencyServices && fireStation.length > 0 && (
@@ -567,7 +643,7 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
-                                            {fireStation.map((facility,index) => (
+                                            {slicedFireStation.map((facility,index) => (
                                                 <TableRow key={facility.name}>
                                                     <TableCell>
                                                         <ButtonBase onClick={() => moveTOInfoWindow(emergencyServices.indexOf(facility) + facility.type.replace(/\s/g, ''))} style={{ display: 'block', outline: 'none' }}>
@@ -585,6 +661,14 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                         </TableBody>
                                     </Table>
                                 </TableContainer>
+                                <TablePagination
+                                    rowsPerPageOptions={[]}
+                                    component="div"
+                                    count={fireStation ? fireStation.length : 0}
+                                    rowsPerPage={tablePageCount}
+                                    page={pageFireStation}
+                                    onPageChange={(event, newPage) => setPageFireStation(newPage)}
+                                />
                                 </>
                             )}
                             {emergencyServices && ambulanceService.length > 0 && (
@@ -603,7 +687,7 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
-                                            {ambulanceService.map((facility,index) => (
+                                            {slicedAmbulanceService.map((facility,index) => (
                                                 <TableRow key={facility.name}>
                                                     <TableCell>
                                                         <ButtonBase onClick={() => moveTOInfoWindow(emergencyServices.indexOf(facility) + facility.type.replace(/\s/g, ''))} style={{ display: 'block', outline: 'none' }}>
@@ -621,6 +705,14 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                         </TableBody>
                                     </Table>
                                 </TableContainer>
+                                <TablePagination
+                                    rowsPerPageOptions={[]}
+                                    component="div"
+                                    count={ambulanceService ? ambulanceService.length : 0}
+                                    rowsPerPage={tablePageCount}
+                                    page={pageAmbulanceService}
+                                    onPageChange={(event, newPage) => setPageAmbulanceService(newPage)}
+                                />
                                 </>
                             )}
                         </AccordionDetails>
