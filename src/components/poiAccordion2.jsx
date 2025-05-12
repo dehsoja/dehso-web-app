@@ -17,18 +17,20 @@ import { Grid } from "@mui/material";
 import { DataGrid } from '@mui/x-data-grid';
 import Chip from '@mui/material/Chip';
 
-export default function POIAccordion2({ selected, groupedPOIs, safety, scores, locationString, moveTOInfoWindow }) {
+export default function POIAccordion2({ selected, groupedPOIs, safety, scores, locationString, moveTOInfoWindow, learnOpen }) {
     
     const [expanded, setExpanded] = useState(false);
     const [pagehealthFacility, setPagehealthFacility] = useState(0);
     const [pageSupermarket, setPageSupermarket] = useState(0);
     const [pageEducation, setPageEducation] = useState(0);
-    const [pageLeisure, setPageLeisure] = useState(0);
     const [pageCommercialBank, setPageCommercialBank] = useState(0);
     const [pageAtm, setPageAtm] = useState(0);
     const [pagePoliceStation, setPagePoliceStation] = useState(0);
     const [pageFireStation, setPageFireStation] = useState(0);
     const [pageAmbulanceService, setPageAmbulanceService] = useState(0);
+    const [pageDining, setPageDining] = useState(0);
+    const [pageFastFood, setPageFastFood] = useState(0);
+    const [pageRecreation, setPageRecreation] = useState(0);
 
     const tablePageCount = 4;
 
@@ -59,7 +61,6 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
     const education = groupedPOIs["education"];
     const slicedEducation = education ? education.slice(pageEducation * tablePageCount, pageEducation * tablePageCount + tablePageCount) : education;
     const leisure = groupedPOIs["leisure"];
-    const slicedLeisure = leisure ? leisure.slice(pageLeisure * tablePageCount, pageLeisure * tablePageCount + tablePageCount) : leisure;
     const financialServices = groupedPOIs["financialServices"];
     const commercialBank = groupedPOIs["financialServices"] ? groupedPOIs["financialServices"].filter(facility => facility.type === "Commercial Bank") : null;
     const slicedCommercialBank = commercialBank ? commercialBank.slice(pageCommercialBank * tablePageCount, pageCommercialBank * tablePageCount + tablePageCount) : commercialBank;
@@ -72,7 +73,14 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
     const slicedFireStation = fireStation ? fireStation.slice(pageFireStation * tablePageCount, pageFireStation * tablePageCount + tablePageCount) : fireStation;
     const ambulanceService = groupedPOIs["emergencyservices"] ? groupedPOIs["emergencyservices"].filter(facility => facility.type === "Ambulance Service") : null;
     const slicedAmbulanceService = ambulanceService ? ambulanceService.slice(pageAmbulanceService * tablePageCount, pageAmbulanceService * tablePageCount + tablePageCount) : ambulanceService;
-    
+    const dining = groupedPOIs["leisure"] ? groupedPOIs["leisure"].filter(facility => facility.type === "Dining") : null;
+    const slicedDining = dining ? dining.slice(pageDining * tablePageCount, pageDining * tablePageCount + tablePageCount) : dining;
+    const fastFood = groupedPOIs["leisure"] ? groupedPOIs["leisure"].filter(facility => facility.type === "Fast Food") : null;
+    const slicedFastFood = fastFood ? fastFood.slice(pageFastFood * tablePageCount, pageFastFood * tablePageCount + tablePageCount) : fastFood;
+    const recreation = groupedPOIs["leisure"] ? groupedPOIs["leisure"].filter(facility => facility.type === "Recreation") : null;
+    const slicedRecreation = recreation ? recreation.slice(pageRecreation * tablePageCount, pageRecreation * tablePageCount + tablePageCount) : recreation;
+
+
 
     return (
         <div>
@@ -93,7 +101,7 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                    
                     title={<Typography variant="caption" style={{ fontWeight: 'bold' }}>Community Scorecard</Typography>}
                 />
-                <CardContent sx={{ maxHeight: 500, overflowY: 'auto' }}>
+                <CardContent sx={{ maxHeight: 515, overflowY: 'auto' }}>
                     <Accordion 
                         // sx={{ border: '1px solid #ccc'  }}
                         disableGutters
@@ -146,7 +154,7 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                         {healthFacility && slicedHealthFacility.map((facility, index) => (
                                             <TableRow key={facility.name}>
                                                 <TableCell>
-                                                    <ButtonBase onClick={() => moveTOInfoWindow(index + facility.type.replace(/\s/g, ''))} style={{ display: 'block', outline: 'none' }}>
+                                                    <ButtonBase onClick={() => moveTOInfoWindow(healthFacility.findIndex(item => item === facility) + facility.type.replace(/\s/g, ''))} style={{ display: 'block', outline: 'none' }}>
                                                         <Typography variant="body2" align="left" >
                                                             {facility.name}
                                                         </Typography>
@@ -223,7 +231,7 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                         {supermarket && slicedSupermarket.map((facility,index) => (
                                             <TableRow key={facility.name}>
                                                 <TableCell>
-                                                    <ButtonBase onClick={() => moveTOInfoWindow(index + facility.type.replace(/\s/g, ''))} style={{ display: 'block', outline: 'none' }}>
+                                                    <ButtonBase onClick={() => moveTOInfoWindow(supermarket.findIndex(item => item === facility) + facility.type.replace(/\s/g, ''))} style={{ display: 'block', outline: 'none' }}>
                                                         <Typography variant="body2" align="left" >
                                                             {facility.name}
                                                         </Typography>
@@ -299,7 +307,7 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                         {education && slicedEducation.map((facility,index) => (
                                             <TableRow key={facility.name}>
                                                 <TableCell>
-                                                    <ButtonBase onClick={() => moveTOInfoWindow(index + facility.type.replace(/\s/g, ''))} style={{ display: 'block', outline: 'none' }}>
+                                                    <ButtonBase onClick={() => moveTOInfoWindow(education.findIndex(item => item === facility) + facility.type.replace(/\s/g, ''))} style={{ display: 'block', outline: 'none' }}>
                                                         <Typography variant="body2" align="left" >
                                                             {facility.name}
                                                         </Typography>
@@ -336,6 +344,37 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                             <Grid container justifyContent="space-between" alignItems="center" wrap="nowrap">
                                 <Grid item>
                                     <Typography  sx={{ fontSize: 14, fontWeight: 'bold' }} variant="subtitle1" align="left">Food & Fun</Typography>
+                                    <Stack direction="row" spacing={.5} alignItems="center">
+                                        <Chip
+                                            avatar={<Avatar 
+                                                src="https://res.cloudinary.com/dubn0hzzi/image/upload/v1746903291/diningKey_vyx7cy.svg"
+                                                
+                                            />}
+                                            label={dining ? dining.length:0}
+                                        
+                                            size="small"
+                                        />
+                                        <Chip
+                                            avatar={<Avatar 
+                                                src="https://res.cloudinary.com/dubn0hzzi/image/upload/v1746903291/fastFoodKey_il1f1f.svg"
+                                                
+                                            />}
+                                            label={fastFood ? fastFood.length:0}
+                                        
+                                            size="small"
+                                        />
+                                        <Chip
+                                            avatar={<Avatar 
+                                                src="https://res.cloudinary.com/dubn0hzzi/image/upload/v1746903291/recreationKey_uds562.svg"
+                                                
+                                            />}
+                                            label={recreation ? recreation.length:0}
+                                        
+                                            size="small"
+                                        />
+
+                                    
+                                    </Stack>
                                 </Grid>
                                 <Grid item>
                                     <Avatar sx={{ 
@@ -350,41 +389,138 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                             
                         </AccordionSummary>
                         <AccordionDetails>
-                            <TableContainer component={Paper} sx={{ boxShadow: 'none' }}> {/* Optional: Wrap table in Paper */}
-                                <Table>
-                                    <TableHead>
-                                        <TableRow>
-                                            <TableCell>Name</TableCell>
-                                            <TableCell>Distance</TableCell>
-                                        </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        {leisure && slicedLeisure.map((facility,index) => (
-                                            <TableRow key={facility.name}>
-                                                <TableCell>
-                                                    <ButtonBase onClick={() => moveTOInfoWindow(index + facility.type.replace(/\s/g, ''))} style={{ display: 'block', outline: 'none' }}>
-                                                        <Typography variant="body2" align="left" >
-                                                            {facility.name}
-                                                        </Typography>
-                                                    </ButtonBase>
-                                                    <Typography sx={{ fontSize: 12 }} color="text.secondary">
-                                                        {facility.type} 
-                                                    </Typography>
-                                                </TableCell>
-                                                <TableCell>{facility.distanceInKm} km</TableCell>
+                            {leisure && dining.length > 0 && (
+                                <>
+                                <Box mt={1}>
+                                <Typography variant="body2" sx={{ fontWeight: 'bold' }} >
+                                   Dining
+                                </Typography>
+                                </Box>
+                                <TableContainer component={Paper} sx={{ boxShadow: 'none' }}> {/* Optional: Wrap table in Paper */}
+                                    <Table>
+                                        <TableHead>
+                                            <TableRow>
+                                                <TableCell>Name</TableCell>
+                                                <TableCell>Distance</TableCell>
                                             </TableRow>
-                                        ))}
-                                    </TableBody>
-                                </Table>
-                            </TableContainer> 
-                            <TablePagination
-                                rowsPerPageOptions={[]}
-                                component="div"
-                                count={leisure ? leisure.length : 0 }
-                                rowsPerPage={tablePageCount}
-                                page={pageLeisure}
-                                onPageChange={(event, newPage) => setPageLeisure(newPage)}
-                            />
+                                        </TableHead>
+                                        <TableBody>
+                                            {slicedDining.map((facility,index) => (
+                                                <TableRow key={facility.name}>
+                                                    <TableCell>
+                                                        <ButtonBase onClick={() => moveTOInfoWindow(leisure.findIndex(item => item === facility) + facility.type.replace(/\s/g, ''))} style={{ display: 'block', outline: 'none' }}>
+                                                            <Typography variant="body2" align="left" >
+                                                                {facility.name}
+                                                            </Typography>
+                                                        </ButtonBase>
+                                                        <Typography sx={{ fontSize: 12 }} color="text.secondary">
+                                                            {facility.type} 
+                                                        </Typography>
+                                                    </TableCell>
+                                                    <TableCell>{facility.distanceInKm} km</TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
+                                <TablePagination
+                                    rowsPerPageOptions={[]}
+                                    component="div"
+                                    count={dining ? dining.length : 0}
+                                    rowsPerPage={tablePageCount}
+                                    page={pageDining}
+                                    onPageChange={(event, newPage) => setPageDining(newPage)}
+                                />
+                                </>
+                            )}
+                            {leisure && fastFood.length > 0 && (
+                                <>
+                                <Box mt={1}>
+                                    <Typography variant="body2" sx={{ fontWeight: 'bold' }} >
+                                   Fast Food
+                                </Typography>
+                                </Box>
+                                <TableContainer component={Paper} sx={{ boxShadow: 'none' }}> {/* Optional: Wrap table in Paper */}
+                                    <Table>
+                                        <TableHead>
+                                            <TableRow>
+                                                <TableCell>Name</TableCell>
+                                                <TableCell>Distance</TableCell>
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            {slicedFastFood.map((facility,index) => (
+                                                <TableRow key={facility.name}>
+                                                    <TableCell>
+                                                        <ButtonBase onClick={() => moveTOInfoWindow(leisure.findIndex(item => item === facility) + facility.type.replace(/\s/g, ''))} style={{ display: 'block', outline: 'none' }}>
+                                                            <Typography variant="body2" align="left" >
+                                                                {facility.name}
+                                                            </Typography>
+                                                        </ButtonBase>
+                                                        <Typography sx={{ fontSize: 12 }} color="text.secondary">
+                                                            {facility.type} 
+                                                        </Typography>
+                                                    </TableCell>
+                                                    <TableCell>{facility.distanceInKm} km</TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
+                                <TablePagination
+                                    rowsPerPageOptions={[]}
+                                    component="div"
+                                    count={fastFood ? fastFood.length : 0}
+                                    rowsPerPage={tablePageCount}
+                                    page={pageFastFood}
+                                    onPageChange={(event, newPage) => setPageFastFood(newPage)}
+                                />
+                                </>
+                            )}
+                            {leisure && recreation.length > 0 && (
+                                <>
+                                <Box mt={1}>
+                                    <Typography variant="body2" sx={{ fontWeight: 'bold' }} >
+                                   Recreation
+                                </Typography>
+                                </Box>
+                                <TableContainer component={Paper} sx={{ boxShadow: 'none' }}> {/* Optional: Wrap table in Paper */}
+                                    <Table>
+                                        <TableHead>
+                                            <TableRow>
+                                                <TableCell>Name</TableCell>
+                                                <TableCell>Distance</TableCell>
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            {slicedRecreation.map((facility,index) => (
+                                                <TableRow key={facility.name}>
+                                                    <TableCell>
+                                                        <ButtonBase onClick={() => moveTOInfoWindow(leisure.findIndex(item => item === facility) + facility.type.replace(/\s/g, ''))} style={{ display: 'block', outline: 'none' }}>
+                                                            <Typography variant="body2" align="left" >
+                                                                {facility.name}
+                                                            </Typography>
+                                                        </ButtonBase>
+                                                        <Typography sx={{ fontSize: 12 }} color="text.secondary">
+                                                            {facility.type} 
+                                                        </Typography>
+                                                    </TableCell>
+                                                    <TableCell>{facility.distanceInKm} km</TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
+                                <TablePagination
+                                    rowsPerPageOptions={[]}
+                                    component="div"
+                                    count={recreation ? recreation.length : 0}
+                                    rowsPerPage={tablePageCount}
+                                    page={pageRecreation}
+                                    onPageChange={(event, newPage) => setPageRecreation(newPage)}
+                                />
+                                </>
+                            )}
                         </AccordionDetails>
                     </Accordion>
                     <Accordion 
@@ -454,7 +590,7 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                             {slicedCommercialBank.map((facility,index) => (
                                                 <TableRow key={facility.name}>
                                                     <TableCell>
-                                                        <ButtonBase onClick={() => moveTOInfoWindow(index + facility.type.replace(/\s/g, ''))} style={{ display: 'block', outline: 'none' }}>
+                                                        <ButtonBase onClick={() => moveTOInfoWindow(financialServices.findIndex(item => item === facility) + facility.type.replace(/\s/g, ''))} style={{ display: 'block', outline: 'none' }}>
                                                             <Typography variant="body2" align="left" >
                                                                 {facility.name}
                                                             </Typography>
@@ -498,7 +634,7 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                                             {slicedAtm.map((facility,index) => (
                                                 <TableRow key={facility.name}>
                                                     <TableCell>
-                                                        <ButtonBase onClick={() => moveTOInfoWindow(index + facility.type.replace(/\s/g, ''))} style={{ display: 'block', outline: 'none' }}>
+                                                        <ButtonBase onClick={() => moveTOInfoWindow(financialServices.findIndex(item => item === facility) + facility.type.replace(/\s/g, ''))} style={{ display: 'block', outline: 'none' }}>
                                                             <Typography variant="body2" align="left" >
                                                                 {facility.name}
                                                             </Typography>
@@ -773,26 +909,8 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                             } 
                         </AccordionDetails>
                     </Accordion>
-                    <Box sx={{ p: 2, width: '80%' }}>
-                     
-
-                        <Stack direction="row" spacing={2}>
-                            <Typography sx={{ fontSize: 12 }} color="text.secondary">
-                                Map Circles:
-                            </Typography>
-                        </Stack>
-                        <Stack direction={{ sm: 'row' }} spacing={2} alignItems="flex-start">
-                            <Typography variant="body2" sx={{color: green[500], fontSize: 12}} component="div">
-                                - 1 km Radius
-                            </Typography>
-                            <Typography variant="body2" sx={{color:yellow[700], fontSize: 12}} component="div">
-                                - 5 km Radius
-                            </Typography>
-                            <Typography variant="body2" sx={{color:red[500], fontSize: 12}} component="div">
-                                - 10 km Radius
-                            </Typography>
-                        </Stack>
-
+                    <Box >
+                        <Button variant="outlined" size="small" sx={{ color: 'black' }} onClick={() => {learnOpen()}}>About Scorecard...</Button>
                     </Box>
                 </CardContent>
 

@@ -3,7 +3,7 @@ import { GoogleMap, Marker, Circle, InfoWindowF } from "@react-google-maps/api";
 import PlacesAutocomplete2 from "./PlacesAutocomplete2";
 import PlacesAutocomplete3 from "./PlacesAutocomplete3";
 import POIAccordion2 from "./poiAccordion2";
-import { useMediaQuery, useTheme } from '@mui/material';
+import { Typography, useMediaQuery, useTheme } from '@mui/material';
 import { red, yellow, green, purple } from '@mui/material/colors';
 import { Box } from "@mui/material";
 import Header from "./header";
@@ -14,6 +14,7 @@ import { DialogActions } from "@mui/material";
 import { DialogContent } from "@mui/material";
 import { DialogContentText } from "@mui/material";
 import { DialogTitle } from "@mui/material";
+import { Stack } from "@mui/material";
 import { Alert } from "@mui/material";
 import {Link} from 'react-router-dom';
 import { getGeocode, getLatLng } from "use-places-autocomplete";
@@ -29,6 +30,7 @@ export default function Map3({nameParam}) {
     const [safety, setSafety] = useState(null);
     const [scores, setScores] = useState(null);
     const [open, setOpen] = useState(false);
+    const [learn, setLearn] = useState(false);
     const [dialogMsg, setDialogMsg] = useState("Loading...");
     const mapRef = useRef();
     const circlesRef = useRef([]); // Ref to store circle instances
@@ -36,9 +38,9 @@ export default function Map3({nameParam}) {
     const healthclustererRef = useRef(null);
     const supernmarketclustererRef = useRef(null);
     const educationclustererRef = useRef(null);
-    const atmclustererRef = useRef(null);
-    const bankclustererRef = useRef(null);
+    const financeclustererRef = useRef(null);
     const emergencyservicesclustererRef = useRef(null);
+    const leisureclustererRef = useRef(null);
     const [markers, setMarkers] = useState([]);
     const infoWindowRef = useRef(null); // Single InfoWindow instance
     const theme = useTheme();
@@ -104,6 +106,14 @@ export default function Map3({nameParam}) {
     const handleClose = () => {
       setOpen(false);
       // setDialogMsg("")
+    };
+
+    const handleLearnOpen = () => {
+      setLearn(true);
+    };
+
+    const handleLearnClose = () => {
+      setLearn(false);
     };
 
     const moveTOInfoWindow = (windowName, lat, lng) => {
@@ -247,20 +257,22 @@ export default function Map3({nameParam}) {
         educationclustererRef.current = null;
       }
 
-      if (atmclustererRef.current) {
-        atmclustererRef.current.clearMarkers();  // This removes clustered markers
-        atmclustererRef.current = null;
+      if (financeclustererRef.current) {
+        financeclustererRef.current.clearMarkers();  // This removes clustered markers
+        financeclustererRef.current = null;
       }
 
-      if (bankclustererRef.current) {
-        bankclustererRef.current.clearMarkers();  // This removes clustered markers
-        bankclustererRef.current = null;
-      }
 
       if (emergencyservicesclustererRef.current) {
         emergencyservicesclustererRef.current.clearMarkers();  // This removes clustered markers
         emergencyservicesclustererRef.current = null;
       }
+
+      if (leisureclustererRef.current) {
+        leisureclustererRef.current.clearMarkers();  // This removes clustered markers
+        leisureclustererRef.current = null;
+      }
+
 
       if (infoWindowRef.current) {
         infoWindowRef.current.close();
@@ -353,24 +365,14 @@ export default function Map3({nameParam}) {
             });
 
 
-            const atmMarkers = createMarkersByType("financialServices","ATM", grouping)
+            const financeMarkers = createMarkers("financialServices", grouping)
 
             // Cluster them using MarkerClusterer
-            atmclustererRef.current = new MarkerClusterer({ 
+            financeclustererRef.current = new MarkerClusterer({ 
               map, 
-              markers: atmMarkers,
+              markers: financeMarkers,
               renderer: new CustomClusterRenderer("./financeCluster.svg"),
             });
-
-            const bankMarkers = createMarkersByType("financialServices","Commercial Bank", grouping)
-
-            // Cluster them using MarkerClusterer
-            bankclustererRef.current = new MarkerClusterer({ 
-              map, 
-              markers: bankMarkers,
-              renderer: new CustomClusterRenderer("./financeCluster.svg"),
-            });
-
 
             const emergencyservicesMarkers = createMarkers("emergencyservices", grouping)
 
@@ -381,11 +383,18 @@ export default function Map3({nameParam}) {
               renderer: new CustomClusterRenderer("./emergencyCluster.svg"),
             });
 
+            const leisureMarkers = createMarkers("leisure", grouping)
 
+            // Cluster them using MarkerClusterer
+            leisureclustererRef.current = new MarkerClusterer({ 
+              map, 
+              markers: leisureMarkers,
+              renderer: new CustomClusterRenderer("./leisureCluster.svg"),
+            });
 
             
 
-            markersRef.current = [...healthMarkers, ...supermarketMarkers, ...educationMarkers, ...atmMarkers, ...bankMarkers, ...emergencyservicesMarkers];
+            markersRef.current = [...healthMarkers, ...supermarketMarkers, ...educationMarkers, ...financeMarkers, ...emergencyservicesMarkers, ...leisureMarkers];
             
 
         }
@@ -469,6 +478,7 @@ export default function Map3({nameParam}) {
                   scores={scores} 
                   locationString={selectedString}
                   moveTOInfoWindow={openInfoWindowZoom}
+                  learnOpen={handleLearnOpen}
                   />
               </Box>
 
@@ -534,6 +544,40 @@ export default function Map3({nameParam}) {
               </Button>
             </DialogActions>
           </Dialog>
+
+          <Dialog
+            open={learn}
+            onClose={handleLearnClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title">
+              {"Dehso Community Scorecard"}
+            </DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+              <Typography  sx={{ mb: 2 }}>{"This scorecard offers a quality-of-life assessment for communities across Jamaica by evaluating the availability and nearness of essential services and amenities, along with local crime statistics. Each category is assigned a letter grade to give users a quick, comprehensive view of how well a community supports everyday living and lifestyle preferences."}</Typography>
+              
+              <Typography  sx={{ mb: 2 }}>{"Meaning of circles on map:"}</Typography>
+              <Stack direction={{ sm: 'row' }} spacing={2} alignItems="flex-start">
+                  <Typography variant="body2" sx={{color: green[500], fontSize: 12}} component="div">
+                      - 1 km Radius
+                  </Typography>
+                  <Typography variant="body2" sx={{color:yellow[700], fontSize: 12}} component="div">
+                      - 5 km Radius
+                  </Typography>
+                  <Typography variant="body2" sx={{color:red[500], fontSize: 12}} component="div">
+                      - 10 km Radius
+                  </Typography>
+              </Stack>
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleLearnClose} autoFocus>
+                OK
+              </Button>
+            </DialogActions>
+          </Dialog>
         
       </div>
 
@@ -563,7 +607,11 @@ const markerIconsLinks = {
   HighSchool:"https://res.cloudinary.com/dubn0hzzi/image/upload/v1732999713/schoolMarker_bmdtbk.svg",
   ATM:"https://res.cloudinary.com/dubn0hzzi/image/upload/v1732999715/atmMarker_iobt3q.svg",
   CommercialBank: "https://res.cloudinary.com/dubn0hzzi/image/upload/v1732999715/bankMarker_plcgdc.svg",
-  MedicalServices: "https://res.cloudinary.com/dubn0hzzi/image/upload/v1733082642/homeHealth3Marker_tku5dn.svg"
+  MedicalServices: "https://res.cloudinary.com/dubn0hzzi/image/upload/v1733082642/homeHealth3Marker_tku5dn.svg",
+  FastFood: "https://res.cloudinary.com/dubn0hzzi/image/upload/v1746765063/fastFoodMarker_mrhyas.svg",
+  Dining: "https://res.cloudinary.com/dubn0hzzi/image/upload/v1746897370/diningMarker_rb0edi.svg",
+  Recreation: "https://res.cloudinary.com/dubn0hzzi/image/upload/v1746902363/recreationMarker_vdxrc6.svg"
+
 }
 
 const containerStyle = {
