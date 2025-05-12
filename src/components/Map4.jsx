@@ -556,7 +556,7 @@ export default function Map3({nameParam}) {
             </DialogTitle>
             <DialogContent>
               <DialogContentText id="alert-dialog-description">
-              <Typography  sx={{ mb: 2 }}>{"This scorecard offers a quality-of-life assessment for communities across Jamaica by evaluating the availability and nearness of essential services and amenities, along with local crime statistics. Each category is assigned a letter grade to give users a quick, comprehensive view of how well a community supports everyday living and lifestyle preferences."}</Typography>
+              <Typography  sx={{ mb: 2 }}>{"This scorecard offers a quality-of-life assessment for communities across Jamaica (currently limited to Spanish Town and Portmore) by evaluating the availability and nearness of essential services and amenities, along with local crime statistics. Each category is assigned a letter grade to give users a quick, comprehensive view of how well a community supports everyday living and lifestyle preferences."}</Typography>
               
               <Typography  sx={{ mb: 2 }}>{"Meaning of circles on map:"}</Typography>
               <Stack direction={{ sm: 'row' }} spacing={2} alignItems="flex-start">
