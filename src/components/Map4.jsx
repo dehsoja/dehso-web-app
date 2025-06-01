@@ -41,6 +41,7 @@ export default function Map3({nameParam}) {
     const financeclustererRef = useRef(null);
     const emergencyservicesclustererRef = useRef(null);
     const leisureclustererRef = useRef(null);
+    const oneclustererRef = useRef(null);
     const [markers, setMarkers] = useState([]);
     const infoWindowRef = useRef(null); // Single InfoWindow instance
     const theme = useTheme();
@@ -273,6 +274,11 @@ export default function Map3({nameParam}) {
         leisureclustererRef.current = null;
       }
 
+      if (oneclustererRef.current) {
+        oneclustererRef.current.clearMarkers();  // This removes clustered markers
+        oneclustererRef.current = null;
+      }
+
 
       if (infoWindowRef.current) {
         infoWindowRef.current.close();
@@ -406,6 +412,169 @@ export default function Map3({nameParam}) {
 
     }
 
+    const selectOneHelper = async (markerType) => {
+        
+      try {
+
+        //Close any open info windows
+        setSelectedFacility(null);
+        
+        clearMapArtifacts()
+
+
+        // Pan and zoom to the selected location
+        const map = mapRef.current;
+        if (map) {
+
+            map.panTo(selected);
+            map.setZoom(12); // Adjust zoom level as needed
+
+            //Add circle
+            myCircles.forEach((circle)=>{
+                  const newCircle = new google.maps.Circle({
+                      center: selected,
+                      radius: circle.radius,
+                      options: circle.options,
+                      map,
+                  });
+                  circlesRef.current.push(newCircle);
+              })
+            
+            
+            // Initialize single InfoWindow
+            infoWindowRef.current = new google.maps.InfoWindow({
+              content: "", // Start with empty content
+            });
+            
+
+            
+            
+            const markers = createMarkers(markerType, groupedPOIs)
+
+            // Cluster them using MarkerClusterer
+            oneclustererRef.current = new MarkerClusterer({ 
+              map, 
+              markers: markers,
+              renderer: new CustomClusterRenderer(clusterIconsLocation[markerType]),
+            });
+            
+
+            markersRef.current = markers;
+            
+
+        }
+
+      } catch (error) {
+        faildRequestHelper(error.message)
+      }
+        
+
+    }
+
+    const selectAllHelper = async () => {
+        
+      try {
+
+        //Close any open info windows
+        setSelectedFacility(null);
+        
+        clearMapArtifacts()
+
+        // Pan and zoom to the selected location
+        const map = mapRef.current;
+        if (map) {
+            map.panTo(selected);
+            map.setZoom(12); // Adjust zoom level as needed
+           
+            //Add circle
+            myCircles.forEach((circle)=>{
+                  const newCircle = new google.maps.Circle({
+                      center: selected,
+                      radius: circle.radius,
+                      options: circle.options,
+                      map,
+                  });
+                  circlesRef.current.push(newCircle);
+              })
+            
+            
+            // Initialize single InfoWindow
+            infoWindowRef.current = new google.maps.InfoWindow({
+              content: "", // Start with empty content
+            });
+            
+
+            
+            
+            const healthMarkers = createMarkers("healthFacility", groupedPOIs)
+
+            // Cluster them using MarkerClusterer
+            healthclustererRef.current = new MarkerClusterer({ 
+              map, 
+              markers: healthMarkers,
+              renderer: new CustomClusterRenderer("./healthCluster.svg"),
+            });
+
+            const supermarketMarkers = createMarkers("supermarket", groupedPOIs)
+
+            // Cluster them using MarkerClusterer
+            supernmarketclustererRef.current = new MarkerClusterer({ 
+              map, 
+              markers: supermarketMarkers,
+              renderer: new CustomClusterRenderer("./groceryCluster.svg"),
+            });
+
+            const educationMarkers = createMarkers("education", groupedPOIs)
+
+            // Cluster them using MarkerClusterer
+            educationclustererRef.current = new MarkerClusterer({ 
+              map, 
+              markers: educationMarkers,
+              renderer: new CustomClusterRenderer("./educationCluster.svg"),
+            });
+
+
+            const financeMarkers = createMarkers("financialServices", groupedPOIs)
+
+            // Cluster them using MarkerClusterer
+            financeclustererRef.current = new MarkerClusterer({ 
+              map, 
+              markers: financeMarkers,
+              renderer: new CustomClusterRenderer("./financeCluster.svg"),
+            });
+
+            const emergencyservicesMarkers = createMarkers("emergencyservices", groupedPOIs)
+
+            // Cluster them using MarkerClusterer
+            emergencyservicesclustererRef.current = new MarkerClusterer({ 
+              map, 
+              markers: emergencyservicesMarkers,
+              renderer: new CustomClusterRenderer("./emergencyCluster.svg"),
+            });
+
+            const leisureMarkers = createMarkers("leisure", groupedPOIs)
+
+            // Cluster them using MarkerClusterer
+            leisureclustererRef.current = new MarkerClusterer({ 
+              map, 
+              markers: leisureMarkers,
+              renderer: new CustomClusterRenderer("./leisureCluster.svg"),
+            });
+
+            
+
+            markersRef.current = [...healthMarkers, ...supermarketMarkers, ...educationMarkers, ...financeMarkers, ...emergencyservicesMarkers, ...leisureMarkers];
+            
+
+        }
+
+      } catch (error) {
+        faildRequestHelper(error.message)
+      }
+        
+
+    }
+
     const faildRequestHelper = (msg) =>{
       setPoi([]);
       setGroupedPOIs([]);
@@ -479,6 +648,8 @@ export default function Map3({nameParam}) {
                   locationString={selectedString}
                   moveTOInfoWindow={openInfoWindowZoom}
                   learnOpen={handleLearnOpen}
+                  selectOne={selectOneHelper}
+                  selectAll={selectAllHelper}
                   />
               </Box>
 
@@ -612,6 +783,15 @@ const markerIconsLinks = {
   Dining: "https://res.cloudinary.com/dubn0hzzi/image/upload/v1746897370/diningMarker_rb0edi.svg",
   Recreation: "https://res.cloudinary.com/dubn0hzzi/image/upload/v1746902363/recreationMarker_vdxrc6.svg"
 
+}
+
+const clusterIconsLocation = {
+  healthFacility: "./healthCluster.svg",
+  supermarket: "./groceryCluster.svg",
+  education: "./educationCluster.svg",
+  financialServices:"./financeCluster.svg",
+  emergencyservices:"./emergencyCluster.svg",
+  leisure: "./leisureCluster.svg"
 }
 
 const containerStyle = {
