@@ -17,7 +17,7 @@ import { Grid } from "@mui/material";
 import { DataGrid } from '@mui/x-data-grid';
 import Chip from '@mui/material/Chip';
 
-export default function POIAccordion2({ selected, groupedPOIs, safety, scores, locationString, moveTOInfoWindow, learnOpen }) {
+export default function POIAccordion2({ selected, groupedPOIs, safety, scores, locationString, moveTOInfoWindow, learnOpen, selectOne, selectAll }) {
     
     const [expanded, setExpanded] = useState(false);
     const [pagehealthFacility, setPagehealthFacility] = useState(0);
@@ -34,8 +34,13 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
 
     const tablePageCount = 4;
 
-    const handleChange = (panel) => (event, isExpanded) => {
+    const handleChange = (panel) => async (event, isExpanded) => {
         setExpanded(isExpanded ? panel : false); // Update state on click
+        if (!isExpanded){ 
+            await selectAll()
+        }else{
+            if (panel != "safety") await selectOne(panel);
+        }
     };
 
 
@@ -106,8 +111,8 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                         // sx={{ border: '1px solid #ccc'  }}
                         disableGutters
                         disabled={!healthFacility} 
-                        expanded={expanded === 'panel1'} 
-                        onChange={handleChange('panel1')}
+                        expanded={expanded === 'healthFacility'} 
+                        onChange={handleChange('healthFacility')}
                         sx={{ boxShadow: 'none' }}
                     > 
                         <AccordionSummary expandIcon={<ExpandMoreIcon />} >
@@ -183,8 +188,8 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                         // sx={{ border: '1px solid #ccc'  }}
                         disableGutters
                         disabled={!supermarket} 
-                        expanded={expanded === 'panel2'} 
-                        onChange={handleChange('panel2')}
+                        expanded={expanded === 'supermarket'} 
+                        onChange={handleChange('supermarket')}
                         sx={{ boxShadow: 'none' }}
                     > 
                         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -260,8 +265,8 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                         // sx={{ border: '1px solid #ccc'  }}
                         disableGutters
                         disabled={!education} 
-                        expanded={expanded === 'panel8'} 
-                        onChange={handleChange('panel8')}
+                        expanded={expanded === 'education'} 
+                        onChange={handleChange('education')}
                         sx={{ boxShadow: 'none' }}
                     > 
                         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -336,8 +341,8 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                         // sx={{ border: '1px solid #ccc'  }}
                         disableGutters
                         disabled={!leisure} 
-                        expanded={expanded === 'panel7'} 
-                        onChange={handleChange('panel7')}
+                        expanded={expanded === 'leisure'} 
+                        onChange={handleChange('leisure')}
                         sx={{ boxShadow: 'none' }}
                     > 
                         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -527,8 +532,8 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                         // sx={{ border: '1px solid #ccc'  }}
                         disableGutters
                         disabled={!financialServices} 
-                        expanded={expanded === 'panel5'} 
-                        onChange={handleChange('panel5')}
+                        expanded={expanded === 'financialServices'} 
+                        onChange={handleChange('financialServices')}
                         sx={{ boxShadow: 'none' }}
                     > 
                         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -665,8 +670,8 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                         // sx={{ border: '1px solid #ccc'  }}
                         disableGutters
                         disabled={!emergencyServices} 
-                        expanded={expanded === 'panel3'} 
-                        onChange={handleChange('panel3')}
+                        expanded={expanded === 'emergencyservices'} 
+                        onChange={handleChange('emergencyservices')}
                         sx={{ boxShadow: 'none' }}
                     > 
                         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -857,8 +862,8 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                         // sx={{ border: '1px solid #ccc'  }}
                         disableGutters
                         disabled={!safety} 
-                        expanded={expanded === 'panel4'} 
-                        onChange={handleChange('panel4')}
+                        expanded={expanded === 'safety'} 
+                        onChange={handleChange('safety')}
                         sx={{ boxShadow: 'none' }}
                     > 
                         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
