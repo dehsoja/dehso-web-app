@@ -769,7 +769,7 @@ export default function Map3({nameParam}) {
 // }
 
 const markerIconsLinks = {
-  Hospital: "https://res.cloudinary.com/dubn0hzzi/image/upload/v1733082642/homeHealth3Marker_tku5dn.svg",
+  Hospital: "https://res.cloudinary.com/dubn0hzzi/image/upload/v1749317116/hospitalMarker_s3kvzm.svg",
   HealthCentre: "https://res.cloudinary.com/dubn0hzzi/image/upload/v1733082642/homeHealth3Marker_tku5dn.svg",
   Supermarket: "https://res.cloudinary.com/dubn0hzzi/image/upload/v1732999713/shoppingCartMarker_hutvj4.svg",
   PoliceStation:"https://res.cloudinary.com/dubn0hzzi/image/upload/v1732999139/localPoliceMarker_kf5opd.svg",
@@ -778,7 +778,7 @@ const markerIconsLinks = {
   HighSchool:"https://res.cloudinary.com/dubn0hzzi/image/upload/v1732999713/schoolMarker_bmdtbk.svg",
   ATM:"https://res.cloudinary.com/dubn0hzzi/image/upload/v1732999715/atmMarker_iobt3q.svg",
   CommercialBank: "https://res.cloudinary.com/dubn0hzzi/image/upload/v1732999715/bankMarker_plcgdc.svg",
-  MedicalServices: "https://res.cloudinary.com/dubn0hzzi/image/upload/v1733082642/homeHealth3Marker_tku5dn.svg",
+  MedicalServices: "https://res.cloudinary.com/dubn0hzzi/image/upload/v1749318439/medicalServices_hohfjk.svg",
   FastFood: "https://res.cloudinary.com/dubn0hzzi/image/upload/v1746765063/fastFoodMarker_mrhyas.svg",
   Dining: "https://res.cloudinary.com/dubn0hzzi/image/upload/v1746897370/diningMarker_rb0edi.svg",
   Recreation: "https://res.cloudinary.com/dubn0hzzi/image/upload/v1746902363/recreationMarker_vdxrc6.svg"
