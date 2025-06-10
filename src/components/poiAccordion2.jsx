@@ -21,6 +21,9 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
     
     const [expanded, setExpanded] = useState(false);
     const [pagehealthFacility, setPagehealthFacility] = useState(0);
+    const [pageHospital, setPageHospital] = useState(0);
+    const [pageHealthCentre, setPageHealthCentre] = useState(0);
+    const [pageMedicalServices, setPageMedicalServices] = useState(0);
     const [pageSupermarket, setPageSupermarket] = useState(0);
     const [pageEducation, setPageEducation] = useState(0);
     const [pageCommercialBank, setPageCommercialBank] = useState(0);
@@ -61,6 +64,12 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
 
     const healthFacility = groupedPOIs["healthFacility"]
     const slicedHealthFacility = healthFacility ? healthFacility.slice(pagehealthFacility * tablePageCount, pagehealthFacility * tablePageCount + tablePageCount) : healthFacility;
+    const hospital = groupedPOIs["healthFacility"] ? groupedPOIs["healthFacility"].filter(facility => facility.type === "Hospital") : null;
+    const slicedHospital = hospital ? hospital.slice(pageHospital * tablePageCount, pageHospital * tablePageCount + tablePageCount) : hospital;
+    const healthCentre = groupedPOIs["healthFacility"] ? groupedPOIs["healthFacility"].filter(facility => facility.type === "Health Centre") : null;
+    const slicedHealthCentre = healthCentre ? healthCentre.slice(pageHealthCentre * tablePageCount, pageHealthCentre * tablePageCount + tablePageCount) : healthCentre;
+    const medicalServices = groupedPOIs["healthFacility"] ? groupedPOIs["healthFacility"].filter(facility => facility.type === "Medical Services") : null;
+    const slicedMedicalServices = medicalServices ? medicalServices.slice(pageMedicalServices * tablePageCount, pageMedicalServices * tablePageCount + tablePageCount) : medicalServices;
     const supermarket = groupedPOIs["supermarket"];
     const slicedSupermarket = supermarket ? supermarket.slice(pageSupermarket * tablePageCount, pageSupermarket * tablePageCount + tablePageCount) : supermarket;
     const education = groupedPOIs["education"];
@@ -118,18 +127,36 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                         <AccordionSummary expandIcon={<ExpandMoreIcon />} >
                             <Grid container justifyContent="space-between" alignItems="center" wrap="nowrap">
                                 <Grid item>
-                                    <Typography  sx={{ fontSize: 14, fontWeight: 'bold' }}variant="subtitle1" align="left" >Health Care</Typography>
+                                    <Typography  sx={{ fontSize: 14, fontWeight: 'bold' }} variant="subtitle1" align="left">Health Care</Typography>
                                     <Stack direction="row" spacing={.5} alignItems="center">
+                                        <Chip
+                                            avatar={<Avatar 
+                                                src="https://res.cloudinary.com/dubn0hzzi/image/upload/v1749410019/hospitalKey_m8kibr.svg"
+                                                
+                                            />}
+                                            label={hospital ? hospital.length:0}
+                                        
+                                            size="small"
+                                        />
                                         <Chip
                                             avatar={<Avatar 
                                                 src="https://res.cloudinary.com/dubn0hzzi/image/upload/v1733082411/homeHealth3Key_ecjrmv.svg"
                                                 
                                             />}
-                                            label={healthFacility ? healthFacility.length:0}
+                                            label={healthCentre ? healthCentre.length:0}
                                         
                                             size="small"
                                         />
-                                       
+                                        <Chip
+                                            avatar={<Avatar 
+                                                src="https://res.cloudinary.com/dubn0hzzi/image/upload/v1749523629/medicalServicesKey_io3rvj.svg"
+                                                
+                                            />}
+                                            label={medicalServices ? medicalServices.length:0}
+                                        
+                                            size="small"
+                                        />
+
                                     
                                     </Stack>
                                 </Grid>
@@ -147,41 +174,138 @@ export default function POIAccordion2({ selected, groupedPOIs, safety, scores, l
                             
                         </AccordionSummary>
                         <AccordionDetails>
-                            <TableContainer component={Paper} sx={{ boxShadow: 'none' }}> {/* Optional: Wrap table in Paper */}
-                                <Table>
-                                    <TableHead>
-                                        <TableRow>
-                                            <TableCell>Name</TableCell>
-                                            <TableCell>Distance</TableCell>
-                                        </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        {healthFacility && slicedHealthFacility.map((facility, index) => (
-                                            <TableRow key={facility.name}>
-                                                <TableCell>
-                                                    <ButtonBase onClick={() => moveTOInfoWindow(healthFacility.findIndex(item => item === facility) + facility.type.replace(/\s/g, ''))} style={{ display: 'block', outline: 'none' }}>
-                                                        <Typography variant="body2" align="left" >
-                                                            {facility.name}
-                                                        </Typography>
-                                                    </ButtonBase>
-                                                    <Typography sx={{ fontSize: 12 }} color="text.secondary">
-                                                        {facility.type} 
-                                                    </Typography>
-                                                </TableCell>
-                                                <TableCell>{facility.distanceInKm} km</TableCell>
+                            {healthFacility && hospital.length > 0 && (
+                                <>
+                                <Box mt={1}>
+                                <Typography variant="body2" sx={{ fontWeight: 'bold' }} >
+                                   Hospitals
+                                </Typography>
+                                </Box>
+                                <TableContainer component={Paper} sx={{ boxShadow: 'none' }}> {/* Optional: Wrap table in Paper */}
+                                    <Table>
+                                        <TableHead>
+                                            <TableRow>
+                                                <TableCell>Name</TableCell>
+                                                <TableCell>Distance</TableCell>
                                             </TableRow>
-                                        ))}
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
-                            <TablePagination
-                                rowsPerPageOptions={[]}
-                                component="div"
-                                count={healthFacility ? healthFacility.length : 0}
-                                rowsPerPage={tablePageCount}
-                                page={pagehealthFacility}
-                                onPageChange={(event, newPage) => setPagehealthFacility(newPage)}
-                            />
+                                        </TableHead>
+                                        <TableBody>
+                                            {slicedHospital.map((facility,index) => (
+                                                <TableRow key={facility.name}>
+                                                    <TableCell>
+                                                        <ButtonBase onClick={() => moveTOInfoWindow(healthFacility.findIndex(item => item === facility) + facility.type.replace(/\s/g, ''))} style={{ display: 'block', outline: 'none' }}>
+                                                            <Typography variant="body2" align="left" >
+                                                                {facility.name}
+                                                            </Typography>
+                                                        </ButtonBase>
+                                                        <Typography sx={{ fontSize: 12 }} color="text.secondary">
+                                                            {facility.type} 
+                                                        </Typography>
+                                                    </TableCell>
+                                                    <TableCell>{facility.distanceInKm} km</TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
+                                <TablePagination
+                                    rowsPerPageOptions={[]}
+                                    component="div"
+                                    count={hospital ? hospital.length : 0}
+                                    rowsPerPage={tablePageCount}
+                                    page={pageHospital}
+                                    onPageChange={(event, newPage) => setPageHospital(newPage)}
+                                />
+                                </>
+                            )}
+                            {healthFacility && healthCentre.length > 0 && (
+                                <>
+                                <Box mt={1}>
+                                <Typography variant="body2" sx={{ fontWeight: 'bold' }} >
+                                   Health Centres
+                                </Typography>
+                                </Box>
+                                <TableContainer component={Paper} sx={{ boxShadow: 'none' }}> {/* Optional: Wrap table in Paper */}
+                                    <Table>
+                                        <TableHead>
+                                            <TableRow>
+                                                <TableCell>Name</TableCell>
+                                                <TableCell>Distance</TableCell>
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            {slicedHealthCentre.map((facility,index) => (
+                                                <TableRow key={facility.name}>
+                                                    <TableCell>
+                                                        <ButtonBase onClick={() => moveTOInfoWindow(healthFacility.findIndex(item => item === facility) + facility.type.replace(/\s/g, ''))} style={{ display: 'block', outline: 'none' }}>
+                                                            <Typography variant="body2" align="left" >
+                                                                {facility.name}
+                                                            </Typography>
+                                                        </ButtonBase>
+                                                        <Typography sx={{ fontSize: 12 }} color="text.secondary">
+                                                            {facility.type} 
+                                                        </Typography>
+                                                    </TableCell>
+                                                    <TableCell>{facility.distanceInKm} km</TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
+                                <TablePagination
+                                    rowsPerPageOptions={[]}
+                                    component="div"
+                                    count={healthCentre ? healthCentre.length : 0}
+                                    rowsPerPage={tablePageCount}
+                                    page={pageHealthCentre}
+                                    onPageChange={(event, newPage) => setPageHealthCentre(newPage)}
+                                />
+                                </>
+                            )}
+                            {healthFacility && medicalServices.length > 0 && (
+                                <>
+                                <Box mt={1}>
+                                <Typography variant="body2" sx={{ fontWeight: 'bold' }} >
+                                   Medical Services
+                                </Typography>
+                                </Box>
+                                <TableContainer component={Paper} sx={{ boxShadow: 'none' }}> {/* Optional: Wrap table in Paper */}
+                                    <Table>
+                                        <TableHead>
+                                            <TableRow>
+                                                <TableCell>Name</TableCell>
+                                                <TableCell>Distance</TableCell>
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            {slicedMedicalServices.map((facility,index) => (
+                                                <TableRow key={facility.name}>
+                                                    <TableCell>
+                                                        <ButtonBase onClick={() => moveTOInfoWindow(healthFacility.findIndex(item => item === facility) + facility.type.replace(/\s/g, ''))} style={{ display: 'block', outline: 'none' }}>
+                                                            <Typography variant="body2" align="left" >
+                                                                {facility.name}
+                                                            </Typography>
+                                                        </ButtonBase>
+                                                        <Typography sx={{ fontSize: 12 }} color="text.secondary">
+                                                            {facility.type} 
+                                                        </Typography>
+                                                    </TableCell>
+                                                    <TableCell>{facility.distanceInKm} km</TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
+                                <TablePagination
+                                    rowsPerPageOptions={[]}
+                                    component="div"
+                                    count={medicalServices ? medicalServices.length : 0}
+                                    rowsPerPage={tablePageCount}
+                                    page={pageMedicalServices}
+                                    onPageChange={(event, newPage) => setPageMedicalServices(newPage)}
+                                />
+                                </>
+                            )}
                         </AccordionDetails>
                     </Accordion>
                     <Accordion 
